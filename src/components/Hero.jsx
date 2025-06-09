@@ -17,11 +17,11 @@ export default function HomePage() {
   const resumeButtonRef = useRef(null);
 
   const rotatingTexts = [
-    "Developer",
+    "Fullstack Developer",
     "Problem Solver",
-    "Creative Designer",
-    "UI/UX Enthusiast",
-    "Tech Innovator",
+    "DSA Enthusiast",
+    "Designer",
+    "Poet"
   ];
 
   // Typewriter effect for rotating texts
@@ -150,11 +150,7 @@ export default function HomePage() {
                         "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
                     }}
                   >
-                    Engineering impactful digital solutions with a developer's
-                    precision and a poet's perspective. I specialize in
-                    full-stack development, thrive on solving complex problems,
-                    and am exploring AI and cloud to shape intelligent,
-                    user-focused experiences.
+                   A Junior undergraduate student blending logic and language — solving DSA problems and building full-stack apps with React, Node.js, Express, and MongoDB. When I’m not writing code, I’m writing poetry — both shaped by structure, flow, and meaning
                   </p>
                 </div>
 
