@@ -7,6 +7,7 @@ import Projects from "@/components/Projects";
 import Contact from "@/components/contacts";
 import Loader from "@/components/Loader";
 import { useState, useEffect } from "react";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -40,6 +41,7 @@ export default function Home() {
       </div>
       <div id="contact">
         <Contact />
+        <Footer />
       </div>
     </div>
   );

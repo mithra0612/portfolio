@@ -194,7 +194,7 @@ const Projects = () => {
                         href={project.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 rounded-full border transition-all duration-300 hover:bg-[#22d3ee] hover:text-[#090c10] hover:border-[#22d3ee] border-[#22d3ee] text-[#22d3ee] flex items-center justify-center"
+                        className="p-2 rounded-full border transition-all duration-300 hover:bg-cyan-400 hover:text-[#090c10] hover:border-cyan-400 border-cyan-400 text-cyan-400 flex items-center justify-center"
                         style={{
                           fontFamily:
                             "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
@@ -245,13 +245,13 @@ const Projects = () => {
                     <span
                       key={index}
                       className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform hover:scale-105 ${
-                        isActive ? 'bg-blue-600 text-white border-blue-600' : 'bg-[#10141a] text-gray-300 border-gray-700'
+                        isActive ? 'bg-cyan-400 text-black border-cyan-400' : 'bg-[#10141a] text-gray-300 border-gray-700'
                       }`}
                       style={{
-                        backgroundColor: isActive ? '#0e7490' : '#10141a',
-                        color: isActive ? '#fff' : '#d1d5db',
-                        border: isActive ? '1px solid #0e7490' : '1px solid #1e293b',
-                        boxShadow: isActive ? '0 0 5px #0e7490' : 'none',
+                        backgroundColor: isActive ? '#22d3ee' : '#10141a',
+                        color: isActive ? '#000' : '#d1d5db',
+                        border: isActive ? '1px solid #22d3ee' : '1px solid #1e293b',
+                        // Removed boxShadow for glow effect
                         fontFamily:
                           "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
                       }}

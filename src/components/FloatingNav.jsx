@@ -15,37 +15,46 @@ const FloatingNavbar = () => {
           {/* Navigation Links */}
           <a 
             href="#home" 
-            className="text-white/90 text-sm font-medium hover:text-cyan-300 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
+            className="text-white/90 text-sm font-medium hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
           >
             Home
             <span className="absolute -bottom-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
           </a>
           <a 
             href="#about" 
-            className="text-white/90 text-sm font-medium hover:text-cyan-300 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
+            className="text-white/90 text-sm font-medium hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
           >
             About
             <span className="absolute -bottom-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
           </a>
           <a 
             href="#skills" 
-            className="text-white/90 text-sm font-medium hover:text-cyan-300 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
+            className="text-white/90 text-sm font-medium hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
           >
             Skills
             <span className="absolute -bottom-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
           </a>
           <a 
             href="#projects" 
-            className="text-white/90 text-sm font-medium hover:text-cyan-300 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
+            className="text-white/90 text-sm font-medium hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
           >
             Projects
             <span className="absolute -bottom-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
           </a>
           <a 
             href="#contact" 
-            className="text-white/90 text-sm font-medium hover:text-cyan-300 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
+            className="text-white/90 text-sm font-medium hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
           >
             Contact
+            <span className="absolute -bottom-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
+          </a>
+          <a 
+            href="https://cal.com/madhumithra-m/30min?user=madhumithra-m" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-white/90 text-sm font-medium hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
+          >
+            Book A Call
             <span className="absolute -bottom-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
           </a>
         </div>

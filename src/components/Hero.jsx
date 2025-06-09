@@ -245,7 +245,7 @@ export default function HomePage() {
                       href="/resume"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className=" px-5 py-3 rounded-full border font-semibold  text-gray-400 hover:text-cyan-300"
+                      className=" px-5 py-3 rounded-full border font-semibold  text-cyan-300 hover:text-cyan-300"
                       style={{
                         fontFamily:
                           "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
