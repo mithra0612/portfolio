@@ -8,8 +8,8 @@ export default function Skills() {
 
       <div className="">
         {/* Programming Languages */}
-        <h2 className="text-3xl font-semibold mb-8">Languages I Know,</h2>
-        <div className="flex items-center space-x-10 mb-8">
+        <h2 className="text-3xl font-semibold mb-12">Languages I Know,</h2>
+        <div className="flex items-center space-x-10 mb-12">
           <div className="text-center">
             <img src="/java.svg" alt="Java" className="h-16 w-16 invert mx-auto" />
             <p className="mt-2">Java</p>
@@ -29,8 +29,8 @@ export default function Skills() {
         </div>
 
         {/* Frameworks */}
-        <h2 className="text-3xl font-semibold mb-4">Frameworks I've Used,</h2>
-        <div className="flex items-center space-x-10 mb-8">
+        <h2 className="text-3xl font-semibold mb-12">Frameworks I've Used,</h2>
+        <div className="flex items-center space-x-10 mb-12">
           <div className="text-center">
             <img src="/nextjs.svg" alt="Next.js" className="h-16 w-16 invert mx-auto" />
             <p className="mt-2">Next.js</p>
@@ -50,8 +50,8 @@ export default function Skills() {
         </div>
 
         {/* Databases and Cloud */}
-        <h2 className="text-3xl font-semibold mb-4">Databases and Cloud I've Used</h2>
-        <div className="flex items-center space-x-10 mb-8">
+        <h2 className="text-3xl font-semibold mb-12">Databases and Cloud I've Used,</h2>
+        <div className="flex items-center space-x-10 mb-12">
           <div className="text-center">
             <img src="/mongodb.svg" alt="MongoDB" className="h-16 w-16 invert mx-auto" />
             <p className="mt-2">MongoDB</p>
@@ -67,7 +67,7 @@ export default function Skills() {
         </div>
 
         {/* Developer & Designer Tools */}
-        <h2 className="text-3xl font-semibold mb-4">Developer & Designer Tools I've Worked With</h2>
+        <h2 className="text-3xl font-semibold mb-12">Developer/ Designer Tools I've Worked With,</h2>
         <div className="flex items-center space-x-10">
           <div className="text-center">
             <img src="/git.svg" alt="Git" className="h-16 w-16 invert mx-auto" />
