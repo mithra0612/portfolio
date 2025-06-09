@@ -1,11 +1,55 @@
 "use client";;
 import { Box, Lock, Search, Settings, Sparkles } from "lucide-react";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
 export function GlowingEffectDemoSecond() {
+  const gridRef = useRef(null);
+
+  useEffect(() => {
+    // GSAP scroll-triggered animation for grid items
+    const gridItems = gridRef.current.querySelectorAll("li");
+    
+    gridItems.forEach((item, index) => {
+      gsap.fromTo(
+        item,
+        { 
+          opacity: 0, 
+          y: 60,
+          scale: 0.9
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: item,
+            start: "top 85%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse"
+          },
+          delay: index * 0.1 // Stagger effect
+        }
+      );
+    });
+
+    // Cleanup function
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
+
   return (
     <div className="max-w-7xl mx-auto">
-       <ul
+      <ul
+        ref={gridRef}
         className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-4 lg:gap-4 xl:max-h-[45-rem] xl:grid-rows-3">
         <GridItem
           area="md:[grid-area:1/1/3/7] xl:[grid-area:1/1/3/7]"
@@ -43,8 +87,39 @@ const GridItem = ({
   title,
   description
 }) => {
+  const itemRef = useRef(null);
+
+  useEffect(() => {
+    // Individual hover animations for each grid item
+    const item = itemRef.current;
+    
+    const handleMouseEnter = () => {
+      gsap.to(item, {
+        scale: 1.02,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    };
+    
+    const handleMouseLeave = () => {
+      gsap.to(item, {
+        scale: 1,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    };
+    
+    item.addEventListener('mouseenter', handleMouseEnter);
+    item.addEventListener('mouseleave', handleMouseLeave);
+    
+    return () => {
+      item.removeEventListener('mouseenter', handleMouseEnter);
+      item.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
+
   return (
-    <li className={`min-h-[14rem] list-none ${area}`}>
+    <li ref={itemRef} className={`min-h-[14rem] list-none ${area}`}>
       <div className="relative h-full rounded-2xl border p-2 md:rounded-3xl md:p-3">
         <GlowingEffect
           blur={0}
@@ -80,12 +155,62 @@ const GridItem = ({
 }
 
 export default function About() {
+  const headingRef = useRef(null);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    // GSAP scroll-triggered animation for section heading
+    gsap.fromTo(
+      headingRef.current,
+      { 
+        opacity: 0, 
+        y: -30,
+        scale: 0.9
+      },
+      { 
+        opacity: 1, 
+        y: 0, 
+        scale: 1,
+        duration: 1, 
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: headingRef.current,
+          start: "top 90%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+
+    // Optional: Parallax effect for the entire section
+    gsap.to(sectionRef.current, {
+      yPercent: -10,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    // Cleanup function
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="about"
       className="pt-5 bg-black "
     >
-      <h1 className="text-5xl font-bold text-white mb-8 px-35">About</h1>
+      <h1
+        ref={headingRef}
+        className="text-5xl font-bold text-white mb-8 px-35">
+        About
+      </h1>
       <GlowingEffectDemoSecond />
     </section>
   );

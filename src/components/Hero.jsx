@@ -1,7 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Github, Linkedin } from "lucide-react";
 import { GlowingEffect } from "@/components/ui/glowing-effect"; // adjust path as needed
+import { gsap } from "gsap";
 
 export default function HomePage() {
   const [scrollY, setScrollY] = useState(0);
@@ -10,6 +11,10 @@ export default function HomePage() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
+  const headingRef = useRef(null);
+  const profileImageRef = useRef(null);
+  const socialIconsRef = useRef([]);
+  const resumeButtonRef = useRef(null);
 
   const rotatingTexts = [
     "Developer",
@@ -62,6 +67,37 @@ export default function HomePage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    // GSAP animation for heading
+    gsap.fromTo(
+      headingRef.current,
+      { opacity: 0, y: -50 },
+      { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
+    );
+
+    // GSAP animation for social icons
+    socialIconsRef.current.forEach((icon, index) => {
+      gsap.fromTo(
+        icon,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          delay: 0.7 + index * 0.2,
+        }
+      );
+    });
+
+    // GSAP animation for resume button
+    gsap.fromTo(
+      resumeButtonRef.current,
+      { opacity: 0, scale: 0.8 },
+      { opacity: 1, scale: 1, duration: 1, ease: "power3.out", delay: 1.5 }
+    );
+  }, []);
+
   return (
     <div
       className="min-h-screen 
@@ -78,6 +114,7 @@ export default function HomePage() {
                 <div className="space-y-6">
                   <div className="overflow-hidden">
                     <h1
+                      ref={headingRef}
                       className="text-6xl lg:text-8xl font-black leading-none transform transition-transform duration-1000"
                       style={{
                         transform: `translateY(${scrollY * 0.1}px)`,
@@ -142,6 +179,7 @@ export default function HomePage() {
                   ].map((social, index) => (
                     <div
                       key={index}
+                      ref={(el) => (socialIconsRef.current[index] = el)}
                       className="relative inline-flex items-center justify-center rounded-full p-2"
                     >
                       <GlowingEffect
@@ -189,7 +227,10 @@ export default function HomePage() {
                       </a>
                     </div>
                   ))}
-                  <div className="relative inline-flex items-center justify-center rounded-full p-2">
+                  <div
+                    ref={resumeButtonRef}
+                    className="relative inline-flex items-center justify-center rounded-full p-2"
+                  >
                     <GlowingEffect
                       blur={0}
                       borderWidth={2}
@@ -209,23 +250,7 @@ export default function HomePage() {
                         fontFamily:
                           "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
                         background: "transparent",
-                        // borderColor: "rgba(6,182,212,0.2)",
-                        // boxShadow: "0 0 15px rgba(6,182,212,0.08)",
                       }}
-                      // onMouseEnter={(e) => {
-                      //   e.target.style.borderColor = "rgba(6,182,212,0.4)";
-                      //   e.target.style.boxShadow = "0 0 20px rgba(6,182,212,0.15)";
-                      //   e.target.classList.add(
-                      //     "border-cyan-500/20",
-                      //     "shadow-cyan-500/5"
-                      //   );
-                      //   e.target.style.color = "rgb(6, 182, 212)";
-                      //   e.target.style.textShadow =
-                      //     "0 0 10px rgba(6,182,212,0.3)";
-                      //   e.target.style.fontFamily =
-                      //     'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
-                      // }}
-                   
                     >
                       Resume
                     </a>

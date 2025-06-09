@@ -28,10 +28,17 @@ const FloatingNavbar = () => {
             <span className="absolute -bottom-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
           </a>
           <a 
-            href="#work" 
+            href="#skills" 
             className="text-white/90 text-sm font-medium hover:text-cyan-300 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
           >
-            Work
+            Skills
+            <span className="absolute -bottom-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
+          </a>
+          <a 
+            href="#projects" 
+            className="text-white/90 text-sm font-medium hover:text-cyan-300 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
+          >
+            Projects
             <span className="absolute -bottom-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
           </a>
           <a 
