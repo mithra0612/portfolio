@@ -4,6 +4,8 @@ import { GlowingEffect } from "@/components/ui/glowing-effect";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import CardSwapComponent from './CardSwap';
+import RotatingQuote from './ui/rotating-quote';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -53,9 +55,25 @@ export function GlowingEffectDemoSecond() {
         className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-4 lg:gap-4 xl:max-h-[45-rem] xl:grid-rows-3">
         <GridItem
           area="md:[grid-area:1/1/3/7] xl:[grid-area:1/1/3/7]"
-          icon={<Box className="h-6 w-6 text-black dark:text-neutral-400" />}
-          title="Do things the right way"
-          description="Running out of copy so I'll write anything." />
+          icon={
+            <div className="flex items-center gap-2 mb-5">
+              <Box className="h-6 w-6 text-black dark:text-neutral-400" />
+              <span className="text-lg font-semibold text-white">Some of my work</span>
+              <button 
+                className="absolute top-0 right-0 text-sm font-medium text-gray-400 hover:underline flex items-center gap-1"
+                onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}
+              >
+                View More <span>&rarr;</span>
+              </button>
+            </div>
+          }
+          description={
+            <div className="relative">
+              <CardSwapComponent />
+              
+            </div>
+          }
+        />
         <GridItem
           area="md:[grid-area:1/7/2/13] xl:[grid-area:1/7/2/13]"
           icon={<Settings className="h-6 w-6 text-black dark:text-neutral-400" />}
@@ -69,13 +87,9 @@ export function GlowingEffectDemoSecond() {
         <GridItem
           area="md:[grid-area:2/10/3/13] xl:[grid-area:2/10/3/13]"
           icon={<Sparkles className="h-6 w-6 text-black dark:text-neutral-400" />}
-          title="This card is also built by Cursor"
-          description="I'm not even kidding. Ask my mom if you don't believe me." />
-        <GridItem
-          area="md:[grid-area:3/1/5/13] xl:[grid-area:3/1/4/13]"
-          icon={<Search className="h-6 w-6 text-black dark:text-neutral-400" />}
-          title="Coming soon on Aceternity UI"
-          description="I'm writing the code as I record this, no shit." />
+          title="Other Interests"
+          description="Passionate about poetry—sharing verses on Instagram, published in anthologies, and exploring tech through a creative lens."/>
+        
       </ul>
     </div>
   );
