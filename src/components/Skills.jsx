@@ -22,193 +22,101 @@ export default function Skills() {
       scrollTriggerScript.onload = () => {
         gsap.registerPlugin(window.ScrollTrigger);
         
-        // Main title animation
+        // Title animation - simple fade up
         gsap.fromTo(titleRef.current, 
           { 
             opacity: 0, 
-            y: 50,
-            scale: 0.9
+            y: 30
           },
           { 
             opacity: 1, 
             y: 0,
-            scale: 1,
-            duration: 1,
-            ease: "power3.out",
+            duration: 0.8,
+            ease: "power2.out",
             scrollTrigger: {
               trigger: titleRef.current,
               start: "top 80%",
-              end: "bottom 20%",
               toggleActions: "play none none reverse"
             }
           }
         );
 
-        // Languages section animation
-        gsap.fromTo(languagesRef.current.querySelector('h2'),
-          { opacity: 0, x: -50 },
-          { 
-            opacity: 1, 
-            x: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: languagesRef.current,
-              start: "top 85%",
-              toggleActions: "play none none reverse"
+        // Animate each section with simple fade up
+        const sections = [languagesRef, frameworksRef, databasesRef, toolsRef];
+        sections.forEach((sectionRef, index) => {
+          // Section title animation
+          gsap.fromTo(
+            sectionRef.current.querySelector('h2'),
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: 'top 80%',
+                toggleActions: 'play none none reverse',
+              },
             }
-          }
-        );
+          );
 
-        gsap.fromTo(languagesRef.current.querySelectorAll('.skill-item'),
-          { opacity: 0, y: 30, rotateY: 45 },
-          { 
-            opacity: 1, 
-            y: 0,
-            rotateY: 0,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: "back.out(1.7)",
-            scrollTrigger: {
-              trigger: languagesRef.current,
-              start: "top 80%",
-              toggleActions: "play none none reverse"
+          // Skill items animation
+          gsap.fromTo(
+            sectionRef.current.querySelectorAll('.skill-item'),
+            { opacity: 0, y: 20 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              stagger: 0.1,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: 'top 75%',
+                toggleActions: 'play none none reverse',
+              },
             }
-          }
-        );
+          );
+        });
 
-        // Frameworks section animation
-        gsap.fromTo(frameworksRef.current.querySelector('h2'),
-          { opacity: 0, x: -50 },
-          { 
-            opacity: 1, 
-            x: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: frameworksRef.current,
-              start: "top 85%",
-              toggleActions: "play none none reverse"
-            }
-          }
-        );
-
-        gsap.fromTo(frameworksRef.current.querySelectorAll('.skill-item'),
-          { opacity: 0, y: 30, scale: 0.8 },
-          { 
-            opacity: 1, 
-            y: 0,
-            scale: 1,
-            duration: 0.6,
-            stagger: 0.15,
-            ease: "elastic.out(1, 0.5)",
-            scrollTrigger: {
-              trigger: frameworksRef.current,
-              start: "top 80%",
-              toggleActions: "play none none reverse"
-            }
-          }
-        );
-
-        // Databases section animation
-        gsap.fromTo(databasesRef.current.querySelector('h2'),
-          { opacity: 0, x: -50 },
-          { 
-            opacity: 1, 
-            x: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: databasesRef.current,
-              start: "top 85%",
-              toggleActions: "play none none reverse"
-            }
-          }
-        );
-
-        gsap.fromTo(databasesRef.current.querySelectorAll('.skill-item'),
-          { opacity: 0, x: -40, rotateX: 45 },
-          { 
-            opacity: 1, 
-            x: 0,
-            rotateX: 0,
-            duration: 0.7,
-            stagger: 0.2,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: databasesRef.current,
-              start: "top 80%",
-              toggleActions: "play none none reverse"
-            }
-          }
-        );
-
-        // Tools section animation
-        gsap.fromTo(toolsRef.current.querySelector('h2'),
-          { opacity: 0, x: -50 },
-          { 
-            opacity: 1, 
-            x: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: toolsRef.current,
-              start: "top 85%",
-              toggleActions: "play none none reverse"
-            }
-          }
-        );
-
-        gsap.fromTo(toolsRef.current.querySelectorAll('.skill-item'),
-          { opacity: 0, y: 40, rotation: 10 },
-          { 
-            opacity: 1, 
-            y: 0,
-            rotation: 0,
-            duration: 0.8,
-            stagger: 0.1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: toolsRef.current,
-              start: "top 80%",
-              toggleActions: "play none none reverse"
-            }
-          }
-        );
-
-        // Hover animations for skill items
+        // Simple hover animations for skill items
         const skillItems = document.querySelectorAll('.skill-item');
         skillItems.forEach(item => {
           const img = item.querySelector('img');
           const text = item.querySelector('p');
           
           item.addEventListener('mouseenter', () => {
+            gsap.to(item, {
+              y: -5,
+              duration: 0.3,
+              ease: "power2.out"
+            });
             gsap.to(img, { 
-              scale: 1.2, 
-              rotation: 5,
+              scale: 1.1,
               duration: 0.3,
               ease: "power2.out"
             });
             gsap.to(text, { 
-              y: -5,
-              color: '#0092b8', // Explicitly set the hover color
-              overwrite: true, // Ensure GSAP overwrites any conflicting styles
+              color: '#0092b8',
               duration: 0.3,
               ease: "power2.out"
             });
           });
           
           item.addEventListener('mouseleave', () => {
+            gsap.to(item, {
+              y: 0,
+              duration: 0.3,
+              ease: "power2.out"
+            });
             gsap.to(img, { 
-              scale: 1, 
-              rotation: 0,
+              scale: 1,
               duration: 0.3,
               ease: "power2.out"
             });
             gsap.to(text, { 
-              y: 0,
-              color: '#ffffff', // Reset to the original color
-              overwrite: true, // Ensure GSAP overwrites any conflicting styles
+              color: '#ffffff',
               duration: 0.3,
               ease: "power2.out"
             });
@@ -231,14 +139,14 @@ export default function Skills() {
     <section
       ref={sectionRef}
       id="about"
-      className="pt-10 px-35 bg-black text-white overflow-hidden"
+      className="px-35 bg-black text-white overflow-hidden pt-0"
     >
-      <h1 ref={titleRef} className="text-5xl font-bold py-10">Skills</h1>
+      <h1 ref={titleRef} className="text-5xl font-bold pb-10">Skills</h1>
 
       <div className="">
         {/* Programming Languages */}
         <div ref={languagesRef}>
-          <h2 className="text-3xl font-semibold mb-12"><span className='text-3xl text-cyan-400'>Languages</span> I Know,</h2>
+          <h2 className="text-4xl font-semibold mb-12"><span className='text-4xl text-cyan-400'>Languages</span> I Know,</h2>
           <div className="flex items-center space-x-10 mb-12">
             <div className="text-center skill-item cursor-pointer">
               <img src="/java.svg" alt="Java" className="h-16 w-16 invert mx-auto" />
@@ -261,7 +169,7 @@ export default function Skills() {
 
         {/* Frameworks */}
         <div ref={frameworksRef}>
-          <h2 className="text-3xl font-semibold mb-12"><span className='text-3xl text-cyan-400'>Frameworks</span> I've Used,</h2>
+          <h2 className="text-4xl font-semibold mb-12"><span className='text-4xl text-cyan-400'>Frameworks</span> I've Used,</h2>
           <div className="flex items-center space-x-10 mb-12">
             <div className="text-center skill-item cursor-pointer">
               <img src="/nextjs.svg" alt="Next.js" className="h-16 w-16 invert mx-auto" />
@@ -284,7 +192,7 @@ export default function Skills() {
 
         {/* Databases and Cloud */}
         <div ref={databasesRef}>
-          <h2 className="text-3xl font-semibold mb-12"><span className='text-3xl text-cyan-400'>Databases</span> and <span className='text-3xl text-cyan-400'>Cloud</span> I've Used,</h2>
+          <h2 className="text-4xl font-semibold mb-12"><span className='text-4xl text-cyan-400'>Databases</span> and <span className='text-4xl text-cyan-400'>Cloud</span> I've Used,</h2>
           <div className="flex items-center space-x-10 mb-12">
             <div className="text-center skill-item cursor-pointer">
               <img src="/mongodb.svg" alt="MongoDB" className="h-16 w-16 invert mx-auto" />
@@ -303,7 +211,7 @@ export default function Skills() {
 
         {/* Developer & Designer Tools */}
         <div ref={toolsRef}>
-          <h2 className="text-3xl font-semibold mb-12"><span className='text-3xl text-cyan-400'>Developer/ Designer Tools</span> I've Worked With,</h2>
+          <h2 className="text-4xl font-semibold mb-12"><span className='text-4xl text-cyan-400'>Developer/ Designer Tools</span> I've Worked With,</h2>
           <div className="flex items-center space-x-10">
             <div className="text-center skill-item cursor-pointer">
               <img src="/git.svg" alt="Git" className="h-16 w-16 invert mx-auto" />

@@ -5,44 +5,42 @@ import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import Contact from "@/components/contacts";
-import Loader from "@/components/Loader";
-import { useState, useEffect } from "react";
+import PortfolioLoader from "@/components/PortfolioLoader";
+import { useState } from "react";
 import Footer from "@/components/Footer";
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [portfolioLoading, setPortfolioLoading] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000); // Simulate a 2-second loading time
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
-    return <Loader />;
-  }
+  const handleLoaderComplete = () => {
+    setPortfolioLoading(false);
+  };
 
   return (
     <div className="min-h-screen bg-black">
-      <FloatingNav />
-      <div id="hero">
-        <Hero />
-      </div>
-      <div id="about">
-        <About />
-      </div>
-      <div id="skills">
-        <Skills />
-      </div>
-      <div id="projects">
-        <Projects />
-      </div>
-      <div id="contact">
-        <Contact />
-        <Footer />
-      </div>
+      {portfolioLoading ? (
+        <PortfolioLoader onComplete={handleLoaderComplete} />
+      ) : (
+        <>
+          <FloatingNav />
+          <div id="hero">
+            <Hero />
+          </div>
+          <div id="about">
+            <About />
+          </div>
+          <div id="skills">
+            <Skills />
+          </div>
+          <div id="projects">
+            <Projects />
+          </div>
+          <div id="contact">
+            <Contact />
+            <Footer />
+          </div>
+        </>
+      )}
     </div>
   );
 }

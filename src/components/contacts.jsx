@@ -10,6 +10,7 @@ import {
   MapPin,
   CheckCircle,
   Calendar,
+  MailIcon,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
@@ -169,9 +170,9 @@ export default function ContactsSection() {
                 style={{ transitionDelay: '800ms' }}
               >
                 {[
-                  { icon: Twitter, href: "#", label: "Twitter" },
-                  { icon: Linkedin, href: "#", label: "LinkedIn" },
-                  { icon: Github, href: "#", label: "GitHub" },
+                  { icon: MailIcon, href: "mailto:mithramadhu005@gmail.com", label: "Mail" },
+                  { icon: Linkedin, href: "https://www.linkedin.com/in/madhumithra-m/", label: "LinkedIn" },
+                  { icon: Github, href: "https://github.com/mithra0612", label: "GitHub" },
                 ].map(({ icon: Icon, href, label }, index) => (
                   <a
                     key={label}
@@ -227,7 +228,7 @@ export default function ContactsSection() {
                   <div>
                     <div className="font-medium">Timezone</div>
                     <div className="text-gray-500 text-sm">
-                      Eastern Standard Time (EST)
+                      Indian Standard Time (IST)
                     </div>
                   </div>
                 </div>
@@ -250,8 +251,7 @@ export default function ContactsSection() {
                 }`}
                 style={{ transitionDelay: '900ms' }}
               >
-                Schedule a free consultation to discuss your project and see how
-                we can work together.
+                Curious to collaborate, discuss ideas, or just talk tech? I’m always open to meaningful conversations and creative opportunities.
               </p>
 
               <a
@@ -276,7 +276,7 @@ export default function ContactsSection() {
                 }`}
                 style={{ transitionDelay: '1100ms' }}
               >
-                No commitment required
+                Reach Out — no pressure, just possibilities.
               </p>
             </div>
           </div>
