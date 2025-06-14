@@ -106,29 +106,29 @@ export default function HomePage() {
       <main className="relative z-10">
         <section
           id="home"
-          className="flex items-center min-h-[85vh] px-6 lg:px-16 mx-auto mt-0 pt-0 relative overflow-hidden"
+          className="flex items-center min-h-[85vh] px-4 sm:px-6 lg:px-16 mx-auto mt-0 pt-0 relative overflow-hidden"
         >
           <div className="max-w-7xl mx-auto w-full">
-            <div className="flex items-center justify-between">
-              <div className="space-y-8 max-w-4xl">
-                <div className="space-y-6">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-0">
+              <div className="space-y-6 sm:space-y-8 max-w-4xl">
+                <div className="space-y-4 sm:space-y-6">
                   <div className="overflow-hidden">
                     <h1
                       ref={headingRef}
-                      className="text-6xl lg:text-8xl font-black leading-none transform transition-transform duration-1000"
+                      className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-none transform transition-transform duration-1000"
                       style={{
                         transform: `translateY(${scrollY * 0.1}px)`,
                         fontFamily:
                           "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
                       }}
                     >
-                      <span className="text-base lg:text-5xl text-gray-300">
+                      <span className="text-sm sm:text-base md:text-lg lg:text-5xl text-gray-300">
                         Hi,
                       </span>
-                      <span className="block text-white text-4xl lg:text-7xl font-bold mb-0">
+                      <span className="block text-white text-2xl sm:text-3xl md:text-4xl lg:text-7xl font-bold mb-0">
                         I'm Madhumithra
                       </span>
-                      <span className="block text-2xl lg:text-4xl font-semibold min-w-[200px] text-left mt-3 mb-0 text-gray-400">
+                      <span className="block text-lg sm:text-xl md:text-2xl lg:text-4xl font-semibold min-w-[200px] text-left mt-2 sm:mt-3 mb-0 text-gray-400">
                         {displayText}
                         <span
                           className="animate-pulse ml-1"
@@ -144,17 +144,17 @@ export default function HomePage() {
                   </div>
 
                   <p
-                    className="text-xl min-w-4xl leading-relaxed text-gray-300"
+                    className="text-base sm:text-lg md:text-xl leading-relaxed text-gray-300"
                     style={{
                       fontFamily:
                         "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
                     }}
                   >
-                   A Junior undergraduate student blending logic and language — solving DSA problems and building full-stack apps with React, Node.js, Express, and MongoDB. When I’m not writing code, I’m writing poetry — both shaped by structure, flow, and meaning
+                   A Junior undergraduate student blending logic and language — solving DSA problems and building full-stack apps with React, Node.js, Express, and MongoDB. When I'm not writing code, I'm writing poetry — both shaped by structure, flow, and meaning
                   </p>
                 </div>
 
-                <div className="flex gap-7 pt-8 items-center">
+                <div className="flex flex-wrap gap-4 sm:gap-6 lg:gap-7 pt-6 sm:pt-8 items-center justify-center sm:justify-start">
                   {[
                     { icon: Github, href: "https://github.com/mithra0612" },
                     {
@@ -166,7 +166,7 @@ export default function HomePage() {
                         <img
                           src="/leetcode.svg"
                           alt="LeetCode"
-                          className="w-6 h-6"
+                          className="w-5 h-5 sm:w-6 sm:h-6"
                           style={{ transition: "fill 0.3s ease" }}
                         />
                       ),
@@ -176,7 +176,7 @@ export default function HomePage() {
                     <div
                       key={index}
                       ref={(el) => (socialIconsRef.current[index] = el)}
-                      className="relative inline-flex items-center justify-center rounded-full p-2"
+                      className="relative inline-flex items-center justify-center rounded-full p-1 sm:p-2"
                     >
                       <GlowingEffect
                         blur={0}
@@ -192,7 +192,7 @@ export default function HomePage() {
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-14 h-14 rounded-full border flex items-center justify-center transition-all duration-300 hover:scale-105 text-gray-400 hover:text-cyan-300"
+                        className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border flex items-center justify-center transition-all duration-300 hover:scale-105 text-gray-400 hover:text-cyan-300"
                         style={{
                           background: "transparent",
                           borderColor: "rgba(6,182,212,0.15)",
@@ -218,14 +218,14 @@ export default function HomePage() {
                         {typeof social.icon === "function" ? (
                           social.icon()
                         ) : (
-                          <social.icon className="w-6 h-6" />
+                          <social.icon className="w-5 h-5 sm:w-6 sm:h-6" />
                         )}
                       </a>
                     </div>
                   ))}
                   <div
                     ref={resumeButtonRef}
-                    className="relative inline-flex items-center justify-center rounded-full p-2"
+                    className="relative inline-flex items-center justify-center rounded-full p-1 sm:p-2"
                   >
                     <GlowingEffect
                       blur={0}
@@ -241,7 +241,7 @@ export default function HomePage() {
                       href="/resume"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className=" px-5 py-3 rounded-full border font-semibold  text-cyan-300 hover:text-cyan-300"
+                      className="px-4 py-2 sm:px-5 sm:py-3 rounded-full border font-semibold text-sm sm:text-base text-cyan-300 hover:text-cyan-300"
                       style={{
                         fontFamily:
                           "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
@@ -253,6 +253,27 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
+
+              {/* Profile Image - Mobile only, positioned below content */}
+              <div className="block lg:hidden w-32 sm:w-40 mx-auto mt-6">
+                <img
+                  src="/profile.png"
+                  alt="Profile"
+                  className="w-full h-auto"
+                  style={{
+                    WebkitMaskImage:
+                      "linear-gradient(to bottom, black 85%, transparent)",
+                    maskImage:
+                      "linear-gradient(to bottom, black 85%, transparent)",
+                    WebkitMaskSize: "100% 100%",
+                    maskSize: "100% 100%",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskRepeat: "no-repeat",
+                  }}
+                />
+              </div>
+
+              {/* Profile Image - Desktop only, positioned on right */}
               <div className="hidden lg:block px-10">
                 <img
                   src="/profile.png"

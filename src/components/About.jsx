@@ -57,7 +57,8 @@ export function GlowingEffectDemoSecond() {
                 Some of my works
               </span>
               <button
-                className="absolute top-0 right-0 text-sm font-medium text-gray-400 hover:underline flex items-center gap-1 transition-colors hover:text-cyan-400"
+                               className="absolute top-0 right-0 text-sm font-medium text-gray-400 hover:underline flex items-center gap-1 transition-colors hover:text-cyan-400"
+
                 onClick={() =>
                   document
                     .getElementById("projects")
@@ -69,7 +70,7 @@ export function GlowingEffectDemoSecond() {
             </div>
           }
           description={
-            <div className="relative">
+            <div className="relative h-full">
               <CardSwapComponent />
             </div>
           }
@@ -86,13 +87,15 @@ export function GlowingEffectDemoSecond() {
           area="md:[grid-area:2/7/3/10] xl:[grid-area:2/7/3/10]"
           isVisible={visibleItems.has(2)}
           description={
-            <div>
-              <h2 className="pb-5">LeetCode Statistics</h2>
-              <img
-                src="https://leetcard.jacoblin.cool/mithra_612?theme=transparent&font=Mali&"
-                alt="LeetCode Stats"
-                className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-              />
+            <div className="h-full flex flex-col">
+              <h2 className="pb-3 text-white font-semibold">LeetCode Statistics</h2>
+              <div className="flex-1 flex flex-col justify-center">
+                <img
+                  src="https://leetcard.jacoblin.cool/mithra_612?theme=transparent&font=Mali&"
+                  alt="LeetCode Stats"
+                  className="w-full max-w-full object-contain transition-transform duration-300 hover:scale-105"
+                />
+              </div>
               <button
                 className="text-sm font-medium text-gray-400 hover:underline flex items-center gap-1 mt-2 transition-colors hover:text-cyan-400 pt-10"
                 onClick={() =>
@@ -121,7 +124,7 @@ export function GlowingEffectDemoSecond() {
               Passionate about weaving emotions into words, I explore life's
               nuances through reflective and rhythmic poetry.
               <button
-                className="text-sm font-medium text-gray-400 hover:underline flex items-center gap-1 mt-2 transition-colors hover:text-cyan-400"
+                className="text-sm font-medium text-gray-400 hover:underline flex items-center gap-1 mt-3 transition-colors hover:text-cyan-400"
                 onClick={() =>
                   window.open(
                     "https://www.instagram.com/p.oet.ry_diary/",
@@ -164,8 +167,9 @@ const GridItem = ({
     >
       <div
         className={`
-          relative h-full rounded-2xl border p-1 md:rounded-3xl md:p-2 ${className}
+          relative h-full rounded-2xl border border-gray-700/50 p-1 md:rounded-3xl md:p-2 ${className}
           transform transition-all duration-300 ease-out
+          hover:border-cyan-400/30
         `}
       >
         <GlowingEffect
@@ -182,6 +186,7 @@ const GridItem = ({
           className={`
             border-0.75 relative flex h-full flex-col justify-between gap-3 
             overflow-hidden rounded-xl p-3 md:p-4 
+            bg-gray-900/20 backdrop-blur-sm
             dark:shadow-[0px_0px_10px_0px_#17888a]
             transition-all duration-300 ease-out
           `}
@@ -190,8 +195,9 @@ const GridItem = ({
             {icon && (
               <div
                 className="
-                  w-fit rounded-lg border border-cyan-00 p-2
+                  w-fit rounded-lg border border-cyan-400/20 p-2
                   transition-all duration-300 ease-out
+                  hover:border-cyan-400/40
                 "
               >
                 {icon}

@@ -44,7 +44,7 @@ const PortfolioLoader = ({ onComplete }) => {
   return (
     <div
       ref={loaderRef}
-      className="fixed inset-0 min-h-screen flex items-center justify-center bg-black text-white text-4xl font-mono z-50"
+      className="fixed inset-0 min-h-screen flex items-center justify-center bg-black text-white text-xl sm:text-4xl font-mono z-50 px-4 sm:px-0"
       style={{ opacity: 1 }}
     >
       <span className="relative">
