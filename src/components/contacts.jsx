@@ -12,7 +12,6 @@ import {
   Calendar,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { gsap, ScrollTrigger } from "gsap/all";
 
 export default function ContactsSection() {
   const [copied, setCopied] = useState(false);
@@ -47,40 +46,6 @@ export default function ContactsSection() {
     });
 
     return () => observer.disconnect();
-  }, []);
-
-  // Add mild GSAP animations for mobile view
-  useEffect(() => {
-    const isMobile = window.innerWidth < 768;
-    if (!isMobile) return;
-
-    const sections = sectionRef.current.querySelectorAll("[data-animate-index]");
-
-    sections.forEach((section) => {
-      gsap.fromTo(
-        section,
-        {
-          opacity: 0,
-          y: 10, // Subtle offset for mobile
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.4, // Mild duration for smooth effect
-          ease: "power1.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 90%",
-            end: "top 80%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
   }, []);
 
   const setElementRef = (index) => (el) => {
