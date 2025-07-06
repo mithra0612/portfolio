@@ -1,300 +1,289 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import { Github, Linkedin } from "lucide-react";
-import { GlowingEffect } from "@/components/ui/glowing-effect"; // adjust path as needed
-import { gsap } from "gsap";
+import React, { useCallback, useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Menu, Github, Linkedin, Mail } from "lucide-react";
 
-export default function HomePage() {
-  const [scrollY, setScrollY] = useState(0);
-  const [displayText, setDisplayText] = useState("");
-  const [isTyping, setIsTyping] = useState(true);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const headingRef = useRef(null);
-  const profileImageRef = useRef(null);
-  const socialIconsRef = useRef([]);
-  const resumeButtonRef = useRef(null);
+// Utility function for className merging
+const cn = (...classes) => {
+  return classes.filter(Boolean).join(' ');
+};
 
-  const rotatingTexts = [
-    "Fullstack Developer",
-    "Problem Solver",
-    "DSA Enthusiast",
-    "Designer",
-    "Poet"
-  ];
+// FlipWords Component
+const FlipWords = ({
+  words,
+  duration = 3000,
+  className
+}) => {
+  const [currentWord, setCurrentWord] = useState(words[0]);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  // Typewriter effect for rotating texts
-  useEffect(() => {
-    const currentWord = rotatingTexts[currentTextIndex];
-
-    const typewriterEffect = () => {
-      if (isTyping && !isDeleting) {
-        if (charIndex < currentWord.length) {
-          setDisplayText(currentWord.slice(0, charIndex + 1));
-          setCharIndex((prev) => prev + 1);
-        } else {
-          setTimeout(() => {
-            setIsDeleting(true);
-            setIsTyping(false);
-          }, 2000);
-        }
-      } else if (isDeleting) {
-        if (charIndex > 0) {
-          setDisplayText(currentWord.slice(0, charIndex - 1));
-          setCharIndex((prev) => prev - 1);
-        } else {
-          setIsDeleting(false);
-          setIsTyping(true);
-          setCurrentTextIndex((prev) => (prev + 1) % rotatingTexts.length);
-        }
-      }
-    };
-
-    const typingSpeed = isDeleting ? 50 : 100;
-    const timer = setTimeout(typewriterEffect, typingSpeed);
-
-    return () => clearTimeout(timer);
-  }, [currentTextIndex, charIndex, isTyping, isDeleting, rotatingTexts]);
-
-  // Scroll handling for parallax effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const startAnimation = useCallback(() => {
+    const word = words[words.indexOf(currentWord) + 1] || words[0];
+    setCurrentWord(word);
+    setIsAnimating(true);
+  }, [currentWord, words]);
 
   useEffect(() => {
-    // GSAP animation for heading
-    gsap.fromTo(
-      headingRef.current,
-      { opacity: 0, y: -50 },
-      { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
-    );
-
-    // GSAP animation for social icons
-    socialIconsRef.current.forEach((icon, index) => {
-      gsap.fromTo(
-        icon,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          delay: 0.7 + index * 0.2,
-        }
-      );
-    });
-
-    // GSAP animation for resume button
-    gsap.fromTo(
-      resumeButtonRef.current,
-      { opacity: 0, scale: 0.8 },
-      { opacity: 1, scale: 1, duration: 1, ease: "power3.out", delay: 1.5 }
-    );
-  }, []);
+    if (!isAnimating)
+      setTimeout(() => {
+        startAnimation();
+      }, duration);
+  }, [isAnimating, duration, startAnimation]);
 
   return (
-    <div
-      className="min-h-screen 
-     text-white overflow-x-hidden py-8 "
-    >
-      <main className="relative z-10">
-        <section
-          id="home"
-          className="flex items-center min-h-[85vh] px-4 sm:px-6 lg:px-16 mx-auto mt-0 pt-0 relative overflow-hidden"
-        >
-          <div className="max-w-7xl mx-auto w-full">
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-0">
-              <div className="space-y-6 sm:space-y-8 max-w-4xl">
-                <div className="space-y-4 sm:space-y-6">
-                  <div className="overflow-hidden">
-                    <h1
-                      ref={headingRef}
-                      className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-none transform transition-transform duration-1000"
-                      style={{
-                        transform: `translateY(${scrollY * 0.1}px)`,
-                        fontFamily:
-                          "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-                      }}
-                    >
-                      <span className="text-sm sm:text-base md:text-lg lg:text-5xl text-gray-300">
-                        Hi,
-                      </span>
-                      <span className="block text-white text-2xl sm:text-3xl md:text-4xl lg:text-7xl font-bold mb-0">
-                        I'm Madhumithra
-                      </span>
-                      <span className="block text-lg sm:text-xl md:text-2xl lg:text-4xl font-semibold min-w-[200px] text-left mt-2 sm:mt-3 mb-0 text-gray-400">
-                        {displayText}
-                        <span
-                          className="animate-pulse ml-1"
-                          style={{
-                            color: "rgb(6, 182, 212)",
-                            textShadow: "0 0 10px rgba(6,182,212,0.3)",
-                          }}
-                        >
-                          {isTyping || isDeleting ? "|" : ""}
-                        </span>
-                      </span>
-                    </h1>
-                  </div>
+    <AnimatePresence
+      onExitComplete={() => {
+        setIsAnimating(false);
+      }}>
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 10,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 100,
+          damping: 10,
+        }}
+        exit={{
+          opacity: 0,
+          y: -40,
+          x: 40,
+          filter: "blur(8px)",
+          scale: 2,
+          position: "absolute",
+        }}
+        className={cn(
+          "z-10 inline-block relative text-left text-neutral-900 dark:text-neutral-100 leading-tight font-bold",
+          className
+        )}
+        key={currentWord}>
+        {currentWord.split(" ").map((word, wordIndex) => (
+          <motion.span
+            key={word + wordIndex}
+            initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{
+              delay: wordIndex * 0.3,
+              duration: 0.3,
+            }}
+            className="inline-block whitespace-nowrap">
+            {word.split("").map((letter, letterIndex) => (
+              <motion.span
+                key={word + letterIndex}
+                initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{
+                  delay: wordIndex * 0.3 + letterIndex * 0.05,
+                  duration: 0.2,
+                }}
+                className="inline-block text-blue-500">
+                {letter}
+              </motion.span>
+            ))}
+            <span className="inline-block">&nbsp;</span>
+          </motion.span>
+        ))}
+      </motion.div>
+    </AnimatePresence>
+  );
+};
 
-                  <p
-                    className="text-base sm:text-lg md:text-xl leading-relaxed text-gray-300"
-                    style={{
-                      fontFamily:
-                        "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-                    }}
-                  >
-                   A Junior undergraduate student blending logic and language — solving DSA problems and building full-stack apps with React, Node.js, Express, and MongoDB. When I'm not writing code, I'm writing poetry — both shaped by structure, flow, and meaning
-                  </p>
-                </div>
+const Hero = () => {
+  const flipWords = [
+    "line by line.",
+    "pixel by pixel.",
+    "problem to product.",
+    "logic and poetry.",
+    "art in execution.",
+  ];
+  
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = "/resume.pdf";
+    link.download = "resume.pdf";
+    link.click();
+  };
 
-                <div className="flex flex-wrap gap-4 sm:gap-6 lg:gap-7 pt-6 sm:pt-8 items-center justify-center sm:justify-start">
-                  {[
-                    { icon: Github, href: "https://github.com/mithra0612" },
-                    {
-                      icon: Linkedin,
-                      href: "https://www.linkedin.com/in/madhumithra-m/",
-                    },
-                    {
-                      icon: () => (
-                        <img
-                          src="/leetcode.svg"
-                          alt="LeetCode"
-                          className="w-5 h-5 sm:w-6 sm:h-6"
-                          style={{ transition: "fill 0.3s ease" }}
-                        />
-                      ),
-                      href: "https://leetcode.com/u/mithra_612/",
-                    },
-                  ].map((social, index) => (
-                    <div
-                      key={index}
-                      ref={(el) => (socialIconsRef.current[index] = el)}
-                      className="relative inline-flex items-center justify-center rounded-full p-1 sm:p-2"
-                    >
-                      <GlowingEffect
-                        blur={0}
-                        borderWidth={2}
-                        spread={80}
-                        glow={true}
-                        disabled={false}
-                        proximity={30}
-                        inactiveZone={0.01}
-                        gradientColors={["#00FFFF", "#00CED1", "#20B2AA"]}
-                      />
-                      <a
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border flex items-center justify-center transition-all duration-300 hover:scale-105 text-gray-400 hover:text-cyan-300"
-                        style={{
-                          background: "transparent",
-                          borderColor: "rgba(6,182,212,0.15)",
-                          boxShadow: "0 0 10px rgba(6,182,212,0.05)",
-                        }}
-                        onMouseEnter={(e) => {
-                          e.target.style.borderColor = "rgba(6,182,212,0.3)";
-                          e.target.style.boxShadow =
-                            "0 0 15px rgba(6,182,212,0.1)";
-                          const img = e.target.querySelector("img");
-                          if (img)
-                            img.style.filter =
-                              "brightness(0) saturate(100%) invert(62%) sepia(74%) saturate(750%) hue-rotate(164deg) brightness(95%) contrast(92%)";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.target.style.borderColor = "rgba(6,182,212,0.15)";
-                          e.target.style.boxShadow =
-                            "0 0 10px rgba(6,182,212,0.05)";
-                          const img = e.target.querySelector("img");
-                          if (img) img.style.filter = "";
-                        }}
-                      >
-                        {typeof social.icon === "function" ? (
-                          social.icon()
-                        ) : (
-                          <social.icon className="w-5 h-5 sm:w-6 sm:h-6" />
-                        )}
-                      </a>
-                    </div>
-                  ))}
-                  <div
-                    ref={resumeButtonRef}
-                    className="relative inline-flex items-center justify-center rounded-full p-1 sm:p-2"
-                  >
-                    <GlowingEffect
-                      blur={0}
-                      borderWidth={2}
-                      spread={80}
-                      glow={true}
-                      disabled={false}
-                      proximity={20}
-                      inactiveZone={0.01}
-                      gradientColors={["#00FFFF", "#00CED1", "#20B2AA"]}
-                    />
-                    <a
-                      href="/resume"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-4 py-2 sm:px-5 sm:py-3 rounded-full border font-semibold text-sm sm:text-base text-cyan-300 hover:text-cyan-300"
-                      style={{
-                        fontFamily:
-                          "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-                        background: "transparent",
-                      }}
-                    >
-                      Resume
-                    </a>
-                  </div>
-                </div>
-              </div>
+  return (
+    <div className="relative min-h-screen bg-black overflow-hidden">
+      {/* Code block background pattern */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Top edge blocks */}
+        <div className="absolute top-4 left-8 w-16 h-2 bg-white opacity-20"></div>
+        <div className="absolute top-8 left-28 w-24 h-2 bg-blue-500 opacity-30"></div>
+        <div className="absolute top-12 left-12 w-12 h-2 bg-green-400 opacity-15"></div>
+        <div className="absolute top-6 left-60 w-32 h-2 bg-blue-500 opacity-20"></div>
+        <div className="absolute top-16 left-80 w-20 h-2 bg-white opacity-30"></div>
+        
+        {/* Top right blocks */}
+        <div className="absolute top-4 right-8 w-28 h-2 bg-blue-500 opacity-25"></div>
+        <div className="absolute top-10 right-40 w-16 h-2 bg-green-300 opacity-12"></div>
+        <div className="absolute top-16 right-16 w-36 h-2 bg-blue-500 opacity-30"></div>
+        <div className="absolute top-20 right-60 w-14 h-2 bg-white opacity-25"></div>
+        
+        {/* Left edge blocks */}
+        <div className="absolute left-4 top-32 w-2 h-20 bg-white opacity-20"></div>
+        <div className="absolute left-8 top-60 w-2 h-16 bg-blue-500 opacity-25"></div>
+        <div className="absolute left-12 top-96 w-2 h-24 bg-green-400 opacity-18"></div>
+        <div className="absolute left-6 top-[28rem] w-2 h-12 bg-blue-500 opacity-20"></div>
+        
+        {/* Right edge blocks */}
+        <div className="absolute right-4 top-40 w-2 h-18 bg-blue-500 opacity-25"></div>
+        <div className="absolute right-8 top-72 w-2 h-20 bg-white opacity-20"></div>
+        <div className="absolute right-12 top-[26rem] w-2 h-16 bg-green-300 opacity-16"></div>
+        <div className="absolute right-6 top-[32rem] w-2 h-14 bg-blue-500 opacity-20"></div>
+        
+        {/* Bottom edge blocks */}
+        <div className="absolute bottom-4 left-16 w-20 h-2 bg-white opacity-20"></div>
+        <div className="absolute bottom-8 left-48 w-32 h-2 bg-blue-500 opacity-25"></div>
+        <div className="absolute bottom-12 left-96 w-18 h-2 bg-green-400 opacity-14"></div>
+        <div className="absolute bottom-6 left-[32rem] w-24 h-2 bg-blue-500 opacity-20"></div>
+        
+        {/* Bottom right blocks */}
+        <div className="absolute bottom-4 right-12 w-28 h-2 bg-blue-500 opacity-25"></div>
+        <div className="absolute bottom-10 right-44 w-16 h-2 bg-white opacity-20"></div>
+        <div className="absolute bottom-16 right-24 w-36 h-2 bg-green-300 opacity-12"></div>
+        <div className="absolute bottom-20 right-72 w-14 h-2 bg-white opacity-25"></div>
+        
+        {/* Corner accent blocks */}
+        <div className="absolute top-24 left-24 w-8 h-8 bg-blue-500 opacity-15"></div>
+        <div className="absolute top-32 right-32 w-6 h-6 bg-green-400 opacity-10"></div>
+        <div className="absolute bottom-24 left-32 w-10 h-4 bg-blue-500 opacity-20"></div>
+        <div className="absolute bottom-32 right-24 w-8 h-6 bg-green-300 opacity-12"></div>
+        
+        {/* Scattered small blocks */}
+        <div className="absolute top-[40%] left-4 w-4 h-2 bg-white opacity-15"></div>
+        <div className="absolute top-[60%] right-4 w-6 h-2 bg-green-400 opacity-10"></div>
+        <div className="absolute top-[25%] left-2 w-2 h-8 bg-blue-500 opacity-15"></div>
+        <div className="absolute top-[75%] right-2 w-2 h-6 bg-green-300 opacity-14"></div>
+      </div>
 
-              {/* Profile Image - Mobile only, positioned below content */}
-              <div className="block lg:hidden w-32 sm:w-40 mx-auto mt-6">
-                <img
-                  src="/profile.png"
-                  alt="Profile"
-                  className="w-full h-auto"
-                  style={{
-                    WebkitMaskImage:
-                      "linear-gradient(to bottom, black 85%, transparent)",
-                    maskImage:
-                      "linear-gradient(to bottom, black 85%, transparent)",
-                    WebkitMaskSize: "100% 100%",
-                    maskSize: "100% 100%",
-                    WebkitMaskRepeat: "no-repeat",
-                    maskRepeat: "no-repeat",
-                  }}
-                />
-              </div>
+      {/* Main content container */}
+      <div className="relative z-20 flex items-center justify-start min-h-screen px-12 pl-16 lg:pl-60">
+        <div className="text-left max-w-4xl">
+          {/* Hero heading */}
+          <h1 className="text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-medium leading-tight tracking-tight text-white">
+              <strong>I build with code and create with intention</strong>
+            <div className="text-4xl md:text-4xl lg:text-5xl xl:text-6xl flex items-center font-medium">
+              <FlipWords
+                words={flipWords}
+                duration={3000}
+                className="font-black text-4xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight"
+              />
+            </div>
+          </h1>
 
-              {/* Profile Image - Desktop only, positioned on right */}
-              <div className="hidden lg:block px-10">
-                <img
-                  src="/profile.png"
-                  alt="Profile"
-                  className="w-full h-auto"
-                  style={{
-                    WebkitMaskImage:
-                      "linear-gradient(to bottom, black 85%, transparent)",
-                    maskImage:
-                      "linear-gradient(to bottom, black 85%, transparent)",
-                    WebkitMaskSize: "100% 100%",
-                    maskSize: "100% 100%",
-                    WebkitMaskRepeat: "no-repeat",
-                    maskRepeat: "no-repeat",
-                  }}
-                />
-              </div>
+          {/* CTA Link */}
+          <div className="flex justify-start items-center gap-8 mt-8">
+            <a
+              href="/resume"
+              target="_blank"
+              className="inline-block text-sm md:text-base font-medium leading-tight tracking-tight text-white no-underline relative group transition-all duration-500 ease-out hover:text-green-400"
+               onClick={handleDownload}
+            >
+              DOWNLOAD RESUME
+              <span className="absolute -bottom-2 left-0 w-8 h-px bg-gray-400 transition-all duration-500 ease-out group-hover:w-full group-hover:bg-green-400"></span>
+            </a>
+            
+            {/* Social Icons */}
+            <div className="flex items-center gap-4">
+              <a
+                href="https://github.com/yourusername"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-green-400 transition-colors duration-300"
+              >
+                <Github size={20} />
+              </a>
+              <a
+                href="https://linkedin.com/in/yourusername"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-green-400 transition-colors duration-300"
+              >
+                <Linkedin size={20} />
+              </a>
+              <a
+                href="mailto:your.email@example.com"
+                className="text-white hover:text-green-400 transition-colors duration-300"
+              >
+                <Mail size={20} />
+              </a>
             </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </div>
+
+      {/* Gradient overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/40 pointer-events-none"></div>
+
+      {/* Custom styles for enhanced animations */}
+      <style jsx>{`
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0px) rotate(12deg);
+          }
+          50% {
+            transform: translateY(-20px) rotate(12deg);
+          }
+        }
+
+        @keyframes float-reverse {
+          0%,
+          100% {
+            transform: translateY(0px) rotate(-12deg);
+          }
+          50% {
+            transform: translateY(-15px) rotate(-12deg);
+          }
+        }
+
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+
+        .animate-float-reverse {
+          animation: float-reverse 6s ease-in-out infinite;
+        }
+
+        /* Enhanced text rendering for effects */
+        .typewriter-text {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          transform-origin: center;
+        }
+
+        /* Cursor animation */
+        @keyframes blink {
+          0%,
+          50% {
+            opacity: 1;
+          }
+          51%,
+          100% {
+            opacity: 0;
+          }
+        }
+
+        .cursor-blink {
+          animation: blink 1s infinite;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          h1 {
+            line-height: 1.1;
+          }
+        }
+      `}</style>
     </div>
   );
-}
+};
+
+export default Hero;

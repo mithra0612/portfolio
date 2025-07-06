@@ -19,7 +19,7 @@ const PortfolioLoader = ({ onComplete }) => {
       }
     };
 
-    intervalRef.current = setInterval(typeChar, 200);
+    intervalRef.current = setInterval(typeChar, 100);
 
     const fadeOutAnimation = () => {
       if (loaderRef.current) {

@@ -27,7 +27,7 @@ const Projects = () => {
         "NumPy",
       ],
       live: "",
-      github: "https://github.com/mithra0612/post-office-financial-service",
+      github: "https://github.com/mithra0612/postal-service",
       previewImage: "/financial-services-preview.png",
     },
     {

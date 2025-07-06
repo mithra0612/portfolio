@@ -35,22 +35,22 @@ const Footer = () => {
           <nav className="order-2 md:order-1 w-full md:w-auto">
             <ul className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-6 text-sm md:text-base">
               <li>
-                <a href="#about" className="hover:text-cyan-400 transition-colors duration-300 font-medium px-2 py-1 rounded-md hover:bg-cyan-400/10">
+                <a href="#about" className="font-medium leading-tight tracking-tight text-white transition-colors duration-300 px-2 py-1 rounded-md hover:bg-cyan-400/10">
                   About Me
                 </a>
               </li>
               <li>
-                <a href="#projects" className="hover:text-cyan-400 transition-colors duration-300 font-medium px-2 py-1 rounded-md hover:bg-cyan-400/10">
+                <a href="#projects" className="font-medium leading-tight tracking-tight text-white transition-colors duration-300 px-2 py-1 rounded-md hover:bg-cyan-400/10">
                   My Work
                 </a>
               </li>
               <li>
-                <a href="#skills" className="hover:text-cyan-400 transition-colors duration-300 font-medium px-2 py-1 rounded-md hover:bg-cyan-400/10">
+                <a href="#skills" className="font-medium leading-tight tracking-tight text-white transition-colors duration-300 px-2 py-1 rounded-md hover:bg-cyan-400/10">
                   Tech Stack
                 </a>
               </li>
               <li>
-                <a href="#contacts" className="hover:text-cyan-400 transition-colors duration-300 font-medium px-2 py-1 rounded-md hover:bg-cyan-400/10">
+                <a href="#contacts" className="font-medium leading-tight tracking-tight text-white transition-colors duration-300 px-2 py-1 rounded-md hover:bg-cyan-400/10">
                   Let's Connect
                 </a>
               </li>

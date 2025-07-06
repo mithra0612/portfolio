@@ -98,7 +98,7 @@ export default function Skills() {
               ease: "power2.out"
             });
             gsap.to(text, { 
-              color: '#0092b8',
+              color: '#3b82f6',
               duration: 0.3,
               ease: "power2.out"
             });
@@ -141,30 +141,30 @@ export default function Skills() {
       id="about"
       className="px-4 sm:px-35 bg-black text-white overflow-hidden pt-0"
     >
-      <h1 ref={titleRef} className="text-3xl sm:text-5xl font-bold pb-6 sm:pb-10 mt-10 sm:mt-10">Skills</h1>
+      <h1 ref={titleRef} className="text-3xl sm:text-5xl font-bold pb-6 sm:pb-10 mt-10 sm:mt-10 text-blue-400">Skills</h1>
 
       <div className="">
         {/* Programming Languages */}
         <div ref={languagesRef}>
           <h2 className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12">
-            <span className='text-xl sm:text-4xl text-cyan-400'>Languages</span> I Know,
+            <span className='text-xl sm:text-4xl text-green-400'>Languages</span> I Know,
           </h2>
           <div className="flex items-center space-x-4 sm:space-x-10 mb-6 sm:mb-12">
             <div className="text-center skill-item cursor-pointer">
               <img src="/java.svg" alt="Java" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-cyan-400">Java</p>
+              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-blue-400">Java</p>
             </div>
             <div className="text-center skill-item cursor-pointer">
               <img src="/c.svg" alt="C" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-cyan-400">C</p>
+              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-blue-400">C</p>
             </div>
             <div className="text-center skill-item cursor-pointer">
               <img src="/python.svg" alt="Python" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-cyan-400">Python</p>
+              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-blue-400">Python</p>
             </div>
             <div className="text-center skill-item cursor-pointer">
               <img src="/javascript.svg" alt="JavaScript" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-cyan-400">JavaScript</p>
+              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-blue-400">JavaScript</p>
             </div>
           </div>
         </div>
@@ -172,24 +172,24 @@ export default function Skills() {
         {/* Frameworks */}
         <div ref={frameworksRef}>
           <h2 className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12">
-            <span className='text-xl sm:text-4xl text-cyan-400'>Frameworks</span> I've Used,
+            <span className='text-xl sm:text-4xl text-blue-400'>Frameworks</span> I've Used,
           </h2>
           <div className="flex items-center space-x-4 sm:space-x-10 mb-6 sm:mb-12">
             <div className="text-center skill-item cursor-pointer">
               <img src="/nextjs.svg" alt="Next.js" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-cyan-400">Next.js</p>
+              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-blue-400">Next.js</p>
             </div>
             <div className="text-center skill-item cursor-pointer">
               <img src="/react.svg" alt="React.js" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-cyan-400">React.js</p>
+              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-blue-400">React.js</p>
             </div>
             <div className="text-center skill-item cursor-pointer">
               <img src="/nodejs.svg" alt="Node.js" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-cyan-400">Node.js</p>
+              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-blue-400">Node.js</p>
             </div>
             <div className="text-center skill-item cursor-pointer">
               <img src="/expressjs.svg" alt="Express.js" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-cyan-400">Express.js</p>
+              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-blue-400">Express.js</p>
             </div>
           </div>
         </div>
@@ -197,20 +197,20 @@ export default function Skills() {
         {/* Databases and Cloud */}
         <div ref={databasesRef}>
           <h2 className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12">
-            <span className='text-xl sm:text-4xl text-cyan-400'>Databases</span> and <span className='text-xl sm:text-4xl text-cyan-400'>Cloud</span> I've Used,
+            <span className='text-xl sm:text-4xl text-orange-400'>Databases</span> and <span className='text-xl sm:text-4xl text-green-400'>Cloud</span> I've Used,
           </h2>
           <div className="flex items-center space-x-4 sm:space-x-10 mb-6 sm:mb-12">
             <div className="text-center skill-item cursor-pointer">
               <img src="/mongodb.svg" alt="MongoDB" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-cyan-400">MongoDB</p>
+              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-blue-400">MongoDB</p>
             </div>
             <div className="text-center skill-item cursor-pointer">
               <img src="/mysql.svg" alt="MySQL" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-cyan-400">MySQL</p>
+              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-blue-400">MySQL</p>
             </div>
             <div className="text-center skill-item cursor-pointer">
               <img src="/gcp.svg" alt="Google Cloud Platform" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-cyan-400">GCP</p>
+              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-blue-400">GCP</p>
             </div>
           </div>
         </div>
@@ -218,24 +218,24 @@ export default function Skills() {
         {/* Developer & Designer Tools */}
         <div ref={toolsRef}>
           <h2 className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12">
-            <span className='text-xl sm:text-4xl text-cyan-400'>Developer/ Designer Tools</span> I've Worked With,
+            <span className='text-xl sm:text-4xl text-blue-400'>Developer/ Designer Tools</span> I've Worked With,
           </h2>
           <div className="flex items-center space-x-4 sm:space-x-10">
             <div className="text-center skill-item cursor-pointer">
               <img src="/git.svg" alt="Git" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-cyan-400">Git</p>
+              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-blue-400">Git</p>
             </div>
             <div className="text-center skill-item cursor-pointer">
               <img src="/github.svg" alt="GitHub" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-cyan-400">GitHub</p>
+              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-blue-400">GitHub</p>
             </div>
             <div className="text-center skill-item cursor-pointer">
               <img src="/figma.svg" alt="Figma" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-cyan-400">Figma</p>
+              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-blue-400">Figma</p>
             </div>
             <div className="text-center skill-item cursor-pointer">
               <img src="/vercel.svg" alt="Vercel" className="h-8 w-8 sm:h-16 sm:w-16 mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-cyan-400">Vercel</p>
+              <p className="mt-1 sm:mt-2 text-xs sm:text-base hover:text-blue-400">Vercel</p>
             </div>
           </div>
         </div>

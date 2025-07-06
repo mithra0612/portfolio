@@ -1,70 +1,90 @@
 import React, { useState } from 'react';
 
-const FloatingNavbar = () => {
+const FixedNavbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const handleDownload = () => {
+    // Add your download logic here
+    console.log('Download resume');
+  };
+
+  // Component to render text with bouncing characters
+  const BounceText = ({ text, className = "" }) => {
+    const [isAnimating, setIsAnimating] = useState(false);
+
+    const handleMouseEnter = () => {
+      if (!isAnimating) {
+        setIsAnimating(true);
+        setTimeout(() => setIsAnimating(false), 600); // Reset after animation duration
+      }
+    };
+
+    return (
+      <span 
+        className={`inline-block group ${className}`}
+        onMouseEnter={handleMouseEnter}
+      >
+        {text.split('').map((char, index) => (
+          <span
+            key={index}
+            className={`inline-block transition-all duration-300 ease-out font-bold group-hover:text-[#F68B08] ${
+              isAnimating ? 'animate-[bounce_0.6s_ease-out_1]' : ''
+            }`}
+            style={{
+              animationDelay: isAnimating ? `${index * 50}ms` : '0ms'
+            }}
+          >
+            {char === ' ' ? '\u00A0' : char}
+          </span>
+        ))}
+      </span>
+    );
+  };
+
+  // Navigation link component with bounce effect
+  const NavLink = ({ href, children, onClick }) => (
+    <a 
+      href={href}
+      onClick={onClick}
+      className="text-sm md:text-base font-medium leading-tight tracking-tight text-white no-underline transition-all duration-500 ease-out"
+    >
+      <BounceText text={children} />
+    </a>
+  );
+
   return (
     <>
-      {/* Desktop Navigation - Original */}
-      <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 hidden lg:block">
-        <div className="bg-black/40 backdrop-blur-md border border-cyan-500/20 rounded-full px-8 py-3 shadow-2xl shadow-cyan-500/5 relative overflow-hidden">
-          {/* Subtle animated background glow */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/5 to-transparent animate-pulse"></div>
-          
-          {/* Subtle corner accents */}
-          <div className="absolute top-1 left-4 w-1 h-1 bg-cyan-400/60 rounded-full"></div>
-          <div className="absolute top-1 right-4 w-1 h-1 bg-cyan-400/60 rounded-full"></div>
-          
-          <div className="flex items-center gap-8 relative z-10">
-            {/* Navigation Links */}
-            <a 
-              href="#home" 
-              className="text-white/90 text-sm font-medium hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
-            >
-              Home
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
-            </a>
-            <a 
-              href="#about" 
-              className="text-white/90 text-sm font-medium hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
-            >
-              About
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
-            </a>
-            <a 
-              href="#skills" 
-              className="text-white/90 text-sm font-medium hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
-            >
-              Skills
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
-            </a>
-            <a 
-              href="#projects" 
-              className="text-white/90 text-sm font-medium hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
-            >
-              Projects
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
-            </a>
-            <a 
-              href="#contact" 
-              className="text-white/90 text-sm font-medium hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
-            >
-              Contact
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
-            </a>
-            <a 
-              href="https://cal.com/madhumithra-m/30min?user=madhumithra-m" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-white/90 text-sm font-medium hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)] transition-all duration-300 relative group"
-            >
-              Book A Call
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
-            </a>
+      {/* Desktop Navigation - Fixed */}
+      <nav className="fixed top-0 left-0 right-0 z-50 hidden lg:block bg-black/90 backdrop-blur-md mt-1.5">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            {/* Left side - Name */}
+            <div className="text-white font-medium leading-tight tracking-tight text-2xl">
+              <BounceText text="MADHUMITHRA" />
+            </div>
+            
+            {/* Right side - Navigation Links */}
+            <div className="flex items-center gap-8">
+              <NavLink href="#home">HOME</NavLink>
+              <NavLink href="#about">ABOUT</NavLink>
+              <NavLink href="#skills">SKILLS</NavLink>
+              <NavLink href="#projects">PROJECTS</NavLink>
+              <NavLink href="#contact">CONTACT</NavLink>
+              
+              {/* <a
+                href="https://cal.com/madhumithra-m/30min?user=madhumithra-m"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm md:text-base font-medium leading-tight tracking-tight text-white no-underline transition-all duration-500 ease-out"
+                onClick={handleDownload}
+              >
+                <BounceText text="BOOK A CALL" />
+              </a> */}
+            </div>
           </div>
         </div>
       </nav>
@@ -74,7 +94,7 @@ const FloatingNavbar = () => {
         {/* Mobile Menu Button */}
         <button
           onClick={toggleMobileMenu}
-          className="fixed top-6 right-6 z-50 bg-black/70 backdrop-blur-md border border-cyan-500/30 rounded-full p-3 shadow-lg hover:border-cyan-400/60 hover:bg-black/80 transition-all duration-300"
+          className="fixed top-6 right-6 z-50 bg-black/70 backdrop-blur-md rounded-full p-3 shadow-lg hover:bg-black/80 transition-all duration-300"
         >
           <div className="w-5 h-5 flex flex-col justify-center items-center relative">
             <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-1.5'}`}></span>
@@ -89,42 +109,22 @@ const FloatingNavbar = () => {
         </div>
 
         {/* Mobile Menu Panel */}
-        <div className={`fixed top-0 right-0 h-full w-64 bg-black/90 backdrop-blur-md border-l border-cyan-500/20 z-40 transform transition-transform duration-500 ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className={`fixed top-0 right-0 h-full w-64 bg-black/90 backdrop-blur-md z-40 transform transition-transform duration-500 ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           <div className="relative z-10 p-6 pt-20 flex flex-col space-y-6">
-            <a 
-              href="#home"
+            <NavLink href="#home" onClick={toggleMobileMenu}>HOME</NavLink>
+            <NavLink href="#about" onClick={toggleMobileMenu}>ABOUT</NavLink>
+            <NavLink href="#skills" onClick={toggleMobileMenu}>SKILLS</NavLink>
+            <NavLink href="#projects" onClick={toggleMobileMenu}>PROJECTS</NavLink>
+            <NavLink href="#contact" onClick={toggleMobileMenu}>CONTACT</NavLink>
+            
+            <a
+              href="https://cal.com/madhumithra-m/30min?user=madhumithra-m"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={toggleMobileMenu}
-              className={`text-lg font-medium transition-colors duration-300 ${isMobileMenuOpen && window.location.hash === '#home' ? 'text-cyan-400' : 'text-white'}`}
+              className="text-sm md:text-base font-medium leading-tight tracking-tight text-white no-underline transition-all duration-500 ease-out"
             >
-              Home
-            </a>
-            <a 
-              href="#about"
-              onClick={toggleMobileMenu}
-              className={`text-lg font-medium transition-colors duration-300 ${isMobileMenuOpen && window.location.hash === '#about' ? 'text-cyan-400' : 'text-white'}`}
-            >
-              About
-            </a>
-            <a 
-              href="#skills"
-              onClick={toggleMobileMenu}
-              className={`text-lg font-medium transition-colors duration-300 ${isMobileMenuOpen && window.location.hash === '#skills' ? 'text-cyan-400' : 'text-white'}`}
-            >
-              Skills
-            </a>
-            <a 
-              href="#projects"
-              onClick={toggleMobileMenu}
-              className={`text-lg font-medium transition-colors duration-300 ${isMobileMenuOpen && window.location.hash === '#projects' ? 'text-cyan-400' : 'text-white'}`}
-            >
-              Projects
-            </a>
-            <a 
-              href="#contact"
-              onClick={toggleMobileMenu}
-              className={`text-lg font-medium transition-colors duration-300 ${isMobileMenuOpen && window.location.hash === '#contact' ? 'text-cyan-400' : 'text-white'}`}
-            >
-              Contact
+              <BounceText text="BOOK A CALL" />
             </a>
           </div>
         </div>
@@ -133,4 +133,4 @@ const FloatingNavbar = () => {
   );
 };
 
-export default FloatingNavbar;
+export default FixedNavbar;
