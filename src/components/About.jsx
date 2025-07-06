@@ -1,247 +1,39 @@
-"use client";
-import {
-  Box,
-  Lock,
-  Search,
-  Settings,
-  Sparkles,
-  Instagram,
-  Feather,
-  Newspaper,
-} from "lucide-react";
-import { GlowingEffect } from "@/components/ui/glowing-effect";
-import { useEffect, useRef, useState } from "react";
-import CardSwapComponent from "./CardSwap";
-import RotatingQuote from "./ui/rotating-quote";
-import Terminal from "@/components/terminal";
+import React, { useState, useEffect, useRef } from "react";
 
-export function GlowingEffectDemoSecond() {
-  const [visibleItems, setVisibleItems] = useState(new Set());
-  const gridRef = useRef(null);
+export default function AboutMeSection() {
+  const [scrollY, setScrollY] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [charIndex, setCharIndex] = useState(0);
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const sectionRef = useRef(null);
+
+  const rotatingTexts = [
+    "Fullstack Developer",
+    "Problem Solver",
+    "DSA Enthusiast",
+    "Designer",
+    "Poet",
+  ];
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const index = entry.target.dataset.index;
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              setVisibleItems((prev) => new Set([...prev, parseInt(index)]));
-            }, parseInt(index) * 150); // Stagger animation
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
-    );
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
 
-    const gridItems = gridRef.current?.querySelectorAll("[data-index]");
-    gridItems?.forEach((item) => observer.observe(item));
-
-    return () => observer.disconnect();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  return (
-    <div className="max-w-7xl mx-auto">
-      <ul
-        ref={gridRef}
-        className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-3 lg:gap-4 xl:max-h-[30-rem] xl:grid-rows-3"
-      >
-        <GridItem
-          index={0}
-          area="md:[grid-area:1/1/3/7] xl:[grid-area:1/1/3/7]"
-          isVisible={visibleItems.has(0)}
-          icon={
-            <div className="flex items-center gap-2 mb-3">
-              <Box className="h-6 w-6 text-black dark:text-neutral-400" />
-              <span className="text-lg font-semibold text-white">
-                Some of my works
-              </span>
-              <button
-                               className="absolute top-0 right-0 text-sm font-medium text-gray-400 hover:underline flex items-center gap-1 transition-colors hover:text-cyan-400"
-
-                onClick={() =>
-                  document
-                    .getElementById("projects")
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
-              >
-                View More <span>&rarr;</span>
-              </button>
-            </div>
-          }
-          description={
-            <div className="relative h-full">
-              <CardSwapComponent />
-            </div>
-          }
-        />
-        <GridItem
-          index={1}
-          area="md:[grid-area:1/7/2/13] xl:[grid-area:1/7/2/13]"
-          isVisible={visibleItems.has(1)}
-          description={<Terminal />}
-          className="!p-0"
-        />
-        <GridItem
-          index={2}
-          area="md:[grid-area:2/7/3/10] xl:[grid-area:2/7/3/10]"
-          isVisible={visibleItems.has(2)}
-          description={
-            <div className="h-full flex flex-col">
-              <h2 className="pb-3 text-white font-semibold">LeetCode Statistics</h2>
-              <div className="flex-1 flex flex-col justify-center">
-                <img
-                  src="https://leetcard.jacoblin.cool/mithra_612?theme=transparent&font=Mali&"
-                  alt="LeetCode Stats"
-                  className="w-full max-w-full object-contain transition-transform duration-300 hover:scale-105"
-                />
-              </div>
-              <button
-                className="text-sm font-medium text-gray-400 hover:underline flex items-center gap-1 mt-2 transition-colors hover:text-cyan-400 pt-10"
-                onClick={() =>
-                  window.open(
-                    "https://leetcode.com/mithra_612",
-                    "_blank",
-                    "noopener noreferrer"
-                  )
-                }
-              >
-                View My Profile <span>&rarr;</span>
-              </button>
-            </div>
-          }
-        />
-        <GridItem
-          index={3}
-          area="md:[grid-area:2/10/3/13] xl:[grid-area:2/10/3/13]"
-          isVisible={visibleItems.has(3)}
-          icon={
-            <Feather className="h-6 w-6 text-black dark:text-neutral-400" />
-          }
-          title="Other Interests"
-          description={
-            <>
-              Passionate about weaving emotions into words, I explore life's
-              nuances through reflective and rhythmic poetry.
-              <button
-                className="text-sm font-medium text-gray-400 hover:underline flex items-center gap-1 mt-3 transition-colors hover:text-cyan-400"
-                onClick={() =>
-                  window.open(
-                    "https://www.instagram.com/p.oet.ry_diary/",
-                    "_blank",
-                    "noopener noreferrer"
-                  )
-                }
-              >
-                View More <span>&rarr;</span>
-              </button>
-            </>
-          }
-        />
-      </ul>
-    </div>
-  );
-}
-
-const GridItem = ({
-  area,
-  icon,
-  title,
-  description,
-  className = "",
-  index,
-  isVisible,
-}) => {
-  return (
-    <li
-      data-index={index}
-      className={`
-        min-h-[14rem] list-none ${area}
-        transform transition-all duration-700 ease-out
-        ${
-          isVisible
-            ? "opacity-100 translate-y-0 scale-100"
-            : "opacity-0 translate-y-16 scale-95"
-        }
-      `}
-    >
-      <div
-        className={`
-          relative h-full rounded-2xl border border-gray-700/50 p-1 md:rounded-3xl md:p-2 ${className}
-          transform transition-all duration-300 ease-out
-          hover:border-cyan-400/30
-        `}
-      >
-        <GlowingEffect
-          blur={0}
-          borderWidth={3}
-          spread={80}
-          glow={true}
-          disabled={false}
-          proximity={64}
-          inactiveZone={0.01}
-          gradientColors={["#00FFFF", "#00CED1", "#20B2AA"]}
-        />
-        <div
-          className={`
-            border-0.75 relative flex h-full flex-col justify-between gap-3 
-            overflow-hidden rounded-xl p-3 md:p-4 
-            bg-gray-900/20 backdrop-blur-sm
-            dark:shadow-[0px_0px_10px_0px_#17888a]
-            transition-all duration-300 ease-out
-          `}
-        >
-          <div className="relative flex flex-1 flex-col justify-between gap-2">
-            {icon && (
-              <div
-                className="
-                  w-fit rounded-lg border border-cyan-400/20 p-2
-                  transition-all duration-300 ease-out
-                  hover:border-cyan-400/40
-                "
-              >
-                {icon}
-              </div>
-            )}
-            <div className="space-y-2">
-              {title && (
-                <h3
-                  className="
-                    -tracking-4 pt-0.5 font-sans text-xl/[1.375rem] font-semibold 
-                    text-balance text-black md:text-2xl/[1.875rem] dark:text-white
-                    transition-all duration-300 ease-out
-                  "
-                >
-                  {title}
-                </h3>
-              )}
-              <div
-                className="
-                  font-sans text-sm/[1.125rem] text-black md:text-base/[1.375rem] 
-                  dark:text-neutral-400 [&_b]:md:font-semibold [&_strong]:md:font-semibold
-                  transition-all duration-300 ease-out
-                "
-              >
-                {description}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </li>
-  );
-};
-
-export default function About() {
-  const [sectionVisible, setSectionVisible] = useState(false);
-  const sectionRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setSectionVisible(entry.isIntersecting);
+        if (entry.isIntersecting && !isTyping && !isDeleting) {
+          setIsTyping(true);
+        }
       },
-      { threshold: 0.1 }
+      { threshold: 0.3 }
     );
 
     if (sectionRef.current) {
@@ -249,34 +41,145 @@ export default function About() {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [isTyping, isDeleting]);
+
+  // Typewriter effect for rotating texts
+  useEffect(() => {
+    if (!isTyping && !isDeleting) return;
+
+    const currentWord = rotatingTexts[currentTextIndex];
+
+    const typewriterEffect = () => {
+      if (isTyping && !isDeleting) {
+        if (charIndex < currentWord.length) {
+          setDisplayText(currentWord.slice(0, charIndex + 1));
+          setCharIndex((prev) => prev + 1);
+        } else {
+          setTimeout(() => {
+            setIsDeleting(true);
+            setIsTyping(false);
+          }, 2000);
+        }
+      } else if (isDeleting) {
+        if (charIndex > 0) {
+          setDisplayText(currentWord.slice(0, charIndex - 1));
+          setCharIndex((prev) => prev - 1);
+        } else {
+          setIsDeleting(false);
+          setIsTyping(true);
+          setCurrentTextIndex((prev) => (prev + 1) % rotatingTexts.length);
+        }
+      }
+    };
+
+    const typingSpeed = isDeleting ? 50 : 100;
+    const timer = setTimeout(typewriterEffect, typingSpeed);
+
+    return () => clearTimeout(timer);
+  }, [currentTextIndex, charIndex, isTyping, isDeleting, rotatingTexts]);
 
   return (
-    <section
-      ref={sectionRef}
-      id="about"
-      className={`
-        pt-5 bg-black mb-0
-        transform transition-all duration-1000 ease-out
-        ${
-          sectionVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-8"
-        }
-      `}
-    >
-      <div
-        className={`
-          transform transition-all duration-1200 ease-out delay-200
-          ${
-            sectionVisible
-              ? "opacity-100 translate-y-0 scale-100"
-              : "opacity-0 translate-y-12 scale-98"
-          }
-        `}
-      >
-        <GlowingEffectDemoSecond />
+    <div className="min-h-screen bg-black text-white py-20 px-4 sm:px-6 lg:px-16">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-20 items-center">
+          {/* Left Side - Profile Image and Typography */}
+          <div className="space-y-8">
+            {/* Profile Image */}
+            <div className="relative w-80 h-96 mx-auto lg:mx-0">
+              <img
+                src="/profile.png"
+                alt="Profile"
+                className="w-full h-full object-cover"
+                style={{
+                  WebkitMaskImage: "linear-gradient(to bottom, black 85%, transparent)",
+                  maskImage: "linear-gradient(to bottom, black 85%, transparent)",
+                  WebkitMaskSize: "100% 100%",
+                  maskSize: "100% 100%",
+                  WebkitMaskRepeat: "no-repeat",
+                  maskRepeat: "no-repeat",
+                }}
+              />
+            </div>
+
+            {/* Large Typography with Typewriter Effect */}
+            <div className="flex items-center -mt-24">
+              <h2 className="text-4xl lg:text-5xl font-semibold text-white tracking-tight min-h-[80px] flex items-center">
+                {displayText}
+                <span className="animate-pulse ml-2 text-orange-400">
+                  {(isTyping || isDeleting) ? "|" : ""}
+                </span>
+              </h2>
+            </div>
+          </div>
+
+          {/* Right Side - Content with Typewriter Effect */}
+          <div
+            ref={sectionRef}
+            className="space-y-8"
+            style={{
+              transform: `translateY(${scrollY * 0.05}px)`,
+              transition: "transform 0.1s ease-out",
+            }}
+          >
+            {/* Section Heading */}
+            <div className="space-y-4">
+              <div className="flex items-center space-x-4">
+                <div className="w-8 h-px bg-orange-400"></div>
+                <span className="text-orange-400 text-sm font-medium tracking-wider uppercase">About Me</span>
+              </div>
+              <h3 className="text-4xl font-bold text-white">Crafting Digital Experiences</h3>
+            </div>
+
+            <div className="space-y-8">
+              <p className="text-lg text-gray-400 leading-relaxed">
+                A junior undergraduate student blending logic and language — solving DSA problems and building full-stack apps with React, Node.js, Express, and MongoDB. When I'm not writing code, I'm writing poetry — both shaped by structure, flow, and meaning.
+              </p>
+
+              {/* Stats Grid */}
+              <div className="grid grid-cols-2 gap-6">
+                <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 hover:border-orange-400/30 transition-colors duration-300">
+                  <div className="text-3xl font-bold text-orange-400 mb-2">500+</div>
+                  <div className="text-gray-400 text-sm">DSA Problems Solved</div>
+                </div>
+                
+                <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 hover:border-blue-400/30 transition-colors duration-300">
+                  <div className="text-3xl font-bold text-blue-400 mb-2">4+</div>
+                  <div className="text-gray-400 text-sm">Projects Completed</div>
+                </div>
+                
+                <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 hover:border-green-400/30 transition-colors duration-300">
+                  <div className="text-3xl font-bold text-green-400 mb-2">3+</div>
+                  <div className="text-gray-400 text-sm">Competitions won</div>
+                </div>
+                
+                <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 hover:border-orange-400/30 transition-colors duration-300">
+                  <div className="text-3xl font-bold text-orange-400 mb-2">3</div>
+                  <div className="text-gray-400 text-sm">Published Poems</div>
+                </div>
+              </div>
+
+              {/* Skills Tags
+              <div className="space-y-4">
+                <h4 className="text-white font-semibold">Core Technologies</h4>
+                <div className="flex flex-wrap gap-3">
+                  {['React', 'Node.js', 'Express', 'MongoDB', 'JavaScript', 'Python', 'Git'].map((skill) => (
+                    <span 
+                      key={skill}
+                      className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-full text-sm text-gray-300 hover:border-orange-400/50 transition-colors duration-300"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div> */}
+            </div>
+
+            {/* <div className="pt-8">
+              <div className="w-16 h-px bg-white"></div>
+            </div> */}
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -1,76 +1,120 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Footer = () => {
+  // Component to render text with bouncing characters (exact copy from navbar)
+  const BounceText = ({ text, className = "" }) => {
+    const [isAnimating, setIsAnimating] = useState(false);
+
+    const handleMouseEnter = () => {
+      if (!isAnimating) {
+        setIsAnimating(true);
+        setTimeout(() => setIsAnimating(false), 600); // Reset after animation duration
+      }
+    };
+
+    return (
+      <span 
+        className={`inline-block group ${className}`}
+        onMouseEnter={handleMouseEnter}
+      >
+        {text.split('').map((char, index) => (
+          <span
+            key={index}
+            className={`inline-block transition-all duration-300 ease-out font-bold group-hover:text-[#F68B08] ${
+              isAnimating ? 'animate-[bounce_0.6s_ease-out_1]' : ''
+            }`}
+            style={{
+              animationDelay: isAnimating ? `${index * 50}ms` : '0ms'
+            }}
+          >
+            {char === ' ' ? '\u00A0' : char}
+          </span>
+        ))}
+      </span>
+    );
+  };
+
+  // Navigation link component with bounce effect (exact copy from navbar)
+  const NavLink = ({ href, children, onClick }) => (
+    <a 
+      href={href}
+      onClick={onClick}
+      className="text-sm md:text-base font-medium leading-tight tracking-tight text-white no-underline transition-all duration-500 ease-out"
+    >
+      <BounceText text={children} />
+    </a>
+  );
   return (
     <footer className="relative bg-black text-gray-300 py-6 md:py-8 overflow-hidden">
-      {/* Cyan geometric patterns */}
-      <div className="absolute inset-0 opacity-20 md:opacity-25">
-        {/* Circuit-like patterns */}
-        <div className="absolute top-2 md:top-4 left-4 md:left-10 w-12 md:w-24 h-12 md:h-24 border-2 border-cyan-400 rotate-45"></div>
-        <div className="absolute top-4 md:top-8 left-6 md:left-14 w-5 md:w-10 h-5 md:h-10 bg-cyan-400 rotate-45"></div>
-        <div className="absolute bottom-3 md:bottom-6 right-8 md:right-16 w-10 md:w-20 h-10 md:h-20 border-2 border-cyan-400 rounded-full"></div>
-        <div className="absolute bottom-5 md:bottom-10 right-10 md:right-20 w-3 md:w-6 h-3 md:h-6 bg-cyan-400 rounded-full"></div>
+      {/* Refined geometric patterns */}
+      <div className="absolute inset-0 opacity-15 md:opacity-20">
+        {/* Subtle grid pattern */}
+        <div className="absolute top-8 left-8 w-20 h-20 border border-orange-400/30 rotate-45"></div>
+        <div className="absolute top-12 left-12 w-8 h-8 bg-green-400/20 rotate-45"></div>
+        <div className="absolute bottom-8 right-12 w-16 h-16 border border-blue-400/30 rounded-full"></div>
+        <div className="absolute bottom-12 right-16 w-4 h-4 bg-orange-400/30 rounded-full"></div>
         
-        {/* Connecting lines */}
-        <div className="absolute top-6 md:top-12 left-16 md:left-32 w-16 md:w-32 h-0.5 md:h-1 bg-cyan-400 rotate-12"></div>
-        <div className="absolute bottom-6 md:bottom-12 right-20 md:right-40 w-20 md:w-40 h-0.5 md:h-1 bg-cyan-400 -rotate-12"></div>
+        {/* Professional connecting lines */}
+        <div className="absolute top-16 left-24 w-24 h-px bg-gradient-to-r from-green-400/30 to-transparent"></div>
+        <div className="absolute bottom-16 right-32 w-32 h-px bg-gradient-to-l from-blue-400/30 to-transparent"></div>
         
-        {/* Additional geometric shapes */}
-        <div className="absolute top-1/2 left-1/4 w-4 md:w-8 h-4 md:h-8 border-2 border-cyan-400 transform -translate-y-1/2"></div>
-        <div className="absolute top-1/3 right-1/3 w-8 md:w-16 h-0.5 md:h-1 bg-cyan-400 rotate-45"></div>
-        <div className="absolute bottom-1/3 left-1/2 w-6 md:w-12 h-6 md:h-12 border-2 border-cyan-400 rotate-12"></div>
-        
-        {/* Extra pattern elements */}
-        <div className="absolute top-3 md:top-6 right-4 md:right-8 w-7 md:w-14 h-7 md:h-14 border-2 border-cyan-400 transform rotate-12"></div>
-        <div className="absolute bottom-2 md:bottom-4 left-4 md:left-8 w-3 md:w-6 h-10 md:h-20 border-l-2 border-cyan-400"></div>
-        <div className="absolute top-1/4 left-2/3 w-5 md:w-10 h-1 md:h-2 bg-cyan-400 rotate-90"></div>
+        {/* Minimal accent shapes */}
+        <div className="absolute top-1/2 left-1/4 w-6 h-6 border border-green-400/20 transform -translate-y-1/2 rotate-45"></div>
+        <div className="absolute top-1/3 right-1/3 w-12 h-px bg-orange-400/20"></div>
+        <div className="absolute bottom-1/3 left-1/2 w-8 h-8 border border-blue-400/20 rotate-12"></div>
       </div>
 
-      {/* Subtle gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black via-gray-900 to-black opacity-60"></div>
+      {/* Professional gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/50 to-black"></div>
       
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          {/* Navigation Links */}
-          <nav className="order-2 md:order-1 w-full md:w-auto">
-            <ul className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-6 text-sm md:text-base">
-              <li>
-                <a href="#about" className="font-medium leading-tight tracking-tight text-white transition-colors duration-300 px-2 py-1 rounded-md hover:bg-cyan-400/10">
-                  About Me
-                </a>
-              </li>
-              <li>
-                <a href="#projects" className="font-medium leading-tight tracking-tight text-white transition-colors duration-300 px-2 py-1 rounded-md hover:bg-cyan-400/10">
-                  My Work
-                </a>
-              </li>
-              <li>
-                <a href="#skills" className="font-medium leading-tight tracking-tight text-white transition-colors duration-300 px-2 py-1 rounded-md hover:bg-cyan-400/10">
-                  Tech Stack
-                </a>
-              </li>
-              <li>
-                <a href="#contacts" className="font-medium leading-tight tracking-tight text-white transition-colors duration-300 px-2 py-1 rounded-md hover:bg-cyan-400/10">
-                  Let's Connect
-                </a>
-              </li>
-            </ul>
-          </nav>
+      <div className="container mx-auto px-6 md:px-8 relative z-10">
+        <div className="max-w-6xl mx-auto">
+          {/* Single row layout */}
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-6 md:gap-8">
+            
+            {/* Left side - Navigation */}
+            <div className="order-2 md:order-1">
+              <nav>
+                <div className="flex flex-wrap justify-center md:justify-start gap-6 md:gap-8">
+                  <NavLink href="#home">HOME</NavLink>
+                  <NavLink href="#about">ABOUT</NavLink>
+                  <NavLink href="#skills">SKILLS</NavLink>
+                  <NavLink href="#projects">PROJECTS</NavLink>
+                  <NavLink href="#contact">CONTACT</NavLink>
+                </div>
+              </nav>
+            </div>
 
-          {/* Copyright Information */}
-          <div className="order-1 md:order-2 text-center md:text-right">
-            <p className="text-sm mb-1">
-              Crafted with <span className="text-cyan-400 animate-pulse">❤</span>
-            </p>
-            <p className="text-xs text-gray-400">
-              &copy; {new Date().getFullYear()} • Built to inspire and create
-            </p>
+            {/* Right side - Contact & Social */}
+            <div className="order-1 md:order-2 text-center md:text-right">
+              <div className="flex flex-col md:items-end space-y-3">
+                <div className="flex justify-center md:justify-end space-x-4">
+                  <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors duration-300">
+                    <span className="sr-only">LinkedIn</span>
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                  </a>
+                  <a href="#" className="text-gray-400 hover:text-green-400 transition-colors duration-300">
+                    <span className="sr-only">GitHub</span>
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                  </a>
+                  <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
+                    <span className="sr-only">Email</span>
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-.904.732-1.636 1.636-1.636h.832L12 10.77l9.532-6.95h.832c.904 0 1.636.732 1.636 1.637z"/>
+                    </svg>
+                  </a>
+                </div>
+                <p className="text-sm text-gray-400">
+                  &copy; {new Date().getFullYear()} • Crafted with <span className="text-green-400 animate-pulse">❤</span>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-        
-        {/* Divider line for mobile */}
-        <div className="md:hidden w-full h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent mt-4"></div>
-  
       </div>
     </footer>
   );

@@ -1,676 +1,529 @@
 "use client";
-import React, { useRef, useState, useEffect } from "react";
-import { Link, Github } from "lucide-react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+import { Link, Github, ChevronLeft, ChevronRight } from "lucide-react";
 
-// Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
+// Projects data (only 4 projects as mentioned)
+const projects = [
+  {
+    title: "AI-Based Financial Services Platform for India Post",
+    description: "An AI-driven platform that leverages demographic and economic cycle analysis to deliver personalized financial service recommendations for India Post services and schemes, promoting financial inclusion across diverse populations in India.",
+    tech: ["React.js", "HTML5", "CSS3", "JavaScript", "Selenium WebDriver", "BeautifulSoup4", "Python", "Pandas", "NumPy"],
+    live: "",
+    github: "https://github.com/mithra0612/postal-service",
+    thumbnail: "/financial-services-preview.png",
+    year: "2024",
+    event: "Smart India Hackathon, Finalist"
+  },
+  {
+    title: "Wellcare: AI-Based Women's Health and Wellness Platform",
+    description: "A comprehensive digital platform focused on women's health and wellness education, offering features like period and ovulation tracking, a symptoms tracker, an AI-powered diet recommendation system, gamified myth-busting, and an interactive chatbot for health-related queries.",
+    tech: ["React.js", "Node.js", "Express.js", "Firestore", "Google Cloud Platform", "TensorFlow", "JavaScript", "HTML5", "CSS3", "Redux"],
+    live: "https://women-app.vercel.app/",
+    github: "https://github.com/mithra0612/women-app",
+    thumbnail: "/wellcare.png",
+    year: "2025",
+    event: "TNWISE Hackathon 2025,Finalist"
+  },
+  {
+    title: "Growth Guardian – AI-Driven Financial Literacy Platform",
+    description: "A robust platform aimed at enhancing financial literacy and preventing scams, equipped with educational modules, an investment simulator, a machine learning-powered asset return forecasting model, a budget planner, and a scam prevention chatbot for real-time user support.",
+    tech: ["React.js", "Node.js", "Express.js", "TensorFlow", "Scikit-learn", "JavaScript", "HTML5", "CSS3", "MongoDB"],
+    live: "https://growth-guardian.vercel.app/",
+    github: "https://github.com/mithra0612/growth-guardian",
+    thumbnail: "/growth-guardian.png",
+    year: "2025",
+    event: "HackIt Winner"
+  },
+  {
+    title: "Second-Hand Car Buying and Selling Platform",
+    description: "A streamlined, user-friendly platform designed to simplify the process of buying and selling second-hand cars, featuring intuitive browsing, comparison tools, and a responsive interface for enhanced user experience.",
+    tech: ["React.js", "Node.js", "HTML5", "CSS3", "JavaScript", "Axios", "Express.js"],
+    live: "",
+    github: "https://github.com/mithra0612/CAR_MARKET",
+    thumbnail: "/car-market.png",
+    year: "2024",
+    event: "Personal Project"
+  }
+];
 
-const Projects = () => {
-  const projects = [
-    {
-      event: "Personal Project",
-      year: "2025",
-      title: "AI-Based Financial Services Platform for India Post",
-      description:
-        "An AI-driven platform that leverages demographic and economic cycle analysis to deliver personalized financial service recommendations for India Post services and schemes, promoting financial inclusion across diverse populations in India.",
-      tech: [
-        "React.js",
-        "HTML5",
-        "CSS3",
-        "JavaScript",
-        "Selenium WebDriver",
-        "BeautifulSoup4",
-        "Python",
-        "Pandas",
-        "NumPy",
-      ],
-      live: "",
-      github: "https://github.com/mithra0612/postal-service",
-      previewImage: "/financial-services-preview.png",
-    },
-    {
-      event: "Personal Project",
-      year: "2025",
-      title: "Wellcare: AI-Based Women's Health and Wellness Platform",
-      description:
-        "A comprehensive digital platform focused on women's health and wellness education, offering features like period and ovulation tracking, a symptoms tracker, an AI-powered diet recommendation system, gamified myth-busting, and an interactive chatbot for health-related queries.",
-      tech: [
-        "React.js",
-        "Node.js",
-        "Express.js",
-        "Firestore",
-        "Google Cloud Platform",
-        "TensorFlow",
-        "JavaScript",
-        "HTML5",
-        "CSS3",
-        "Redux",
-      ],
-      live: "https://women-app.vercel.app/",
-      github: "https://github.com/mithra0612/women-app",
-      previewImage: "/wellcare.png",
-    },
-    {
-      event: "Personal Project",
-      year: "2025",
-      title: "Growth Guardian – AI-Driven Financial Literacy Platform",
-      description:
-        "A robust platform aimed at enhancing financial literacy and preventing scams, equipped with educational modules, an investment simulator, a machine learning-powered asset return forecasting model, a budget planner, and a scam prevention chatbot for real-time user support.",
-      tech: [
-        "React.js",
-        "Node.js",
-        "Express.js",
-        "TensorFlow",
-        "Scikit-learn",
-        "JavaScript",
-        "HTML5",
-        "CSS3",
-        "MongoDB",
-      ],
-      live: "https://growth-guardian.vercel.app/",
-      github: "https://github.com/mithra0612/growth-guardian",
-      previewImage: "/growth-guardian.png",
-    },
-    {
-      event: "Personal Project",
-      year: "2025",
-      title: "Second-Hand Car Buying and Selling Platform",
-      description:
-        "A streamlined, user-friendly platform designed to simplify the process of buying and selling second-hand cars, featuring intuitive browsing, comparison tools, and a responsive interface for enhanced user experience.",
-      tech: ["React.js", "Node.js", "HTML5", "CSS3", "JavaScript", "Axios", "Express.js"],
-      live: "",
-      github: "https://github.com/mithra0612/CAR_MARKET",
-      previewImage: "/car-market.png",
-    },
-  ];
+export const HeroParallaxProjects = () => {
+  const ref = React.useRef(null);
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [touchStart, setTouchStart] = React.useState(0);
+  const [touchEnd, setTouchEnd] = React.useState(0);
+  
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
 
-  const allTechStacks = [
-    "React.js",
-    "Node.js",
-    "Express.js",
-    "HTML5",
-    "CSS3",
-    "JavaScript",
-    "Selenium WebDriver",
-    "BeautifulSoup4",
-    "Python",
-    "Pandas",
-    "NumPy",
-    "Firestore",
-    "Google Cloud Platform",
-    "TensorFlow",
-    "Scikit-learn",
-    "Axios",
-    "Redux",
-    "MongoDB",
-  ];
+  const translateX = useTransform(scrollYProgress, [0, 1], [0, 1000]);
+  const rotateX = useTransform(scrollYProgress, [0, 0.2], [15, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [0.2, 1]);
+  const rotateZ = useTransform(scrollYProgress, [0, 0.2], [20, 0]);
+  const translateY = useTransform(scrollYProgress, [0, 0.2], [-200, 0]);
 
-  const projectRefs = useRef([]);
-  const mobileProjectRefs = useRef([]);
-  const [activeProject, setActiveProject] = useState(0);
-  const headingRef = useRef(null);
-  const containerRef = useRef(null);
-  const imageRefs = useRef([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState({ image: "", link: "" });
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Detect mobile screen size
-  useEffect(() => {
+  // Check if device is mobile
+  React.useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
+      setIsMobile(window.innerWidth < 768);
     };
     
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Mobile GSAP animations
-  useEffect(() => {
-    if (!isMobile) return;
-
-    // Clear any existing ScrollTrigger instances
-    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-
-    // Animate each project card on mobile
-    mobileProjectRefs.current.forEach((projectRef, index) => {
-      if (projectRef) {
-        // Initial state
-        gsap.set(projectRef, {
-          opacity: 0,
-          y: 100,
-          scale: 0.9,
-        });
-
-        // Animate in
-        gsap.to(projectRef, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: projectRef,
-            start: "top 85%",
-            end: "top 15%",
-            toggleActions: "play none none reverse",
-          },
-        });
-
-        // Animate project image
-        const imageElement = projectRef.querySelector('.project-image');
-        if (imageElement) {
-          gsap.set(imageElement, {
-            scale: 0.8,
-            opacity: 0,
-          });
-
-          gsap.to(imageElement, {
-            scale: 1,
-            opacity: 1,
-            duration: 1,
-            delay: 0.2,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: projectRef,
-              start: "top 80%",
-              end: "top 20%",
-              toggleActions: "play none none reverse",
-            },
-          });
-        }
-
-        // Animate project content
-        const contentElement = projectRef.querySelector('.project-content');
-        if (contentElement) {
-          gsap.set(contentElement, {
-            opacity: 0,
-            y: 30,
-          });
-
-          gsap.to(contentElement, {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            delay: 0.4,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: projectRef,
-              start: "top 75%",
-              end: "top 25%",
-              toggleActions: "play none none reverse",
-            },
-          });
-        }
-
-        // Animate tech stack tags
-        const techTags = projectRef.querySelectorAll('.tech-tag');
-        techTags.forEach((tag, tagIndex) => {
-          gsap.set(tag, {
-            opacity: 0,
-            x: -20,
-            scale: 0.8,
-          });
-
-          gsap.to(tag, {
-            opacity: 1,
-            x: 0,
-            scale: 1,
-            duration: 0.4,
-            delay: 0.6 + (tagIndex * 0.1),
-            ease: "back.out(1.7)",
-            scrollTrigger: {
-              trigger: projectRef,
-              start: "top 70%",
-              end: "top 30%",
-              toggleActions: "play none none reverse",
-            },
-          });
-        });
-
-        // Animate action buttons
-        const actionButtons = projectRef.querySelectorAll('.action-button');
-        actionButtons.forEach((button, buttonIndex) => {
-          gsap.set(button, {
-            opacity: 0,
-            scale: 0,
-            rotation: 180,
-          });
-
-          gsap.to(button, {
-            opacity: 1,
-            scale: 1,
-            rotation: 0,
-            duration: 0.5,
-            delay: 0.8 + (buttonIndex * 0.1),
-            ease: "back.out(2)",
-            scrollTrigger: {
-              trigger: projectRef,
-              start: "top 65%",
-              end: "top 35%",
-              toggleActions: "play none none reverse",
-            },
-          });
-        });
-      }
-    });
-
-    // Cleanup function
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, [isMobile]);
-
-  // Intersection Observer to detect which project is currently visible (Desktop only)
-  useEffect(() => {
-    if (!containerRef.current || isMobile) return;
-
-    const observerCallback = (entries) => {
-      let maxIntersectionRatio = 0;
-      let activeIndex = 0;
-
-      entries.forEach((entry, index) => {
-        if (entry.intersectionRatio > maxIntersectionRatio) {
-          maxIntersectionRatio = entry.intersectionRatio;
-          activeIndex = projectRefs.current.findIndex((ref) => ref === entry.target);
-        }
-      });
-
-      if (maxIntersectionRatio > 0.3) {
-        setActiveProject(activeIndex);
-      }
-    };
-
-    const observer = new IntersectionObserver(observerCallback, {
-      root: containerRef.current,
-      threshold: [0.1, 0.3, 0.5, 0.7, 0.9],
-      rootMargin: "-10% 0px -10% 0px",
-    });
-
-    projectRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
-
-    return () => observer.disconnect();
-  }, [isMobile]);
-
-  // Handle scroll events as backup (Desktop only)
-  useEffect(() => {
+  // Desktop scroll handling
+  React.useEffect(() => {
     if (isMobile) return;
+    
+    const handleWheel = (e) => {
+      const rect = ref.current?.getBoundingClientRect();
+      if (!rect || rect.top > 100 || rect.bottom < 100) return;
 
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-
-      const container = containerRef.current;
-      const scrollTop = container.scrollTop;
-      const containerHeight = container.clientHeight;
-      const projectHeight = containerHeight;
-      const currentIndex = Math.round(scrollTop / projectHeight);
-
-      if (currentIndex >= 0 && currentIndex < projects.length && currentIndex !== activeProject) {
-        setActiveProject(currentIndex);
-      }
-    };
-
-    const container = containerRef.current;
-    if (container) {
-      container.addEventListener("scroll", handleScroll);
-      return () => container.removeEventListener("scroll", handleScroll);
-    }
-  }, [activeProject, projects.length, isMobile]);
-
-  // GSAP animations for image hover (Desktop only)
-  useEffect(() => {
-    if (isMobile) return;
-
-    imageRefs.current.forEach((image) => {
-      if (image) {
-        gsap.set(image, { scale: 1 });
-
-        const handleMouseEnter = () => {
-          gsap.to(image, {
-            scale: 1.1,
-            duration: 0.3,
-            ease: "power3.out",
-          });
-        };
-
-        const handleMouseLeave = () => {
-          gsap.to(image, {
-            scale: 1,
-            duration: 0.3,
-            ease: "power3.out",
-          });
-        };
-
-        image.addEventListener("mouseenter", handleMouseEnter);
-        image.addEventListener("mouseleave", handleMouseLeave);
-
-        image._handleMouseEnter = handleMouseEnter;
-        image._handleMouseLeave = handleMouseLeave;
-      }
-    });
-
-    return () => {
-      imageRefs.current.forEach((image) => {
-        if (image) {
-          image.removeEventListener("mouseenter", image._handleMouseEnter);
-          image.removeEventListener("mouseleave", image._handleMouseLeave);
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) {
+        e.preventDefault();
+        
+        if (e.deltaX > 0 || (e.shiftKey && e.deltaY > 0)) {
+          setCurrentIndex(prev => Math.min(prev + 1, projects.length - 1));
+        } else if (e.deltaX < 0 || (e.shiftKey && e.deltaY < 0)) {
+          setCurrentIndex(prev => Math.max(prev - 1, 0));
         }
-      });
+      }
     };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleWheel);
   }, [isMobile]);
 
-  const openModal = (image, link) => {
-    setModalContent({ image, link });
-    setIsModalOpen(true);
+  // Desktop keyboard navigation
+  React.useEffect(() => {
+    if (isMobile) return;
+    
+    const handleKeyDown = (e) => {
+      const rect = ref.current?.getBoundingClientRect();
+      if (!rect || rect.top > 100 || rect.bottom < 100) return;
+      
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        setCurrentIndex(prev => Math.max(prev - 1, 0));
+      }
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        setCurrentIndex(prev => Math.min(prev + 1, projects.length - 1));
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isMobile]);
+
+  // Touch handlers for mobile
+  const handleTouchStart = (e) => {
+    setTouchEnd(0);
+    setTouchStart(e.targetTouches[0].clientX);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      setCurrentIndex(prev => Math.min(prev + 1, projects.length - 1));
+    }
+    if (isRightSwipe) {
+      setCurrentIndex(prev => Math.max(prev - 1, 0));
+    }
+  };
+
+  const goToPrevious = () => {
+    setCurrentIndex(prev => Math.max(prev - 1, 0));
+  };
+
+  const goToNext = () => {
+    setCurrentIndex(prev => Math.min(prev + 1, projects.length - 1));
   };
 
   return (
-    <section id="projects" className="lg:px-16 py-30 min-h-screen">
-      {/* Modal */}
-      {isModalOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
-          onClick={closeModal}
-        >
-          <div
-            className="relative bg-white rounded-lg overflow-hidden mx-4"
-            style={{ maxWidth: "90%", maxHeight: "90%" }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <img
-              src={modalContent.image}
-              alt="Project Preview"
-              className="w-full h-full object-contain"
-            />
-            <button
-              className="absolute top-4 right-4 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-70 transition-all"
-              onClick={closeModal}
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
+    <div
+      ref={ref}
+      className={`${isMobile ? 'min-h-screen' : 'h-[150vh]'} py-5 md:py-10 overflow-hidden antialiased relative flex flex-col self-auto ${isMobile ? '' : '[perspective:1000px] [transform-style:preserve-3d]'} bg-black`}
+    >
+      <Header isMobile={isMobile} />
 
-      <div className="max-w-7xl mx-auto w-full">
-        <h2
-          ref={headingRef}
-          className="text-4xl sm:text-5xl font-bold text-white mb-8 px-6 lg:px-0 py-10"
-          style={{
-            display: "inline-block",
-            fontFamily:
-              "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-          }}
-        >
-          Projects
-        </h2>
-
-        {/* Mobile Layout - With GSAP Animations */}
+      <motion.div
+        style={isMobile ? {} : {
+          rotateX,
+          rotateZ,
+          translateY,
+          opacity,
+        }}
+        className="mt-5 md:mt-10 flex-1"
+      >
+        {/* Mobile View */}
         {isMobile ? (
-          <div className="px-4">
-            <div className="space-y-8">
-              {projects.map((project, index) => (
-                <div
-                  key={index}
-                  ref={(el) => (mobileProjectRefs.current[index] = el)}
-                  className="relative backdrop-blur-md rounded-xl p-4 bg-[#10141a]/30 border border-gray-700/30 shadow-xl"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(16, 20, 26, 0.4), rgba(16, 20, 26, 0.2))",
-                  }}
-                >
-                  {/* Subtle glow effects */}
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-cyan-400/10 to-transparent rounded-full blur-xl" />
-                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-400/10 to-transparent rounded-full blur-xl" />
-                  
-                  {/* Project Image - Full display priority */}
-                  <div
-                    className="project-image w-full rounded-xl mb-6 overflow-hidden cursor-pointer transform transition-transform duration-300 hover:scale-[1.02] shadow-2xl"
-                    style={{ 
-                      aspectRatio: "16/10", // Maintain consistent aspect ratio
-                      backgroundColor: "#0f172a",
-                      border: "1px solid rgba(99, 102, 241, 0.2)",
-                    }}
-                    onClick={() => openModal(project.previewImage, project.live)}
-                  >
-                    <img
-                      src={project.previewImage}
-                      alt={`Preview of ${project.title}`}
-                      className="w-full h-full object-contain bg-gray-900/50"
-                      style={{ 
-                        filter: "brightness(0.95) contrast(1.05)",
-                        objectFit: "contain", // Ensure entire image is visible
-                      }}
+          <div className="relative px-4">
+            {/* Mobile Navigation Buttons */}
+            <div className="flex justify-between items-center mb-4">
+              <button
+                onClick={goToPrevious}
+                disabled={currentIndex === 0}
+                className={`p-2 rounded-full transition-all duration-300 ${
+                  currentIndex === 0 
+                    ? 'bg-gray-800 text-gray-600 cursor-not-allowed' 
+                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                }`}
+              >
+                <ChevronLeft size={20} />
+              </button>
+              
+              <div className="flex space-x-2">
+                {projects.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentIndex(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentIndex ? 'bg-blue-500' : 'bg-gray-600'
+                    }`}
+                  />
+                ))}
+              </div>
+              
+              <button
+                onClick={goToNext}
+                disabled={currentIndex === projects.length - 1}
+                className={`p-2 rounded-full transition-all duration-300 ${
+                  currentIndex === projects.length - 1 
+                    ? 'bg-gray-800 text-gray-600 cursor-not-allowed' 
+                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                }`}
+              >
+                <ChevronRight size={20} />
+              </button>
+            </div>
+
+            {/* Mobile Project Cards */}
+            <div 
+              className="relative overflow-hidden"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              <div 
+                className="flex transition-transform duration-300 ease-out"
+                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+              >
+                {projects.map((project, index) => (
+                  <div key={project.title} className="w-full flex-shrink-0">
+                    <MobileProjectCard 
+                      project={project} 
+                      isActive={index === currentIndex}
                     />
                   </div>
+                ))}
+              </div>
+            </div>
 
-                  {/* Project Details */}
-                  <div className="project-content relative z-10 space-y-4">
-                    <div>
-                      <h3
-                        className="text-xl font-bold mb-2 bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent leading-tight"
-                        style={{
-                          fontFamily:
-                            "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-                        }}
-                      >
-                        {project.title}
-                      </h3>
-                      <p
-                        className="text-sm text-gray-300 leading-relaxed"
-                        style={{
-                          fontFamily:
-                            "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-                        }}
-                      >
-                        {project.description}
-                      </p>
-                    </div>
-
-                    {/* Tech stack for this project */}
-                    <div>
-                      <h4 className="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
-                        Tech Stack
-                      </h4>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tech.map((tech, techIndex) => (
-                          <span
-                            key={techIndex}
-                            className="tech-tag relative px-3 py-1.5 rounded-full text-xs font-medium bg-gradient-to-r from-cyan-400/20 to-blue-400/20 text-gray-200 border border-cyan-400/30 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-400/20"
-                            style={{
-                              fontFamily:
-                                "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-                            }}
-                          >
-                            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/5 to-blue-400/5 rounded-full" />
-                            <span className="relative z-10">{tech}</span>
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Links */}
-                    <div className="flex justify-start items-center gap-3 pt-2">
-                      {project.live && (
-                        <a
-                          href={project.live}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="action-button group relative px-4 py-2 rounded-full border-2 transition-all duration-300 hover:bg-cyan-400 hover:text-[#090c10] hover:border-cyan-400 border-cyan-400 text-cyan-400 flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-cyan-400/30"
-                          title="Live Demo"
-                        >
-                          <Link size={16} className="transition-transform duration-300 group-hover:scale-110" />
-                          <span className="text-xs font-medium">Live</span>
-                        </a>
-                      )}
-                      {project.github && (
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="action-button group relative px-4 py-2 rounded-full border-2 transition-all duration-300 hover:bg-[#38bdf8] hover:text-[#090c10] hover:border-[#38bdf8] border-[#38bdf8] text-[#38bdf8] flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-blue-400/30"
-                          title="GitHub Repo"
-                        >
-                          <Github size={16} className="transition-transform duration-300 group-hover:scale-110" />
-                          <span className="text-xs font-medium">Code</span>
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
+            {/* Mobile Swipe Instruction */}
+            <div className="text-center mt-4 text-gray-400 text-sm">
+              Swipe left or right to browse projects
             </div>
           </div>
         ) : (
-          /* Desktop Layout (Original) */
-          <div className="flex flex-col lg:flex-row gap-12">
-            <div
-              ref={containerRef}
-              className="lg:w-3/4 snap-y snap-mandatory overflow-y-auto soft-bg"
-              style={{
-                height: "60vh",
-                borderRadius: "1rem",
-                scrollbarWidth: "none",
-                msOverflowStyle: "none",
-              }}
-            >
-              <style>
-                {`
-                  .soft-bg::-webkit-scrollbar {
-                    display: none;
-                  }
-                `}
-              </style>
-              {projects.map((project, index) => (
-                <div
-                  key={index}
-                  ref={(el) => (projectRefs.current[index] = el)}
-                  className="relative backdrop-blur-md rounded-lg p-6 min-h-[60vh] h-[60vh] flex flex-col md:flex-row md:items-center items-center snap-center transition-all duration-300 ease-in-out w-full project-card-glow minimal-hover"
-                  style={{
-                    marginBottom: index !== projects.length - 1 ? "0px" : undefined,
-                    border: "none",
-                    outline: "none",
-                  }}
-                >
-                  <span className="project-glow-corner" />
-                  <span className="project-accent-corner" />
-                  
-                  <div
-                    ref={(el) => (imageRefs.current[index] = el)}
-                    className="w-full md:w-3/4 h-64 md:h-80 rounded-lg mb-6 flex items-center justify-center overflow-hidden self-center mx-10 cursor-pointer"
-                    style={{ backgroundColor: "#10141a", border: "1px solid #1e293b" }}
-                    onClick={() => openModal(project.previewImage, project.live)}
-                  >
-                    <img
-                      src={project.previewImage}
-                      alt={`Preview of ${project.title}`}
-                      className="w-full h-full object-cover rounded-lg"
-                      style={{ filter: "brightness(0.8)" }}
-                    />
-                  </div>
-                  
-                  <div className="w-full md:w-1/2 max-w-2xl mx-auto flex flex-col justify-center">
-                    <h3
-                      className="text-2xl lg:text-3xl font-semibold mb-3 text-left"
-                      style={{
-                        color: "#fff",
-                        fontFamily:
-                          "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-                      }}
-                    >
-                      {project.title}
-                    </h3>
-                    <p
-                      className="text-base text-justify mb-2 break-words"
-                      style={{
-                        color: "#d1d5db",
-                        fontFamily:
-                          "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-                      }}
-                    >
-                      {project.description}
-                    </p>
-                    
-                    <div className="flex justify-start items-center mt-4 gap-2">
-                      {project.live && (
-                        <a
-                          href={project.live}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 rounded-full border transition-all duration-300 hover:bg-cyan-400 hover:text-[#090c10] hover:border-cyan-400 border-cyan-400 text-cyan-400 flex items-center justify-center"
-                          title="Live Demo"
-                        >
-                          <Link size={20} />
-                        </a>
-                      )}
-                      {project.github && (
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 rounded-full border transition-all duration-300 hover:bg-[#38bdf8] hover:text-[#090c10] hover:border-[#38bdf8] border-[#38bdf8] text-[#38bdf8] flex items-center justify-center"
-                          title="GitHub Repo"
-                        >
-                          <Github size={20} />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Right: Tech Stack (Fixed) - Desktop only */}
-            <div className="lg:w-1/4">
-              <div className="sticky top-16">
-                <h3
-                  className="text-2xl font-semibold mb-6"
-                  style={{
-                    color: "#fff",
-                    fontFamily:
-                      "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-                  }}
-                >
-                  Tech Stack
-                </h3>
-                <div className="flex flex-wrap gap-3 transition-all duration-300">
-                  {allTechStacks.map((tech, index) => {
-                    const isActive = projects[activeProject]?.tech.includes(tech);
-                    return (
-                      <span
-                        key={index}
-                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform hover:scale-105 ${
-                          isActive ? "bg-cyan-400 text-black border-cyan-400" : "bg-[#10141a] text-gray-300 border-gray-700"
-                        }`}
-                        style={{
-                          backgroundColor: isActive ? "#22d3ee" : "#10141a",
-                          color: isActive ? "#000" : "#d1d5db",
-                          border: isActive ? "1px solid #22d3ee" : "1px solid #1e293b",
-                          fontFamily:
-                            "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-                        }}
-                      >
-                        {tech}
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
+          /* Desktop View */
+          <div 
+            className={`flex space-x-[50px] mb-10 px-10 ${isHovered ? 'transition-transform duration-[8000ms] ease-out' : 'transition-transform duration-[1800ms] ease-out'}`}
+            style={{
+              transform: `translateX(-${currentIndex * 750}px)`,
+              width: `${projects.length * 750}px`,
+            }}
+          >
+            {projects.map((project, index) => (
+              <ProjectCard
+                project={project}
+                translate={translateX}
+                key={project.title}
+                isActive={index === currentIndex}
+                onHover={setIsHovered}
+              />
+            ))}
           </div>
         )}
-      </div>
-    </section>
+      </motion.div>
+    </div>
   );
 };
 
-export default Projects;
+export const Header = ({ isMobile }) => {
+  return (
+    <div className="max-w-7xl relative mx-auto py-5 md:py-10 lg:py-20 px-4 w-full left-0 top-0">
+      <motion.h1 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="text-xl sm:text-2xl md:text-4xl lg:text-7xl font-bold text-orange-400 leading-tight"
+      >
+        My Projects <br />
+      </motion.h1>
+      <motion.p 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="max-w-2xl text-sm md:text-base lg:text-xl mt-4 md:mt-8 text-gray-300 leading-relaxed"
+      >
+        A collection of innovative projects showcasing AI-driven solutions, 
+        modern web applications, and cutting-edge technologies. Each project 
+        demonstrates my passion for creating impactful digital experiences.
+      </motion.p>
+    </div>
+  );
+};
+
+export const MobileProjectCard = ({ project, isActive }) => {
+  const [showDetails, setShowDetails] = React.useState(false);
+
+  return (
+    <div className="px-2">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-black border border-blue-900 rounded-2xl overflow-hidden shadow-lg"
+      >
+        {/* Mobile Project Image */}
+        <div className="relative h-48 sm:h-56 overflow-hidden">
+          <img
+            src={project.thumbnail}
+            alt={project.title}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.target.src = "data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23374151'/%3E%3C/svg%3E";
+            }}
+          />
+          
+          {/* Mobile Image Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+          
+          {/* Mobile Action Buttons */}
+          <div className="absolute top-3 right-3 flex space-x-2">
+            {project.live && (
+              <a
+                href={project.live}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-blue-600/80 text-white rounded-full hover:bg-blue-700 transition-all duration-300 backdrop-blur-sm"
+                title="Live Demo"
+              >
+                <Link size={16} />
+              </a>
+            )}
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-blue-600/80 text-white rounded-full hover:bg-blue-700 transition-all duration-300 backdrop-blur-sm"
+                title="Source Code"
+              >
+                <Github size={16} />
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* Mobile Project Content */}
+        <div className="p-4 space-y-3">
+          {/* Title */}
+          <h3 className="text-white font-bold text-lg leading-tight">
+            {project.title}
+          </h3>
+
+          {/* Year and Event */}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="bg-blue-600 px-3 py-1 rounded-full text-white text-xs font-medium">
+              {project.year}
+            </span>
+            <span className="text-blue-300 text-xs font-medium">
+              {project.event}
+            </span>
+          </div>
+
+          {/* Description */}
+          <p className="text-gray-300 text-sm leading-relaxed">
+            {project.description}
+          </p>
+
+          {/* Toggle Details Button */}
+          <button
+            onClick={() => setShowDetails(!showDetails)}
+            className="text-blue-400 text-sm font-medium hover:text-blue-300 transition-colors duration-200"
+          >
+            {showDetails ? 'Hide Technologies' : 'Show Technologies'}
+          </button>
+
+          {/* Tech Stack - Collapsible */}
+          <motion.div
+            initial={false}
+            animate={{ height: showDetails ? 'auto' : 0, opacity: showDetails ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden"
+          >
+            <div className="pt-2 border-t border-gray-800">
+              <h4 className="text-blue-300 text-xs font-bold mb-2 uppercase tracking-wide">
+                Technologies Used
+              </h4>
+              <div className="flex flex-wrap gap-1.5">
+                {project.tech.map((tech, index) => (
+                  <span
+                    key={index}
+                    className="px-2 py-1 text-xs font-medium text-blue-200 bg-blue-600/15 rounded-full border border-blue-500/30"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+export const ProjectCard = ({
+  project,
+  translate,
+  isActive,
+  onHover,
+}) => {
+  return (
+    <motion.div
+      style={{
+        x: translate,
+      }}
+      whileHover={{
+        y: -10,
+        scale: 1.02,
+      }}
+      transition={{ duration: 0.3 }}
+      className={`group/product h-[450px] w-[700px] relative flex-shrink-0 transition-all duration-300 ease-in-out ${
+        isActive ? 'z-10' : 'z-0'
+      }`}
+      onMouseEnter={() => onHover(true)}
+      onMouseLeave={() => onHover(false)}
+    >
+      <div className={`block group-hover/product:shadow-2xl transition-all duration-300 relative h-full w-full rounded-2xl overflow-hidden bg-black backdrop-blur-sm border ${
+        isActive 
+          ? 'border-blue-500 shadow-lg shadow-blue-500/20' 
+          : 'border-blue-900 group-hover/product:shadow-blue-500/30'
+      }`}>
+        {/* Project Image with Hover Overlay */}
+        <div className="relative h-[370px] w-full overflow-hidden group/image">
+          <img
+            src={project.thumbnail}
+            height="370"
+            width="700"
+            className="object-cover object-center absolute h-full w-full inset-0 transition-transform duration-300 group-hover/product:scale-105"
+            alt={project.title}
+            onError={(e) => {
+              e.target.src = "data:image/svg+xml,%3Csvg width='700' height='370' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23374151'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='18' fill='%23ffffff' text-anchor='middle' dy='.3em'%3E%3C/text%3E%3C/svg%3E";
+            }}
+          />
+          
+          {/* Enhanced Image Hover Overlay */}
+          <div className="absolute inset-0 bg-black/90 opacity-0 group-hover/image:opacity-100 transition-all duration-300 flex flex-col justify-start p-6 backdrop-blur-sm overflow-y-auto">
+            {/* Title with improved typography */}
+            <h3 className="text-white font-bold text-xl mb-4 leading-tight tracking-wide">
+              {project.title}
+            </h3>
+            
+            {/* Year and Event badges with links */}
+            <div className="flex items-center gap-3 mb-5">
+              <span className="bg-blue-600 px-3 py-1.5 rounded-full text-white text-sm font-medium">
+                {project.year}
+              </span>
+              <span className="text-blue-300 text-sm font-medium">
+                {project.event}
+              </span>
+              <div className="flex items-center gap-2 ml-2">
+                {project.live && (
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-1.5 rounded-full bg-blue-600/20 text-blue-300 hover:bg-blue-600/40 hover:text-white transition-all duration-300"
+                    onClick={(e) => e.stopPropagation()}
+                    title="Live Demo"
+                  >
+                    <Link size={14} />
+                  </a>
+                )}
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-1.5 rounded-full bg-blue-600/20 text-blue-300 hover:bg-blue-600/40 hover:text-white transition-all duration-300"
+                    onClick={(e) => e.stopPropagation()}
+                    title="Source Code"
+                  >
+                    <Github size={14} />
+                  </a>
+                )}
+              </div>
+            </div>
+            
+            {/* Description with improved readability */}
+            <p className="text-gray-200 text-base leading-relaxed mb-6 font-normal">
+              {project.description}
+            </p>
+
+            {/* Tech Stack with enhanced styling */}
+            <div className="mb-6">
+              <h4 className="text-blue-300 text-sm font-bold mb-3 uppercase tracking-wide">
+                Technologies Used
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {project.tech.map((tech, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1.5 text-xs font-medium text-blue-200 bg-blue-600/15 rounded-full border border-blue-500/30 hover:bg-blue-600/25 transition-colors duration-200"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Project Content */}
+        <div className="p-4 relative z-10 h-[80px] flex items-center">
+          <h2 className="text-base font-bold text-white line-clamp-2 group-hover/product:text-blue-300 transition-colors duration-300">
+            {project.title}
+          </h2>
+        </div>
+
+        {/* Hover overlay */}
+        <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover/product:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      </div>
+    </motion.div>
+  );
+};
+
+export default HeroParallaxProjects;

@@ -193,7 +193,7 @@ const Hero = () => {
             {/* Social Icons */}
             <div className="flex items-center gap-4">
               <a
-                href="https://github.com/yourusername"
+                href="https://github.com/mithra0612"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-green-400 transition-colors duration-300"
@@ -201,7 +201,7 @@ const Hero = () => {
                 <Github size={20} />
               </a>
               <a
-                href="https://linkedin.com/in/yourusername"
+                href="https://linkedin.com/in/madhumithra-m"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-green-400 transition-colors duration-300"
@@ -209,7 +209,7 @@ const Hero = () => {
                 <Linkedin size={20} />
               </a>
               <a
-                href="mailto:your.email@example.com"
+                href="mailto:mithramadhu005.email@gmail.com"
                 className="text-white hover:text-green-400 transition-colors duration-300"
               >
                 <Mail size={20} />
