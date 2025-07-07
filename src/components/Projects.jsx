@@ -4,6 +4,8 @@ import {
   motion,
   useScroll,
   useTransform,
+  useMotionValue,
+  useSpring,
 } from "framer-motion";
 import { Link, Github, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -51,9 +53,20 @@ const projects = [
   }
 ];
 
+// Marquee project names for the background effect
+const marqueeProjects = [
+  "AI Financial Services • ",
+  "Wellcare Health Platform • ",
+  "Growth Guardian Finance • ",
+  "Car Market Platform • ",
+  "React Development • ",
+  "AI Solutions • ",
+  "Web Applications • ",
+  "Full Stack Projects • "
+];
+
 export const HeroParallaxProjects = () => {
   const ref = React.useRef(null);
-  const [currentIndex, setCurrentIndex] = React.useState(0);
   const [isHovered, setIsHovered] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
   const [touchStart, setTouchStart] = React.useState(0);
@@ -64,11 +77,12 @@ export const HeroParallaxProjects = () => {
     offset: ["start start", "end start"],
   });
 
-  const translateX = useTransform(scrollYProgress, [0, 1], [0, 1000]);
-  const rotateX = useTransform(scrollYProgress, [0, 0.2], [15, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [0.2, 1]);
+  // Improved transforms for better visibility
+  const rotateX = useTransform(scrollYProgress, [0, 0.2, 1], [15, 0, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.8, 1], [0.3, 1, 1, 0.9]);
   const rotateZ = useTransform(scrollYProgress, [0, 0.2], [20, 0]);
-  const translateY = useTransform(scrollYProgress, [0, 0.2], [-200, 0]);
+  const translateY = useTransform(scrollYProgress, [0, 0.2, 1], [-100, 0, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.2, 1], [0.9, 1, 1]);
 
   // Check if device is mobile
   React.useEffect(() => {
@@ -80,51 +94,6 @@ export const HeroParallaxProjects = () => {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  // Desktop scroll handling
-  React.useEffect(() => {
-    if (isMobile) return;
-    
-    const handleWheel = (e) => {
-      const rect = ref.current?.getBoundingClientRect();
-      if (!rect || rect.top > 100 || rect.bottom < 100) return;
-
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) {
-        e.preventDefault();
-        
-        if (e.deltaX > 0 || (e.shiftKey && e.deltaY > 0)) {
-          setCurrentIndex(prev => Math.min(prev + 1, projects.length - 1));
-        } else if (e.deltaX < 0 || (e.shiftKey && e.deltaY < 0)) {
-          setCurrentIndex(prev => Math.max(prev - 1, 0));
-        }
-      }
-    };
-
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => window.removeEventListener('wheel', handleWheel);
-  }, [isMobile]);
-
-  // Desktop keyboard navigation
-  React.useEffect(() => {
-    if (isMobile) return;
-    
-    const handleKeyDown = (e) => {
-      const rect = ref.current?.getBoundingClientRect();
-      if (!rect || rect.top > 100 || rect.bottom < 100) return;
-      
-      if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        setCurrentIndex(prev => Math.max(prev - 1, 0));
-      }
-      if (e.key === "ArrowRight") {
-        e.preventDefault();
-        setCurrentIndex(prev => Math.min(prev + 1, projects.length - 1));
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isMobile]);
 
   // Touch handlers for mobile
   const handleTouchStart = (e) => {
@@ -151,6 +120,9 @@ export const HeroParallaxProjects = () => {
     }
   };
 
+  // Mobile navigation functions
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+  
   const goToPrevious = () => {
     setCurrentIndex(prev => Math.max(prev - 1, 0));
   };
@@ -162,9 +134,9 @@ export const HeroParallaxProjects = () => {
   return (
     <div
       ref={ref}
-      className={`${isMobile ? 'min-h-screen' : 'h-[150vh]'} py-5 md:py-10 overflow-hidden antialiased relative flex flex-col self-auto ${isMobile ? '' : '[perspective:1000px] [transform-style:preserve-3d]'} bg-black`}
+      className={`${isMobile ? 'min-h-screen' : 'min-h-[150vh]'} py-5 md:py-10 overflow-hidden antialiased relative flex flex-col self-auto ${isMobile ? '' : '[perspective:1000px] [transform-style:preserve-3d]'} bg-black`}
     >
-      <Header isMobile={isMobile} />
+      <Header isMobile={isMobile} projects={projects} />
 
       <motion.div
         style={isMobile ? {} : {
@@ -172,8 +144,9 @@ export const HeroParallaxProjects = () => {
           rotateZ,
           translateY,
           opacity,
+          scale,
         }}
-        className="mt-5 md:mt-10 flex-1"
+        className="mt-5 md:mt-10 flex-1 pb-20"
       >
         {/* Mobile View */}
         {isMobile ? (
@@ -245,38 +218,207 @@ export const HeroParallaxProjects = () => {
             </div>
           </div>
         ) : (
-          /* Desktop View */
-          <div 
-            className={`flex space-x-[50px] mb-10 px-10 ${isHovered ? 'transition-transform duration-[8000ms] ease-out' : 'transition-transform duration-[1800ms] ease-out'}`}
-            style={{
-              transform: `translateX(-${currentIndex * 750}px)`,
-              width: `${projects.length * 750}px`,
-            }}
+          /* Desktop Grid View - Always show grid with improved visibility */
+          <motion.div 
+            className="max-w-7xl mx-auto px-4"
           >
-            {projects.map((project, index) => (
-              <ProjectCard
-                project={project}
-                translate={translateX}
-                key={project.title}
-                isActive={index === currentIndex}
-                onHover={setIsHovered}
-              />
-            ))}
-          </div>
+            <motion.div 
+              className="grid grid-cols-1 lg:grid-cols-2 gap-8 auto-rows-fr"
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {},
+                visible: {
+                  transition: {
+                    staggerChildren: 0.1
+                  }
+                }
+              }}
+            >
+              {projects.map((project, index) => (
+                <motion.div
+                  key={project.title}
+                  variants={{
+                    hidden: { opacity: 0, y: 40, scale: 0.95 },
+                    visible: { 
+                      opacity: 1, 
+                      y: 0, 
+                      scale: 1,
+                      transition: {
+                        duration: 0.6,
+                        ease: "easeOut"
+                      }
+                    }
+                  }}
+                  className="h-full min-h-[500px]"
+                >
+                  <GridProjectCard project={project} />
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
         )}
       </motion.div>
     </div>
   );
 };
 
-export const Header = ({ isMobile }) => {
+// Diagonal Project Marquee Component
+const DiagonalProjectMarquee = ({ projects }) => {
+  const duplicatedProjects = [...projects, ...projects]; // Double for coverage
+  
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="relative h-full w-full">
+        {/* First diagonal row - starts from top-left */}
+        <motion.div
+          className="absolute flex gap-8 whitespace-nowrap pointer-events-auto"
+          initial={{
+            x: '-20%',
+            y: '-10%'
+          }}
+          animate={{
+            x: '60%',
+            y: '40%'
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut"
+          }}
+          style={{
+            transform: 'rotate(15deg)'
+          }}
+        >
+          {duplicatedProjects.map((project, index) => (
+            <motion.a
+              key={`project-${index}`}
+              href={project.live || project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-shrink-0 w-80 h-52 bg-black/20 backdrop-blur-sm rounded-lg overflow-hidden select-none border border-white/5 cursor-pointer group"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
+            >
+              <img
+                src={project.thumbnail}
+                alt={project.title}
+                className="w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity duration-300"
+                onError={(e) => {
+                  e.target.src = "data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23374151'/%3E%3C/svg%3E";
+                }}
+              />
+            </motion.a>
+          ))}
+        </motion.div>
+        
+        {/* Second diagonal row - offset position */}
+        <motion.div
+          className="absolute flex gap-8 whitespace-nowrap pointer-events-auto"
+          initial={{
+            x: '-40%',
+            y: '20%'
+          }}
+          animate={{
+            x: '40%',
+            y: '70%'
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut",
+            delay: 2
+          }}
+          style={{
+            transform: 'rotate(15deg)'
+          }}
+        >
+          {duplicatedProjects.map((project, index) => (
+            <motion.a
+              key={`project-second-${index}`}
+              href={project.live || project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-shrink-0 w-80 h-52 bg-black/20 backdrop-blur-sm rounded-lg overflow-hidden select-none border border-white/5 cursor-pointer group"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
+            >
+              <img
+                src={project.thumbnail}
+                alt={project.title}
+                className="w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity duration-300"
+                onError={(e) => {
+                  e.target.src = "data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23374151'/%3E%3C/svg%3E";
+                }}
+              />
+            </motion.a>
+          ))}
+        </motion.div>
+
+        {/* Third diagonal row - different timing */}
+        <motion.div
+          className="absolute flex gap-8 whitespace-nowrap pointer-events-auto"
+          initial={{
+            x: '-60%',
+            y: '50%'
+          }}
+          animate={{
+            x: '20%',
+            y: '100%'
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut",
+            delay: 4
+          }}
+          style={{
+            transform: 'rotate(15deg)'
+          }}
+        >
+          {duplicatedProjects.map((project, index) => (
+            <motion.a
+              key={`project-third-${index}`}
+              href={project.live || project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-shrink-0 w-80 h-52 bg-black/20 backdrop-blur-sm rounded-lg overflow-hidden select-none border border-white/5 cursor-pointer group"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
+            >
+              <img
+                src={project.thumbnail}
+                alt={project.title}
+                className="w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity duration-300"
+                onError={(e) => {
+                  e.target.src = "data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23374151'/%3E%3C/svg%3E";
+                }}
+              />
+            </motion.a>
+          ))}
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
+export const Header = ({ isMobile, projects }) => {
   return (
     <div className="max-w-7xl relative mx-auto py-5 md:py-10 lg:py-20 px-4 w-full left-0 top-0">
+      {/* Diagonal Project Marquee Background - Only visible on desktop */}
+      {!isMobile && (
+        <DiagonalProjectMarquee projects={projects} />
+      )}
+      
+      {/* Header Content */}
       <motion.h1 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="text-xl sm:text-2xl md:text-4xl lg:text-7xl font-bold text-orange-400 leading-tight"
+        className="text-xl sm:text-2xl md:text-4xl lg:text-7xl font-bold text-orange-400 leading-tight relative z-10"
       >
         My Projects <br />
       </motion.h1>
@@ -284,13 +426,127 @@ export const Header = ({ isMobile }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="max-w-2xl text-sm md:text-base lg:text-xl mt-4 md:mt-8 text-gray-300 leading-relaxed"
+        className="max-w-2xl text-sm md:text-base lg:text-xl mt-4 md:mt-8 text-gray-300 leading-relaxed relative z-10"
       >
         A collection of innovative projects showcasing AI-driven solutions, 
         modern web applications, and cutting-edge technologies. Each project 
         demonstrates my passion for creating impactful digital experiences.
       </motion.p>
     </div>
+  );
+};
+
+export const GridProjectCard = ({ project }) => {
+  const [showDetails, setShowDetails] = React.useState(false);
+  const cardRef = React.useRef(null);
+
+  return (
+    <motion.div
+      ref={cardRef}
+      whileHover={{ y: -5, scale: 1.02 }}
+      transition={{ duration: 0.3 }}
+      className="group bg-black border border-blue-900 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl hover:shadow-blue-500/20 hover:border-blue-500 transition-all duration-300 h-full flex flex-col backdrop-blur-sm"
+      style={{
+        background: 'rgba(0, 0, 0, 0.8)',
+        backdropFilter: 'blur(10px)',
+      }}
+    >
+      {/* Grid Project Image */}
+      <div className="relative h-56 lg:h-64 overflow-hidden">
+        <img
+          src={project.thumbnail}
+          alt={project.title}
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          onError={(e) => {
+            e.target.src = "data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23374151'/%3E%3C/svg%3E";
+          }}
+        />
+        
+        {/* Grid Image Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+        
+        {/* Grid Action Buttons */}
+        <div className="absolute top-3 right-3 flex space-x-2">
+          {project.live && (
+            <a
+              href={project.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 bg-blue-600/90 text-white rounded-full hover:bg-blue-700 transition-all duration-300 backdrop-blur-sm shadow-lg"
+              title="Live Demo"
+            >
+              <Link size={16} />
+            </a>
+          )}
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 bg-blue-600/90 text-white rounded-full hover:bg-blue-700 transition-all duration-300 backdrop-blur-sm shadow-lg"
+              title="Source Code"
+            >
+              <Github size={16} />
+            </a>
+          )}
+        </div>
+      </div>
+
+      {/* Grid Project Content */}
+      <div className="p-6 flex-1 flex flex-col space-y-4">
+        {/* Title */}
+        <h3 className="text-white font-bold text-xl leading-tight group-hover:text-blue-300 transition-colors duration-300">
+          {project.title}
+        </h3>
+
+        {/* Year and Event */}
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="bg-blue-600 px-3 py-1 rounded-full text-white text-sm font-medium shadow-md">
+            {project.year}
+          </span>
+          <span className="text-blue-300 text-sm font-medium">
+            {project.event}
+          </span>
+        </div>
+
+        {/* Description */}
+        <p className="text-gray-300 text-sm leading-relaxed flex-1">
+          {project.description}
+        </p>
+
+        {/* Toggle Details Button */}
+        <button
+          onClick={() => setShowDetails(!showDetails)}
+          className="text-blue-400 text-sm font-medium hover:text-blue-300 transition-colors duration-200 self-start bg-blue-600/10 px-3 py-1 rounded-full hover:bg-blue-600/20"
+        >
+          {showDetails ? 'Hide Technologies' : 'Show Technologies'}
+        </button>
+
+        {/* Tech Stack - Collapsible */}
+        <motion.div
+          initial={false}
+          animate={{ height: showDetails ? 'auto' : 0, opacity: showDetails ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+          className="overflow-hidden"
+        >
+          <div className="pt-4 border-t border-gray-700">
+            <h4 className="text-blue-300 text-xs font-bold mb-3 uppercase tracking-wide">
+              Technologies Used
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {project.tech.map((tech, index) => (
+                <span
+                  key={index}
+                  className="px-2 py-1 text-xs font-medium text-blue-200 bg-blue-600/20 rounded-full border border-blue-500/40 hover:bg-blue-600/30 transition-all duration-200"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
   );
 };
 
@@ -407,31 +663,21 @@ export const MobileProjectCard = ({ project, isActive }) => {
 
 export const ProjectCard = ({
   project,
-  translate,
   isActive,
   onHover,
 }) => {
   return (
     <motion.div
-      style={{
-        x: translate,
-      }}
       whileHover={{
         y: -10,
         scale: 1.02,
       }}
       transition={{ duration: 0.3 }}
-      className={`group/product h-[450px] w-[700px] relative flex-shrink-0 transition-all duration-300 ease-in-out ${
-        isActive ? 'z-10' : 'z-0'
-      }`}
+      className="group/product h-[450px] w-[700px] relative flex-shrink-0 transition-all duration-300 ease-in-out"
       onMouseEnter={() => onHover(true)}
       onMouseLeave={() => onHover(false)}
     >
-      <div className={`block group-hover/product:shadow-2xl transition-all duration-300 relative h-full w-full rounded-2xl overflow-hidden bg-black backdrop-blur-sm border ${
-        isActive 
-          ? 'border-blue-500 shadow-lg shadow-blue-500/20' 
-          : 'border-blue-900 group-hover/product:shadow-blue-500/30'
-      }`}>
+      <div className="block group-hover/product:shadow-2xl transition-all duration-300 relative h-full w-full rounded-2xl overflow-hidden bg-black backdrop-blur-sm border border-blue-900 group-hover/product:shadow-blue-500/30 group-hover/product:border-blue-500">
         {/* Project Image with Hover Overlay */}
         <div className="relative h-[370px] w-full overflow-hidden group/image">
           <img

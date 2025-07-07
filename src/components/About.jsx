@@ -79,13 +79,13 @@ export default function AboutMeSection() {
   }, [currentTextIndex, charIndex, isTyping, isDeleting, rotatingTexts]);
 
   return (
-    <div className="min-h-screen bg-black text-white py-20 px-4 sm:px-6 lg:px-16">
+    <div className="min-h-screen bg-black text-white py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-2 items-center">
           {/* Left Side - Profile Image and Typography */}
-          <div className="space-y-8">
+          <div className="space-y-2">
             {/* Profile Image */}
-            <div className="relative w-80 h-96 mx-auto lg:mx-0">
+            <div className="relative w-80 h-96 mx-auto lg:mx-0 mr-0">
               <img
                 src="/profile.png"
                 alt="Profile"
@@ -138,12 +138,12 @@ export default function AboutMeSection() {
               {/* Stats Grid */}
               <div className="grid grid-cols-2 gap-6">
                 <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 hover:border-orange-400/30 transition-colors duration-300">
-                  <div className="text-3xl font-bold text-orange-400 mb-2">500+</div>
+                  <div className="text-3xl font-bold text-green-400 mb-2">500+</div>
                   <div className="text-gray-400 text-sm">DSA Problems Solved</div>
                 </div>
                 
                 <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 hover:border-blue-400/30 transition-colors duration-300">
-                  <div className="text-3xl font-bold text-blue-400 mb-2">4+</div>
+                  <div className="text-3xl font-bold text-green-400 mb-2">4+</div>
                   <div className="text-gray-400 text-sm">Projects Completed</div>
                 </div>
                 
@@ -153,7 +153,7 @@ export default function AboutMeSection() {
                 </div>
                 
                 <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 hover:border-orange-400/30 transition-colors duration-300">
-                  <div className="text-3xl font-bold text-orange-400 mb-2">3</div>
+                  <div className="text-3xl font-bold text-green-400 mb-2">3</div>
                   <div className="text-gray-400 text-sm">Published Poems</div>
                 </div>
               </div>
