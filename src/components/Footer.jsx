@@ -45,28 +45,7 @@ const Footer = () => {
     </a>
   );
   return (
-    <footer className="relative bg-black text-gray-300 py-6 md:py-8 overflow-hidden">
-      {/* Refined geometric patterns */}
-      <div className="absolute inset-0 opacity-15 md:opacity-20">
-        {/* Subtle grid pattern */}
-        <div className="absolute top-8 left-8 w-20 h-20 border border-orange-400/30 rotate-45"></div>
-        <div className="absolute top-12 left-12 w-8 h-8 bg-green-400/20 rotate-45"></div>
-        <div className="absolute bottom-8 right-12 w-16 h-16 border border-blue-400/30 rounded-full"></div>
-        <div className="absolute bottom-12 right-16 w-4 h-4 bg-orange-400/30 rounded-full"></div>
-        
-        {/* Professional connecting lines */}
-        <div className="absolute top-16 left-24 w-24 h-px bg-gradient-to-r from-green-400/30 to-transparent"></div>
-        <div className="absolute bottom-16 right-32 w-32 h-px bg-gradient-to-l from-blue-400/30 to-transparent"></div>
-        
-        {/* Minimal accent shapes */}
-        <div className="absolute top-1/2 left-1/4 w-6 h-6 border border-green-400/20 transform -translate-y-1/2 rotate-45"></div>
-        <div className="absolute top-1/3 right-1/3 w-12 h-px bg-orange-400/20"></div>
-        <div className="absolute bottom-1/3 left-1/2 w-8 h-8 border border-blue-400/20 rotate-12"></div>
-      </div>
-
-      {/* Professional gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/50 to-black"></div>
-      
+    <footer className="relative bg-black text-gray-300 py-6 md:py-8">
       <div className="container mx-auto px-6 md:px-8 relative z-10">
         <div className="max-w-6xl mx-auto">
           {/* Single row layout */}

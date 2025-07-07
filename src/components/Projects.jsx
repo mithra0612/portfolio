@@ -297,7 +297,7 @@ const DiagonalProjectMarquee = ({ projects }) => {
               href={project.live || project.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-shrink-0 w-80 h-52 bg-black/20 backdrop-blur-sm rounded-lg overflow-hidden select-none border border-white/5 cursor-pointer group"
+              className="flex-shrink-0 w-80 h-52 bg-black/20 backdrop-blur-sm rounded-lg overflow-hidden select-none border border-white/5 group"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >
@@ -341,7 +341,7 @@ const DiagonalProjectMarquee = ({ projects }) => {
               href={project.live || project.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-shrink-0 w-80 h-52 bg-black/20 backdrop-blur-sm rounded-lg overflow-hidden select-none border border-white/5 cursor-pointer group"
+              className="flex-shrink-0 w-80 h-52 bg-black/20 backdrop-blur-sm rounded-lg overflow-hidden select-none border border-white/5 group"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >
@@ -385,7 +385,7 @@ const DiagonalProjectMarquee = ({ projects }) => {
               href={project.live || project.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-shrink-0 w-80 h-52 bg-black/20 backdrop-blur-sm rounded-lg overflow-hidden select-none border border-white/5 cursor-pointer group"
+              className="flex-shrink-0 w-80 h-52 bg-black/20 backdrop-blur-sm rounded-lg overflow-hidden select-none border border-white/5 group"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >

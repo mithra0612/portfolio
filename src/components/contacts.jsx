@@ -20,137 +20,123 @@ export default function ContactsSection() {
   };
 
   return (
-    <section className="bg-black text-white py-12 sm:py-16 md:py-24 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-1 sm:px-2 md:px-0 w-full">
-        {/* Status */}
-        <div className="flex items-center gap-2 mb-8 sm:mb-12">
-          <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-          <span className="text-blue-400 text-base sm:text-lg font-bold">
+    <section className="bg-black text-white py-16 lg:py-24 overflow-hidden">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Status Badge */}
+        <div className="flex items-center justify-center sm:justify-start gap-3 mb-12">
+          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+          <span className="text-green-400 text-sm sm:text-base font-medium">
             Available for new projects
           </span>
         </div>
 
-        {/* Main Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-8 md:gap-10">
-          {/* Left Side */}
-          <div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-black mb-6 sm:mb-8 leading-tight text-white">
-              Let's work
-              <br />
-              <span className="text-blue-500">together</span>
-            </h2>
-            <p className="text-gray-400 text-lg sm:text-xl md:text-2xl leading-relaxed mb-4 sm:mb-6">
-              I’m always open to exploring new opportunities and enthusiastic
-              about collaborating on meaningful, impactful projects that drive
-              growth, creativity, or positive change.
-            </p>
-
-            {/* Contact Info */}
-            <div className="space-y-6 sm:space-y-8">
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 lg:items-stretch">
+          {/* Left Side - Main Content */}
+          <div className="flex flex-col justify-between min-h-full">
+            <div className="space-y-8">
               <div>
-                <div className="flex gap-6 sm:gap-8">
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-semibold mb-6 leading-[1.1] text-white">
+                  Let's work
+                  <br />
+                  <span className="text-blue-400">
+                    together
+                  </span>
+                </h2>
+                <p className="text-gray-300 text-lg sm:text-xl leading-relaxed max-w-lg text-justify">
+                  I'm always open to exploring new opportunities and enthusiastic
+                  about collaborating on meaningful, impactful projects that drive
+                  growth and positive change.
+                </p>
+              </div>
+
+              {/* Contact Links */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-6">
                   <a
                     href="mailto:mithramadhu005@gmail.com"
-                    className="text-gray-500 hover:text-blue-400 transition-colors p-2 sm:p-1 -ml-2 sm:ml-0"
+                    className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
                     aria-label="Email"
                   >
-                    <Mail size={28} className="sm:w-6 sm:h-6" />
+                    <Mail size={24} />
                   </a>
                   <a
                     href="https://www.linkedin.com/in/madhumithra-m/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-500 hover:text-blue-400 transition-colors p-2 sm:p-1"
+                    className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
                     aria-label="LinkedIn"
                   >
-                    <Linkedin size={28} className="sm:w-6 sm:h-6" />
+                    <Linkedin size={24} />
                   </a>
                   <a
                     href="https://github.com/mithra0612"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-500 hover:text-blue-400 transition-colors p-2 sm:p-1"
+                    className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
                     aria-label="GitHub"
                   >
-                    <Github size={28} className="sm:w-6 sm:h-6" />
+                    <Github size={24} />
                   </a>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-4 mt-6">
-                  <span className="text-blue-400 text-xl sm:text-2xl md:text-3xl font-black break-all">
-                    mithramadhu005@gmail.com
-                  </span>
-                  <button
-                    onClick={copyEmail}
-                    className="text-gray-400 hover:text-blue-400 transition-colors p-1 self-start sm:self-auto"
-                    title="Copy email"
-                  >
-                    {copied ? (
-                      <CheckCircle size={18} className="text-green-500" />
-                    ) : (
-                      <Copy size={18} />
-                    )}
-                  </button>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Side */}
-          <div className="space-y-8 sm:space-y-10 w-full min-w-0">
-            {/* Availability */}
-            <div className="border border-gray-800 rounded-lg p-6 sm:p-7 hover:border-blue-500/30 transition-colors">
-              <h3 className="text-xl sm:text-2xl font-black mb-4 text-blue-400">
-                Availability
-              </h3>
-              <div className="space-y-4 sm:space-y-5">
-                <div className="flex items-start gap-3">
-                  <Clock
-                    size={24}
-                    className="text-blue-400 mt-0.5 flex-shrink-0"
-                  />
-                  <div>
-                    <div className="font-black text-base sm:text-lg text-white">
-                      Response Time
-                    </div>
-                    <div className="text-gray-400 text-base sm:text-lg font-semibold">
-                      Usually within 24 hours
+          {/* Right Side - Cards */}
+          <div className="flex flex-col space-y-4 min-h-full">
+            {/* Availability Card */}
+            <div className="rounded-lg bg-gray-900 p-5 flex-1">
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium text-green-400">
+                  Availability
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <Clock size={18} className="text-gray-400 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <div className="font-medium text-white text-sm">
+                        Response Time
+                      </div>
+                      <div className="text-gray-400 text-sm">
+                        Usually within 24 hours
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <MapPin
-                    size={24}
-                    className="text-blue-400 mt-0.5 flex-shrink-0"
-                  />
-                  <div>
-                    <div className="font-black text-base sm:text-lg text-white">
-                      Timezone
-                    </div>
-                    <div className="text-gray-400 text-base sm:text-lg font-semibold">
-                      Indian Standard Time (IST)
+                  <div className="flex items-start gap-3">
+                    <MapPin size={18} className="text-gray-400 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <div className="font-medium text-white text-sm">
+                        Timezone
+                      </div>
+                      <div className="text-gray-400 text-sm">
+                        Indian Standard Time (IST)
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Schedule Call */}
-            <div className="border border-gray-800 rounded-lg p-6 sm:p-7 hover:border-green-500/30 transition-colors">
-              <h3 className="text-xl sm:text-2xl font-black mb-3 text-green-400">
-                Schedule a Call
-              </h3>
-              <p className="text-gray-400 mb-5 text-base sm:text-lg ">
-                Let's discuss your project and explore how we can work together.
-              </p>
-              <a
-                href="https://cal.com/madhumithra-m/30min?user=madhumithra-m"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 bg-green-500 hover:bg-green-600 text-black font-semibold px-6 sm:px-8 py-4 rounded-md transition-colors text-base sm:text-lg w-full sm:w-auto"
-              >
-                Book a call
-                <ExternalLink size={18} />
-              </a>
+            {/* Schedule Call Card */}
+            <div className="rounded-lg bg-gray-900 p-5 flex-1">
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium text-green-400">
+                  Schedule a Call
+                </h3>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  Let's discuss your project and explore how we can work together.
+                </p>
+                <a
+                  href="https://cal.com/madhumithra-m/30min?user=madhumithra-m"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 w-full bg-green-500 hover:bg-green-600 text-white font-medium px-4 py-2.5 rounded transition-colors duration-200"
+                >
+                  Book a call
+                  <ExternalLink size={14} />
+                </a>
+              </div>
             </div>
           </div>
         </div>

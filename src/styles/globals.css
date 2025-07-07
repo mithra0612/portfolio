@@ -16,7 +16,6 @@
 .hover-glow {
   position: relative;
   display: inline-block;
-  cursor: pointer;
   z-index: 0;
 }
 

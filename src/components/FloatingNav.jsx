@@ -6,7 +6,6 @@ const FixedNavbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
 
   const navItems = [
@@ -135,7 +134,7 @@ const FixedNavbar = () => {
   return (
     <>
       {/* Desktop Navigation - Fixed */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 hidden lg:block bg-black/70 backdrop-blur-md transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-40 hidden lg:block bg-black/70 backdrop-blur-md transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             {/* Left side - Name */}
@@ -192,67 +191,9 @@ const FixedNavbar = () => {
             <NavLink href="#skills" onClick={toggleMobileMenu}>SKILLS</NavLink>
             <NavLink href="#projects" onClick={toggleMobileMenu}>PROJECTS</NavLink>
             <NavLink href="#contact" onClick={toggleMobileMenu}>CONTACT</NavLink>
-            
-            <a
-              href="https://cal.com/madhumithra-m/30min?user=madhumithra-m"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={toggleMobileMenu}
-              className="text-sm md:text-base font-medium leading-tight tracking-tight text-white no-underline transition-all duration-500 ease-out"
-            >
-              <BounceText text="BOOK A CALL" />
-            </a>
           </div>
         </div>
       </nav>
-
-      {/* Floating Navigation */}
-      <div className="fixed top-6 right-6 z-50">
-        {/* Menu Button */}
-        <motion.button
-          onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center justify-center w-12 h-12 bg-black/80 backdrop-blur-sm border border-gray-700 rounded-full text-white hover:bg-gray-800 transition-all duration-300"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {isOpen ? <X size={20} /> : <Menu size={20} />}
-        </motion.button>
-
-        {/* Navigation Menu */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: -20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, y: -20 }}
-              transition={{ duration: 0.2 }}
-              className="absolute top-16 right-0 bg-black/90 backdrop-blur-sm border border-gray-700 rounded-lg p-2 min-w-[160px]"
-            >
-              {navItems.map((item, index) => {
-                const Icon = item.icon;
-                return (
-                  <motion.button
-                    key={item.name}
-                    onClick={() => scrollToSection(item.href)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 text-left rounded-md transition-all duration-200 ${
-                      activeSection === item.href.slice(1)
-                        ? 'bg-blue-600 text-white'
-                        : 'text-gray-300 hover:bg-gray-800 hover:text-white'
-                    }`}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ x: 4 }}
-                  >
-                    <Icon size={16} />
-                    <span className="text-sm font-medium">{item.name}</span>
-                  </motion.button>
-                );
-              })}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
     </>
   );
 };

@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect, useRef } from "react";
 
 export default function AboutMeSection() {
@@ -79,20 +80,26 @@ export default function AboutMeSection() {
   }, [currentTextIndex, charIndex, isTyping, isDeleting, rotatingTexts]);
 
   return (
-    <div className="min-h-screen bg-black text-white py-20 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black text-white py-20 px-4 sm:px-6 lg:px-16">
       <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-2 items-center">
-          {/* Left Side - Profile Image and Typography */}
-          <div className="space-y-2">
+        <h1 className="text-3xl sm:text-7xl font-bold pb-6 sm:pb-10 mt-10 sm:mt-10 text-blue-400">
+          About Me
+        </h1>
+
+        <div className="grid p-2 lg:flex lg:gap-36 items-center gap-8">
+          {/* Left Side - Profile Image */}
+          <div className="">
             {/* Profile Image */}
-            <div className="relative w-80 h-96 mx-auto lg:mx-0 mr-0">
+            <div className="relative w-80 h-96 mx-auto lg:mx-0">
               <img
                 src="/profile.png"
                 alt="Profile"
                 className="w-full h-full object-cover"
                 style={{
-                  WebkitMaskImage: "linear-gradient(to bottom, black 85%, transparent)",
-                  maskImage: "linear-gradient(to bottom, black 85%, transparent)",
+                  WebkitMaskImage:
+                    "linear-gradient(to bottom, black 85%, transparent)",
+                  maskImage:
+                    "linear-gradient(to bottom, black 85%, transparent)",
                   WebkitMaskSize: "100% 100%",
                   maskSize: "100% 100%",
                   WebkitMaskRepeat: "no-repeat",
@@ -100,19 +107,9 @@ export default function AboutMeSection() {
                 }}
               />
             </div>
-
-            {/* Large Typography with Typewriter Effect */}
-            <div className="flex items-center -mt-24">
-              <h2 className="text-4xl lg:text-5xl font-semibold text-white tracking-tight min-h-[80px] flex items-center">
-                {displayText}
-                <span className="animate-pulse ml-2 text-orange-400">
-                  {(isTyping || isDeleting) ? "|" : ""}
-                </span>
-              </h2>
-            </div>
           </div>
 
-          {/* Right Side - Content with Typewriter Effect */}
+          {/* Right Side - Content with Typography and Stats */}
           <div
             ref={sectionRef}
             className="space-y-8"
@@ -121,62 +118,56 @@ export default function AboutMeSection() {
               transition: "transform 0.1s ease-out",
             }}
           >
-            {/* Section Heading */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <div className="w-8 h-px bg-orange-400"></div>
-                <span className="text-orange-400 text-sm font-medium tracking-wider uppercase">About Me</span>
-              </div>
-              <h3 className="text-4xl font-bold text-white">Crafting Digital Experiences</h3>
+            {/* Large Typography with Typewriter Effect */}
+            <div className="flex items-center">
+              <h2 className="text-4xl lg:text-5xl font-semibold text-white tracking-tight min-h-[80px] flex items-center">
+                {displayText}
+                <span className="animate-pulse ml-2 text-orange-400">
+                  {isTyping || isDeleting ? "|" : ""}
+                </span>
+              </h2>
             </div>
 
             <div className="space-y-8">
               <p className="text-lg text-gray-400 leading-relaxed">
-                A junior undergraduate student blending logic and language — solving DSA problems and building full-stack apps with React, Node.js, Express, and MongoDB. When I'm not writing code, I'm writing poetry — both shaped by structure, flow, and meaning.
+                A passionate full-stack developer and junior Computer Science
+                student, well-versed in solving DSA problems and building
+                end-to-end web applications with the MERN stack. I approach each
+                problem with a mix of logic, creativity, and attention to detail
+                — whether it's backend APIs or frontend experiences.
               </p>
 
-              {/* Stats Grid */}
-              <div className="grid grid-cols-2 gap-6">
-                <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 hover:border-orange-400/30 transition-colors duration-300">
-                  <div className="text-3xl font-bold text-green-400 mb-2">500+</div>
-                  <div className="text-gray-400 text-sm">DSA Problems Solved</div>
+              {/* Stats - Text Only */}
+              <div className="grid grid-cols-2 gap-x- gap-y-6 pt-4">
+                <div className="flex flex-col">
+                  <span className="text-4xl font-bold text-green-400">500+</span>
+                  <span className="text-lg text-gray-300 font-medium mt-1">
+                    DSA Problems Solved
+                  </span>
                 </div>
-                
-                <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 hover:border-blue-400/30 transition-colors duration-300">
-                  <div className="text-3xl font-bold text-green-400 mb-2">4+</div>
-                  <div className="text-gray-400 text-sm">Projects Completed</div>
+
+                <div className="flex flex-col">
+                  <span className="text-4xl font-bold text-green-400">4+</span>
+                  <span className="text-lg text-gray-300 font-medium mt-1">
+                    Projects Completed
+                  </span>
                 </div>
-                
-                <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 hover:border-green-400/30 transition-colors duration-300">
-                  <div className="text-3xl font-bold text-green-400 mb-2">3+</div>
-                  <div className="text-gray-400 text-sm">Competitions won</div>
+
+                <div className="flex flex-col">
+                  <span className="text-4xl font-bold text-green-400">3+</span>
+                  <span className="text-lg text-gray-300 font-medium mt-1">
+                    Competitions Won
+                  </span>
                 </div>
-                
-                <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 hover:border-orange-400/30 transition-colors duration-300">
-                  <div className="text-3xl font-bold text-green-400 mb-2">3</div>
-                  <div className="text-gray-400 text-sm">Published Poems</div>
+
+                <div className="flex flex-col">
+                  <span className="text-4xl font-bold text-green-400">3</span>
+                  <span className="text-lg text-gray-300 font-medium mt-1">
+                    Published Poems
+                  </span>
                 </div>
               </div>
-
-              {/* Skills Tags
-              <div className="space-y-4">
-                <h4 className="text-white font-semibold">Core Technologies</h4>
-                <div className="flex flex-wrap gap-3">
-                  {['React', 'Node.js', 'Express', 'MongoDB', 'JavaScript', 'Python', 'Git'].map((skill) => (
-                    <span 
-                      key={skill}
-                      className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-full text-sm text-gray-300 hover:border-orange-400/50 transition-colors duration-300"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div> */}
             </div>
-
-            {/* <div className="pt-8">
-              <div className="w-16 h-px bg-white"></div>
-            </div> */}
           </div>
         </div>
       </div>
