@@ -1,4 +1,4 @@
-import CardSwap, { Card } from './ui/card-swap';
+import CardSwap, { Card } from "./ui/card-swap";
 
 const CardSwapComponent = () => (
   <div className="h-[350px] relative">
@@ -13,7 +13,7 @@ const CardSwapComponent = () => (
         <p className="text-sm">Your content here</p>
       </Card>
       <Card>
-                <h3 className="text-lg font-bold pb-2 pl-2">Wellcare</h3>
+        <h3 className="text-lg font-bold pb-2 pl-2">Wellcare</h3>
 
         <img
           src="/wellcare.png"
@@ -23,7 +23,7 @@ const CardSwapComponent = () => (
       </Card>
       <Card>
         <h3 className="text-lg font-bold">Growth Guardian3</h3>
-<img
+        <img
           src="/growth-guardian.png"
           alt="Growth Guardian"
           className="w-full h-full object-cover rounded-lg"

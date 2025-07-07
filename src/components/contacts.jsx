@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Mail,
   Linkedin,
@@ -10,8 +12,114 @@ import {
   ExternalLink,
 } from "lucide-react";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function ContactsSection() {
   const [copied, setCopied] = useState(false);
+  const sectionRef = useRef(null);
+  const statusRef = useRef(null);
+  const titleRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const contactLinksRef = useRef(null);
+  const cardsRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Initial state
+      gsap.set(
+        [
+          statusRef.current,
+          titleRef.current,
+          descriptionRef.current,
+          contactLinksRef.current,
+          cardsRef.current,
+        ],
+        {
+          opacity: 0,
+          y: 50,
+        }
+      );
+
+      // Entrance animations
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      tl.to(statusRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+      })
+        .to(
+          titleRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power2.out",
+          },
+          "-=0.4"
+        )
+        .to(
+          descriptionRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+          },
+          "-=0.6"
+        )
+        .to(
+          contactLinksRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+          },
+          "-=0.4"
+        )
+        .to(
+          cardsRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+          },
+          "-=0.6"
+        );
+
+      // Contact links hover animations
+      const contactLinks = contactLinksRef.current?.querySelectorAll("a");
+      contactLinks?.forEach((link) => {
+        link.addEventListener("mouseenter", () => {
+          gsap.to(link, {
+            scale: 1.1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+
+        link.addEventListener("mouseleave", () => {
+          gsap.to(link, {
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const copyEmail = () => {
     navigator.clipboard.writeText("mithramadhu005@gmail.com");
@@ -20,10 +128,16 @@ export default function ContactsSection() {
   };
 
   return (
-    <section className="bg-black text-white py-16 lg:py-24 overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="bg-black text-white py-16 lg:py-24 overflow-hidden"
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Status Badge */}
-        <div className="flex items-center justify-center sm:justify-start gap-3 mb-12">
+        <div
+          ref={statusRef}
+          className="flex items-center justify-center sm:justify-start gap-3 mb-12"
+        >
           <div className="w-2 h-2 bg-green-500 rounded-full"></div>
           <span className="text-green-400 text-sm sm:text-base font-medium">
             Available for new projects
@@ -36,14 +150,18 @@ export default function ContactsSection() {
           <div className="flex flex-col justify-between min-h-full">
             <div className="space-y-8">
               <div>
-                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-semibold mb-6 leading-[1.1] text-white">
+                <h2
+                  ref={titleRef}
+                  className="text-4xl sm:text-5xl lg:text-6xl font-semibold mb-6 leading-[1.1] text-white"
+                >
                   Let's work
                   <br />
-                  <span className="text-blue-400">
-                    together
-                  </span>
+                  <span className="text-blue-400">together</span>
                 </h2>
-                <p className="text-gray-300 text-lg sm:text-xl leading-relaxed max-w-lg text-justify">
+                <p
+                  ref={descriptionRef}
+                  className="text-gray-300 text-lg sm:text-xl leading-relaxed max-w-lg text-justify"
+                >
                   I'm always open to exploring new opportunities and enthusiastic
                   about collaborating on meaningful, impactful projects that drive
                   growth and positive change.
@@ -52,7 +170,10 @@ export default function ContactsSection() {
 
               {/* Contact Links */}
               <div className="space-y-6">
-                <div className="flex items-center gap-6">
+                <div
+                  ref={contactLinksRef}
+                  className="flex items-center gap-6"
+                >
                   <a
                     href="mailto:mithramadhu005@gmail.com"
                     className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
@@ -84,7 +205,7 @@ export default function ContactsSection() {
           </div>
 
           {/* Right Side - Cards */}
-          <div className="flex flex-col space-y-4 min-h-full">
+          <div ref={cardsRef} className="flex flex-col space-y-4 min-h-full">
             {/* Availability Card */}
             <div className="rounded-lg bg-gray-900 p-5 flex-1">
               <div className="space-y-4">
@@ -93,7 +214,10 @@ export default function ContactsSection() {
                 </h3>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
-                    <Clock size={18} className="text-gray-400 mt-0.5 flex-shrink-0" />
+                    <Clock
+                      size={18}
+                      className="text-gray-400 mt-0.5 flex-shrink-0"
+                    />
                     <div>
                       <div className="font-medium text-white text-sm">
                         Response Time
@@ -104,7 +228,10 @@ export default function ContactsSection() {
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <MapPin size={18} className="text-gray-400 mt-0.5 flex-shrink-0" />
+                    <MapPin
+                      size={18}
+                      className="text-gray-400 mt-0.5 flex-shrink-0"
+                    />
                     <div>
                       <div className="font-medium text-white text-sm">
                         Timezone
