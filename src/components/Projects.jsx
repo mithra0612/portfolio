@@ -21,7 +21,7 @@ const projects = [
     ],
     live: "",
     github: "https://github.com/mithra0612/postal-service",
-    thumbnail: "/financial-services-preview.png",
+    thumbnail: "/financial-services.png",
     year: "2024",
     event: "Smart India Hackathon, Finalist",
   },
