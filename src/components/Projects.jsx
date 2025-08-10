@@ -18,6 +18,7 @@ const projects = [
       "Python",
       "Pandas",
       "NumPy",
+      "LightGBM",
     ],
     live: "",
     github: "https://github.com/mithra0612/postal-service",
@@ -35,7 +36,7 @@ const projects = [
       "Express.js",
       "Firestore",
       "Google Cloud Platform",
-      "TensorFlow",
+      "Hugging Face Transformers",
       "JavaScript",
       "HTML5",
       "CSS3",
@@ -55,12 +56,13 @@ const projects = [
       "React.js",
       "Node.js",
       "Express.js",
-      "TensorFlow",
+      "Hugging Face Model",
       "Scikit-learn",
       "JavaScript",
       "HTML5",
       "CSS3",
       "MongoDB",
+      "LangChain"
     ],
     live: "https://growth-guardian.vercel.app/",
     github: "https://github.com/mithra0612/growth-guardian",
@@ -80,9 +82,10 @@ const projects = [
       "JavaScript",
       "Axios",
       "Express.js",
+      "Machine Learning"
     ],
     live: "",
-    github: "https://github.com/mithra0612/CAR_MARKET",
+    github: "https://github.com/mithra0612/car-selling-app",
     thumbnail: "/car-market.png",
     year: "2024",
     event: "Personal Project",
@@ -218,6 +221,15 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
     [1, 10, 1]
   );
 
+  // Handle image click
+  const handleImageClick = () => {
+    if (project.live) {
+      window.open(project.live, '_blank', 'noopener,noreferrer');
+    } else if (project.github) {
+      window.open(project.github, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <motion.div
       style={{
@@ -238,7 +250,11 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
       <div className="w-full bg-gray-900/90 backdrop-blur-sm border border-orange-400/20 rounded-2xl overflow-hidden shadow-2xl">
         <div className="grid md:grid-cols-2 gap-0 h-full">
           {/* Image Section */}
-          <div className="relative h-80 md:h-96 lg:h-[450px] overflow-hidden bg-gray-800">
+          <div 
+            className="relative h-80 md:h-96 lg:h-[450px] overflow-hidden bg-gray-800 cursor-pointer"
+            onClick={handleImageClick}
+            title={project.live ? "Click to view live demo" : "Click to view source code"}
+          >
             <img
               src={project.thumbnail}
               alt={project.title}
@@ -256,32 +272,6 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
-
-            {/* Action Buttons */}
-            <div className="absolute top-4 right-4 flex space-x-2">
-              {project.live && (
-                <a
-                  href={project.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 bg-orange-400/20 backdrop-blur-sm text-orange-400 rounded-full hover:bg-orange-400/30 transition-all duration-300"
-                  title="Live Demo"
-                >
-                  <Link size={18} />
-                </a>
-              )}
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 bg-orange-400/20 backdrop-blur-sm text-orange-400 rounded-full hover:bg-orange-400/30 transition-all duration-300"
-                  title="Source Code"
-                >
-                  <Github size={18} />
-                </a>
-              )}
-            </div>
           </div>
 
           {/* Content Section */}
@@ -296,9 +286,37 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
                 </span>
               </div>
 
-              <h3 className="text-2xl md:text-3xl font-semibold text-white mb-2 leading-tight">
-                {project.title}
-              </h3>
+              <div className="flex items-start justify-between mb-2">
+                <h3 className="text-2xl md:text-3xl font-semibold text-white leading-tight flex-1 mr-4">
+                  {project.title}
+                </h3>
+                
+                {/* Action Buttons - Moved here */}
+                <div className="flex space-x-2 flex-shrink-0">
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 bg-orange-400/20 backdrop-blur-sm text-orange-400 rounded-full hover:bg-orange-400/30 transition-all duration-300"
+                      title="Live Demo"
+                    >
+                      <Link size={18} />
+                    </a>
+                  )}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 bg-orange-400/20 backdrop-blur-sm text-orange-400 rounded-full hover:bg-orange-400/30 transition-all duration-300"
+                      title="Source Code"
+                    >
+                      <Github size={18} />
+                    </a>
+                  )}
+                </div>
+              </div>
 
               <p className="text-gray-300 text-base leading-relaxed">
                 {project.description}
@@ -310,7 +328,7 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
                 Technologies Used
               </h4>
               <div className="flex flex-wrap gap-2">
-                {project.tech.slice(0, 6).map((tech, techIndex) => (
+                {project.tech.map((tech, techIndex) => (
                   <span
                     key={techIndex}
                     className="px-3 py-1 text-xs font-medium text-orange-200 bg-orange-400/10 rounded-full border border-orange-400/20"
@@ -318,11 +336,11 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
                     {tech}
                   </span>
                 ))}
-                {project.tech.length > 6 && (
+                {/* {project.tech.length > 6 && (
                   <span className="px-3 py-1 text-xs font-medium text-orange-200 bg-orange-400/10 rounded-full border border-orange-400/20">
                     +{project.tech.length - 6} more
                   </span>
-                )}
+                )} */}
               </div>
             </div>
           </div>

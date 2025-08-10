@@ -182,7 +182,7 @@ export default function ContactsSection() {
                     <Mail size={24} />
                   </a>
                   <a
-                    href="https://www.linkedin.com/in/madhumithra-m/"
+                    href="https://www.linkedin.com/in/mithra0612/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
