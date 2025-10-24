@@ -66,22 +66,23 @@ export default function AboutMeSection() {
         delay: 0.6
       });
 
-      // Stats counter animation
-      gsap.fromTo(statsRef.current?.querySelectorAll('.stat-number'), 
-        { innerText: 0 },
-        {
-          innerText: (i, target) => target.getAttribute('data-value'),
+      // Stats counter animation (animate numeric value per element and append suffix)
+      const statEls = statsRef.current?.querySelectorAll('.stat-number') || [];
+      statEls.forEach((el) => {
+        const end = parseInt(el.getAttribute('data-value') || '0', 10);
+        const suffix = el.getAttribute('data-suffix') || '';
+        const obj = { val: 0 };
+        gsap.to(obj, {
+          val: end,
           duration: 2,
           ease: "power2.out",
           delay: 1,
-          snap: { innerText: 1 },
+          snap: { val: 1 },
           onUpdate: function() {
-            const value = Math.ceil(this.targets()[0].innerText);
-            const suffix = this.targets()[0].getAttribute('data-suffix') || '';
-            this.targets()[0].innerText = value + suffix;
+            el.innerText = Math.ceil(obj.val) + suffix;
           }
-        }
-      );
+        });
+      });
 
       // Parallax effect for content
       gsap.to(contentRef.current, {
@@ -230,9 +231,9 @@ export default function AboutMeSection() {
 
             <div className="space-y-8">
               <p className="text-lg text-gray-400 leading-relaxed">
-                A passionate full-stack developer and junior Computer Science
+                A passionate full-stack developer and Computer Science
                 student, well-versed in solving DSA problems and building
-                end-to-end web applications with the MERN stack. I approach each
+                end-to-end web applications with the MERN stack incorporating AI and ML
                 problem with a mix of logic, creativity, and attention to detail
                 — whether it's backend APIs or frontend experiences.
               </p>
@@ -245,10 +246,10 @@ export default function AboutMeSection() {
                 <div className="flex flex-col">
                   <span 
                     className="text-4xl font-bold text-green-400 stat-number"
-                    data-value="500"
+                    data-value="550"
                     data-suffix="+"
                   >
-                    0+
+                    550+
                   </span>
                   <span className="text-lg text-gray-300 font-medium mt-1">
                     DSA Problems Solved
@@ -258,10 +259,10 @@ export default function AboutMeSection() {
                 <div className="flex flex-col">
                   <span 
                     className="text-4xl font-bold text-green-400 stat-number"
-                    data-value="4"
+                    data-value="6"
                     data-suffix="+"
                   >
-                    0+
+                    0
                   </span>
                   <span className="text-lg text-gray-300 font-medium mt-1">
                     Projects Completed
@@ -271,13 +272,13 @@ export default function AboutMeSection() {
                 <div className="flex flex-col">
                   <span 
                     className="text-4xl font-bold text-green-400 stat-number"
-                    data-value="3"
+                    data-value="16"
                     data-suffix="+"
                   >
-                    0+
+                    0
                   </span>
                   <span className="text-lg text-gray-300 font-medium mt-1">
-                    Competitions Won
+                    Competitions Participated
                   </span>
                 </div>
 

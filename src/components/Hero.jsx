@@ -116,13 +116,6 @@ const Hero = () => {
     "art in execution.",
   ];
   
-  const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = "/resume.pdf";
-    link.download = "resume.pdf";
-    link.click();
-  };
-
   return (
     <div className="relative min-h-screen bg-black overflow-hidden">
       {/* Code block background pattern */}
@@ -195,12 +188,12 @@ const Hero = () => {
           {/* CTA Link */}
           <div className="flex justify-start items-center gap-8 mt-8">
             <a
-              href="/resume"
+              href="/resume.pdf"
               target="_blank"
+              rel="noopener noreferrer"
               className="inline-block text-sm md:text-base font-medium leading-tight tracking-tight text-white no-underline relative group transition-all duration-500 ease-out hover:text-green-400"
-               onClick={handleDownload}
             >
-              DOWNLOAD RESUME
+              VIEW RESUME
               <span className="absolute -bottom-2 left-0 w-8 h-px bg-gray-400 transition-all duration-500 ease-out group-hover:w-full group-hover:bg-green-400"></span>
             </a>
             

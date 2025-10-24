@@ -8,6 +8,7 @@ import Contact from "@/components/contacts";
 import PortfolioLoader from "@/components/PortfolioLoader";
 import { useState } from "react";
 import Footer from "@/components/Footer";
+import CustomCursor from "@/components/CustomCursor";
 
 export default function Home() {
   const [portfolioLoading, setPortfolioLoading] = useState(true);
@@ -18,6 +19,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black">
+      {/* Custom cursor mounted always so it's visible during load and after */}
+      <CustomCursor />
+
       {portfolioLoading ? (
         <PortfolioLoader onComplete={handleLoaderComplete} />
       ) : (

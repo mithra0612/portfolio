@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
-import { Link, Github } from "lucide-react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { Link, Github, ArrowLeft, ArrowRight } from "lucide-react";
 
 // Projects data
 const projects = [
@@ -25,6 +25,58 @@ const projects = [
     thumbnail: "/financial-services.png",
     year: "2024",
     event: "Smart India Hackathon, Finalist",
+  },
+  {
+    title: "FRA Atlas & WebGIS DSS",
+    description:
+      "An AI-powered platform for end-to-end Forest Rights Act (FRA) implementation: digitizing legacy claims via OCR+NER, generating geofenced shapefiles, and delivering a centralized, real-time WebGIS Atlas with a Decision Support System that maps government schemes to eligible tribal households and communities.",
+    tech: [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "PostgreSQL + PostGIS",
+      "GeoJSON",
+      "QGIS",
+      "Google Earth Engine",
+      "Tesseract OCR",
+      "spaCy NER",
+      "PyTorch",
+      "scikit-learn",
+      "TensorFlow Lite",
+      "LangChain",
+      "RAG (Retrieval-Augmented Generation)",
+      "OpenCV",
+      "WebGL",
+      "Map APIs",
+    ],
+    live: "https://dev-proto-1.vercel.app/",
+    github: "https://github.com/mithra0612/vanAdhikar",
+    thumbnail: "/fra.png",
+    year: "2025",
+    event: "Smart India Hackathon 2025",
+  },
+
+  {
+    title: "PitVision — Open-Cast Mining Monitor",
+    description:
+      "A geospatial tool that detects open-cast mining from EO/SAR imagery, flags activity beyond lease boundaries, and computes depth and volume from DEMs using Simpson’s method, with interactive maps and automated compliance reports.",
+    tech: [
+      "React",
+      "Node.js",
+      "PostGIS",
+      "Python",
+      "Rasterio",
+      "PyTorch",
+      "MapLibre GL",
+      "Sentinel Hub API",
+      "STAC API",
+      "LangChain",
+    ],
+    live: "https://sih-prototype-07.vercel.app/",
+    github: "https://github.com/your-org/mineguard",
+    thumbnail: "/open.png",
+    year: "2025",
+    event: "Smart India Hackathon 2025",
   },
   {
     title: "Wellcare: AI-Based Women's Health and Wellness Platform",
@@ -62,7 +114,7 @@ const projects = [
       "HTML5",
       "CSS3",
       "MongoDB",
-      "LangChain"
+      "LangChain",
     ],
     live: "https://growth-guardian.vercel.app/",
     github: "https://github.com/mithra0612/growth-guardian",
@@ -71,24 +123,25 @@ const projects = [
     event: "HackIt Winner",
   },
   {
-    title: "Second-Hand Car Buying and Selling Platform",
+    title: "Civic Lens – Transparent Governance",
     description:
-      "A streamlined, user-friendly platform designed to simplify the process of buying and selling second-hand cars, featuring intuitive browsing, comparison tools, and a responsive interface for enhanced user experience.",
+      "A data-driven governance platform designed to make Kerala’s open data accessible and actionable through interactive dashboards at the State, District, and Village levels. It enables personalized welfare scheme mapping, geo-tagged issue reporting (in Malayalam & English), and real-time public engagement.",
     tech: [
       "React.js",
       "Node.js",
-      "HTML5",
-      "CSS3",
-      "JavaScript",
-      "Axios",
       "Express.js",
-      "Machine Learning"
+      "MongoDB",
+      "Axios",
+      "Open Data APIs",
+      "LangChain",
+      "RAG (Retrieval-Augmented Generation)",
+      "Machine Learning",
     ],
-    live: "",
-    github: "https://github.com/mithra0612/car-selling-app",
-    thumbnail: "/car-market.png",
-    year: "2024",
-    event: "Personal Project",
+    live: "https://civic-lens-app.vercel.app/",
+    github: "https://github.com/adhavan13/Hack25-Frontend",
+    thumbnail: "/civic-lens.png",
+    year: "2025",
+    event: "Hack'25 Finalist",
   },
 ];
 
@@ -101,62 +154,170 @@ const HorizontalScrollProjects = () => {
     offset: ["start start", "end end"],
   });
 
-  // Smoother spring with better damping
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 400,
     damping: 40,
-    restDelta: 0.001
+    restDelta: 0.001,
   });
 
-  // Better project progress calculation
   const projectProgress = useTransform(
     smoothProgress,
     [0, 1],
     [0, projects.length - 1]
   );
 
-  // Update current project with proper thresholds
   useEffect(() => {
     const unsubscribe = projectProgress.onChange((latest) => {
-      // Use a threshold of 0.5 to determine when to switch projects
       const index = Math.round(latest);
       const clampedIndex = Math.max(0, Math.min(index, projects.length - 1));
-      
       if (clampedIndex !== currentProject) {
         setCurrentProject(clampedIndex);
       }
     });
-
     return unsubscribe;
   }, [projectProgress, currentProject]);
 
+  // compute slightly reduced container height to avoid excess blank at the bottom
+  const containerHeight = Math.max(projects.length * 100 - 50, 100);
+
+  // Smooth scroll to project index
+  const scrollToIndex = useCallback((index) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const containerTop = window.scrollY + rect.top;
+    const target = containerTop + index * window.innerHeight;
+    window.scrollTo({ top: target, behavior: "smooth" });
+  }, []);
+
+  // keyboard navigation
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === "ArrowRight") {
+        const next = Math.min(projects.length - 1, currentProject + 1);
+        scrollToIndex(next);
+      } else if (e.key === "ArrowLeft") {
+        const prev = Math.max(0, currentProject - 1);
+        scrollToIndex(prev);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [currentProject, scrollToIndex]);
+
   return (
-    <div className="bg-black text-white">
+    <div className="relative bg-black text-white">
+      {/* Animated background */}
+      <style>{`
+        @keyframes floatGradient {
+          0% { transform: translate(-40%, -30%) rotate(0deg) scale(1); opacity: .7; }
+          50% { transform: translate(-20%, -10%) rotate(10deg) scale(1.05); opacity: .85; }
+          100% { transform: translate(-40%, -30%) rotate(0deg) scale(1); opacity: .7; }
+        }
+      `}</style>
+
+      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div
+          aria-hidden
+          className="absolute -left-40 -top-40 w-[900px] h-[900px] rounded-full blur-3xl opacity-60"
+          style={{
+            background:
+              "radial-gradient(circle at 30% 30%, rgba(59,130,246,0.22), rgba(0,0,0,0)) , radial-gradient(circle at 70% 70%, rgba(249,115,22,0.12), rgba(0,0,0,0))",
+            animation: "floatGradient 10s ease-in-out infinite",
+          }}
+        />
+      </div>
+
       {/* Header Section */}
-      <div className="max-w-7xl mx-auto px-4 py-20 pb-0">
+      <div className="max-w-7xl mx-auto px-4 py-8 md:py-12 pb-4 -mb-8">
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-4xl md:text-7xl font-bold text-blue-400"
+          className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-blue-400 tracking-tight"
         >
           My Projects
         </motion.h1>
+        {/* <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="mt-3 text-gray-300 max-w-2xl"
+        >
+          Selected work — click a card or use arrows / dots to navigate.
+        </motion.p> */}
       </div>
 
-      {/* Scroll Container - Adjusted height for better scroll sensitivity */}
+      {/* Scroll Container */}
       <div
         ref={containerRef}
         className="relative"
         style={{
-          height: `${projects.length * 100}vh`,
-          scrollBehavior: 'smooth'
+          height: `${containerHeight}vh`,
+          scrollBehavior: "smooth",
         }}
       >
         <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
-          {/* Progress Indicator - REMOVED */}
-          
           <div className="w-full max-w-7xl mx-auto px-4">
+            {/* Top-left counter */}
+            <div className="absolute left-4 top-6 z-20">
+              {/* <div className="text-sm text-gray-400">
+                <span className="font-semibold text-white mr-2">
+                  {String(currentProject + 1).padStart(2, "0")}
+                </span>
+                <span className="opacity-70">/ {String(projects.length).padStart(2, "0")}</span>
+              </div> */}
+            </div>
+
+            {/* Right-side dots */}
+            <div className="hidden md:absolute md:right-6 md:top-1/2 md:z-20 md:transform md:-translate-y-1/2 md:flex md:flex-col md:items-center md:gap-3">
+              {projects.map((p, i) => (
+                <button
+                  key={p.title}
+                  onClick={() => scrollToIndex(i)}
+                  aria-label={`Go to project ${i + 1}`}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    i === currentProject
+                      ? "bg-orange-400 scale-125 shadow-[0_0_0_6px_rgba(249,115,22,0.08)]"
+                      : "bg-gray-600 hover:bg-gray-500"
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Mobile bottom dots (touch-friendly) */}
+            <div className="md:hidden absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 flex gap-3">
+              {projects.map((p, i) => (
+                <button
+                  key={`mobile-${p.title}`}
+                  onClick={() => scrollToIndex(i)}
+                  aria-label={`Go to project ${i + 1}`}
+                  className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${
+                    i === currentProject
+                      ? "bg-orange-400 scale-125 shadow-[0_0_0_8px_rgba(249,115,22,0.08)]"
+                      : "bg-gray-600 hover:bg-gray-500"
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Arrow navigation */}
+            {/* <div className="absolute left-6 top-1/2 z-20 transform -translate-y-1/2 flex flex-col gap-3">
+              <button
+                onClick={() => scrollToIndex(Math.max(0, currentProject - 1))}
+                aria-label="Previous"
+                className="p-2 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-sm transition"
+              >
+                <ArrowLeft size={16} color="rgba(249,115,22,0.95)" />
+              </button>
+              <button
+                onClick={() => scrollToIndex(Math.min(projects.length - 1, currentProject + 1))}
+                aria-label="Next"
+                className="p-2 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-sm transition"
+              >
+                <ArrowRight size={16} color="rgba(59,130,246,0.95)" />
+              </button>
+            </div> */}
+
             {/* Project Cards Container */}
             <div className="relative w-full h-full flex items-center justify-center">
               {projects.map((project, index) => (
@@ -178,55 +339,61 @@ const HorizontalScrollProjects = () => {
 
 const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
   const isActive = index === currentProject;
-  
-  // Transform the smooth progress to get the actual project index
+
   const adjustedProgress = useTransform(
     projectProgress,
     [0, 1],
     [0, projects.length - 1]
   );
-  
-  // Improved positioning with better spacing to prevent overlap
+
   const cardX = useTransform(
     adjustedProgress,
-    [index - 1.5, index - 1, index - 0.5, index, index + 0.5, index + 1, index + 1.5],
+    [
+      index - 1.5,
+      index - 1,
+      index - 0.5,
+      index,
+      index + 0.5,
+      index + 1,
+      index + 1.5,
+    ],
     ["150%", "100%", "50%", "0%", "-50%", "-100%", "-150%"]
   );
-  
-  // Better opacity curve for smoother transitions
+
   const cardOpacity = useTransform(
     adjustedProgress,
-    [index - 1.2, index - 0.8, index - 0.3, index, index + 0.3, index + 0.8, index + 1.2],
+    [
+      index - 1.2,
+      index - 0.8,
+      index - 0.3,
+      index,
+      index + 0.3,
+      index + 0.8,
+      index + 1.2,
+    ],
     [0, 0.2, 0.6, 1, 0.6, 0.2, 0]
   );
-  
-  // Refined scale transitions
+
   const cardScale = useTransform(
     adjustedProgress,
     [index - 1, index - 0.5, index, index + 0.5, index + 1],
-    [0.85, 0.92, 1, 0.92, 0.85]
+    [0.88, 0.95, 1, 0.95, 0.88]
   );
 
-  // Improved blur effect
   const cardBlur = useTransform(
     adjustedProgress,
     [index - 0.8, index - 0.3, index, index + 0.3, index + 0.8],
-    [4, 1, 0, 1, 4]
+    [6, 2, 0, 2, 6]
   );
 
-  // Add z-index based on proximity to current project
-  const zIndex = useTransform(
-    adjustedProgress,
-    [index - 1, index, index + 1],
-    [1, 10, 1]
-  );
+  // mobile "read more" toggle (local to each card)
+  const [expanded, setExpanded] = useState(false);
 
-  // Handle image click
   const handleImageClick = () => {
     if (project.live) {
-      window.open(project.live, '_blank', 'noopener,noreferrer');
+      window.open(project.live, "_blank", "noopener,noreferrer");
     } else if (project.github) {
-      window.open(project.github, '_blank', 'noopener,noreferrer');
+      window.open(project.github, "_blank", "noopener,noreferrer");
     }
   };
 
@@ -237,30 +404,147 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
         opacity: cardOpacity,
         scale: cardScale,
         filter: `blur(${cardBlur}px)`,
-        zIndex: isActive ? 10 : 1,
+        zIndex: isActive ? 20 : 1,
       }}
-      className="absolute top-1/2 left-1/2 w-full max-w-7xl transform -translate-x-1/2 -translate-y-1/2"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{
         type: "spring",
-        stiffness: 300,
-        damping: 30,
-        mass: 0.8
+        stiffness: 220,
+        damping: 28,
+        mass: 0.7,
       }}
+      className="absolute top-1/2 left-1/2 w-full max-w-7xl transform -translate-x-1/2 -translate-y-1/2 px-4"
     >
-      <div className="w-full bg-gray-900/90 backdrop-blur-sm border border-orange-400/20 rounded-2xl overflow-hidden shadow-2xl">
+      {/* MOBILE LAYOUT (completely redesigned for small screens) */}
+      <div
+        className={`md:hidden w-full bg-gradient-to-b from-gray-900/90 to-black/90 border rounded-2xl overflow-hidden shadow-lg transition-transform duration-300 ${
+          isActive ? "ring-1 ring-orange-400/20" : "opacity-95"
+        }`}
+      >
+        <div className="flex flex-col">
+          <button
+            onClick={handleImageClick}
+            className="block w-full h-48 overflow-hidden bg-gray-800"
+            title={project.live ? "Open live demo" : "Open source"}
+          >
+            <img
+              src={project.thumbnail}
+              alt={project.title}
+              className="w-full h-full object-cover transform transition-transform duration-500 hover:scale-105"
+              onError={(e) => {
+                e.target.style.display = "none";
+                e.target.parentElement.innerHTML = `
+                  <div class="w-full h-full flex items-center justify-center bg-gray-800">
+                    <div class="text-center text-gray-400">
+                      <div class="text-3xl mb-1">📷</div>
+                      <div class="text-xs">Project Image</div>
+                    </div>
+                  </div>
+                `;
+              }}
+            />
+          </button>
+
+          <div className="p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="bg-orange-400 text-black px-2 py-0.5 rounded-full text-xs font-bold">
+                  {project.year}
+                </span>
+                <span className="text-orange-300 text-xs font-medium">
+                  {project.event}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                {project.live && (
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1 bg-orange-400/10 text-orange-300 rounded-md text-sm font-medium"
+                    title="Live Demo"
+                  >
+                    Live
+                  </a>
+                )}
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1 bg-gray-800/60 text-orange-300 rounded-md text-sm font-medium"
+                    title="Source Code"
+                  >
+                    Code
+                  </a>
+                )}
+              </div>
+            </div>
+
+            <h3 className="text-lg font-semibold text-white leading-tight">
+              {project.title}
+            </h3>
+
+            <p className="text-gray-300 text-sm leading-relaxed">
+              {expanded
+                ? project.description
+                : `${project.description.slice(0, 140)}${
+                    project.description.length > 140 ? "…" : ""
+                  }`}
+            </p>
+            {project.description.length > 140 && (
+              <button
+                onClick={() => setExpanded((s) => !s)}
+                className="text-xs text-blue-300 font-semibold"
+                aria-expanded={expanded}
+              >
+                {expanded ? "Show less" : "Read more"}
+              </button>
+            )}
+
+            <div className="pt-1">
+              {/* <h4 className="text-xs text-orange-300 font-bold uppercase tracking-wide mb-2">
+                Tech
+              </h4> */}
+              <div className="flex gap-2 overflow-x-auto pb-1 -mx-1">
+                {project.tech.map((tech, techIndex) => (
+                  <span
+                    key={techIndex}
+                    className="flex-shrink-0 px-3 py-1.5 text-xs font-medium text-orange-200 bg-orange-400/8 rounded-full border border-orange-400/12"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* DESKTOP / TABLET LAYOUT (unchanged) */}
+      <div
+        className={`hidden md:block w-full bg-gradient-to-r from-gray-900/80 to-black/80 border rounded-2xl overflow-hidden shadow-2xl transition-transform duration-500 ${
+          isActive ? "scale-100 ring-1 ring-orange-400/20" : "opacity-90"
+        }`}
+      >
         <div className="grid md:grid-cols-2 gap-0 h-full">
           {/* Image Section */}
-          <div 
-            className="relative h-80 md:h-96 lg:h-[450px] overflow-hidden bg-gray-800 cursor-pointer"
+          <div
+            className="relative h-56 sm:h-72 md:h-96 lg:h-[480px] overflow-hidden bg-gradient-to-br from-gray-800 via-gray-900 to-black cursor-pointer"
             onClick={handleImageClick}
-            title={project.live ? "Click to view live demo" : "Click to view source code"}
+            title={
+              project.live
+                ? "Click to view live demo"
+                : "Click to view source code"
+            }
           >
             <img
               src={project.thumbnail}
               alt={project.title}
               className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
               onError={(e) => {
-                e.target.style.display = 'none';
+                e.target.style.display = "none";
                 e.target.parentElement.innerHTML = `
                   <div class="w-full h-full flex items-center justify-center bg-gray-800">
                     <div class="text-center text-gray-400">
@@ -271,11 +555,11 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
                 `;
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
           </div>
 
           {/* Content Section */}
-          <div className="p-8 flex flex-col justify-center space-y-6">
+          <div className="p-6 sm:p-8 flex flex-col justify-center space-y-5">
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <span className="bg-orange-400 text-black px-3 py-1 rounded-full text-sm font-bold">
@@ -287,11 +571,10 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
               </div>
 
               <div className="flex items-start justify-between mb-2">
-                <h3 className="text-2xl md:text-3xl font-semibold text-white leading-tight flex-1 mr-4">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white leading-tight flex-1 mr-4">
                   {project.title}
                 </h3>
-                
-                {/* Action Buttons - Moved here */}
+
                 <div className="flex space-x-2 flex-shrink-0">
                   {project.live && (
                     <a
@@ -327,7 +610,7 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
               <h4 className="text-orange-300 text-sm font-bold mb-3 uppercase tracking-wide">
                 Technologies Used
               </h4>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 sm:gap-2 overflow-x-auto sm:overflow-visible pb-1">
                 {project.tech.map((tech, techIndex) => (
                   <span
                     key={techIndex}
@@ -336,11 +619,6 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
                     {tech}
                   </span>
                 ))}
-                {/* {project.tech.length > 6 && (
-                  <span className="px-3 py-1 text-xs font-medium text-orange-200 bg-orange-400/10 rounded-full border border-orange-400/20">
-                    +{project.tech.length - 6} more
-                  </span>
-                )} */}
               </div>
             </div>
           </div>
