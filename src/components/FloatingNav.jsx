@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Home, User, Code, Briefcase, Mail } from 'lucide-react';
+import { useRouter } from 'next/navigation'; // added import
 
 const FixedNavbar = () => {
+  const router = useRouter(); // added router
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -20,16 +22,26 @@ const FixedNavbar = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // Smooth scroll function
+  // Smooth scroll / navigation function
   const scrollToSection = (sectionId) => {
-    const element = document.querySelector(sectionId);
-    if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
+    if (!sectionId) return;
+    // if it's an in-page anchor (starts with #) perform smooth scroll
+    if (sectionId.startsWith('#')) {
+      const element = document.querySelector(sectionId);
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }
+      // ensure mobile menu closes after in-page navigation
+      setIsMobileMenuOpen(false);
+      return;
     }
-    setIsOpen(false);
+    // otherwise navigate to the route (external page)
+    router.push(sectionId);
+    // ensure mobile menu closes after route navigation
+    setIsMobileMenuOpen(false);
   };
 
   useEffect(() => {
@@ -148,17 +160,8 @@ const FixedNavbar = () => {
               <NavLink href="#about">ABOUT</NavLink>
               <NavLink href="#skills">SKILLS</NavLink>
               <NavLink href="#projects">PROJECTS</NavLink>
+              <NavLink href="/achievements">ACHIEVEMENTS</NavLink> {/* will navigate to page */}
               <NavLink href="#contact">CONTACT</NavLink>
-              
-              {/* <a
-                href="https://cal.com/madhumithra-m/30min?user=madhumithra-m"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm md:text-base font-medium leading-tight tracking-tight text-white no-underline transition-all duration-500 ease-out"
-                onClick={handleDownload}
-              >
-                <BounceText text="BOOK A CALL" />
-              </a> */}
             </div>
           </div>
         </div>
@@ -190,6 +193,7 @@ const FixedNavbar = () => {
             <NavLink href="#about" onClick={toggleMobileMenu}>ABOUT</NavLink>
             <NavLink href="#skills" onClick={toggleMobileMenu}>SKILLS</NavLink>
             <NavLink href="#projects" onClick={toggleMobileMenu}>PROJECTS</NavLink>
+            <NavLink href="/achievements" onClick={toggleMobileMenu}>ACHIEVEMENTS</NavLink> {/* navigates to page and closes menu */}
             <NavLink href="#contact" onClick={toggleMobileMenu}>CONTACT</NavLink>
           </div>
         </div>
