@@ -228,12 +228,12 @@ const HorizontalScrollProjects = () => {
       </div>
 
       {/* Header Section */}
-      <div className="max-w-7xl mx-auto px-4 py-8 md:py-12 pb-4 -mb-8">
+      <div className="max-w-7xl mx-auto px-4 py-8 md:py-12 pb-4 -mb-20">
         <motion.h1
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-blue-400 tracking-tight"
+          className="text-3xl sm:text-5xl md:text-5xl font-extrabold text-blue-500 tracking-tight mt-20"
         >
           My Projects
         </motion.h1>
@@ -277,8 +277,8 @@ const HorizontalScrollProjects = () => {
                   aria-label={`Go to project ${i + 1}`}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     i === currentProject
-                      ? "bg-orange-400 scale-125 shadow-[0_0_0_6px_rgba(249,115,22,0.08)]"
-                      : "bg-gray-600 hover:bg-gray-500"
+                      ? "bg-tan scale-125 shadow-[0_0_0_6px_rgba(198,172,143,0.08)]"
+                      : "bg-stone-brown hover:bg-tan/70"
                   }`}
                 />
               ))}
@@ -293,8 +293,8 @@ const HorizontalScrollProjects = () => {
                   aria-label={`Go to project ${i + 1}`}
                   className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${
                     i === currentProject
-                      ? "bg-orange-400 scale-125 shadow-[0_0_0_8px_rgba(249,115,22,0.08)]"
-                      : "bg-gray-600 hover:bg-gray-500"
+                      ? "bg-tan scale-125 shadow-[0_0_0_8px_rgba(198,172,143,0.08)]"
+                      : "bg-stone-brown hover:bg-tan/70"
                   }`}
                 />
               ))}
@@ -418,14 +418,14 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
     >
       {/* MOBILE LAYOUT (completely redesigned for small screens) */}
       <div
-        className={`md:hidden w-full bg-gradient-to-b from-gray-900/90 to-black/90 border rounded-2xl overflow-hidden shadow-lg transition-transform duration-300 ${
-          isActive ? "ring-1 ring-orange-400/20" : "opacity-95"
+        className={`md:hidden w-full bg-gradient-to-b from-jet-black/90 to-black/90 border rounded-2xl overflow-hidden shadow-lg transition-transform duration-300 ${
+          isActive ? "ring-1 ring-tan/20" : "opacity-95"
         }`}
       >
         <div className="flex flex-col">
           <button
             onClick={handleImageClick}
-            className="block w-full h-48 overflow-hidden bg-gray-800"
+            className="block w-full h-48 overflow-hidden bg-jet-black"
             title={project.live ? "Open live demo" : "Open source"}
           >
             <img
@@ -449,10 +449,10 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
           <div className="p-4 space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="bg-orange-400 text-black px-2 py-0.5 rounded-full text-xs font-bold">
+                <span className="bg-blue-500 text-white px-2 py-0.5 rounded-full text-xs font-bold">
                   {project.year}
                 </span>
-                <span className="text-orange-300 text-xs font-medium">
+                <span className="text-blue-400 text-xs font-medium">
                   {project.event}
                 </span>
               </div>
@@ -462,7 +462,7 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
                     href={project.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-1 bg-orange-400/10 text-orange-300 rounded-md text-sm font-medium"
+                    className="px-3 py-1 bg-tan/10 text-tan rounded-md text-sm font-medium"
                     title="Live Demo"
                   >
                     Live
@@ -473,7 +473,7 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-1 bg-gray-800/60 text-orange-300 rounded-md text-sm font-medium"
+                    className="px-3 py-1 bg-jet-black/60 text-tan rounded-md text-sm font-medium"
                     title="Source Code"
                   >
                     Code
@@ -482,11 +482,11 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
               </div>
             </div>
 
-            <h3 className="text-lg font-semibold text-white leading-tight">
+            <h3 className="text-lg font-semibold text-soft-linen leading-tight">
               {project.title}
             </h3>
 
-            <p className="text-gray-300 text-sm leading-relaxed">
+            <p className="text-soft-linen/80 text-sm leading-relaxed">
               {expanded
                 ? project.description
                 : `${project.description.slice(0, 140)}${
@@ -496,7 +496,7 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
             {project.description.length > 140 && (
               <button
                 onClick={() => setExpanded((s) => !s)}
-                className="text-xs text-blue-300 font-semibold"
+                className="text-xs text-tan font-semibold"
                 aria-expanded={expanded}
               >
                 {expanded ? "Show less" : "Read more"}
@@ -504,14 +504,14 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
             )}
 
             <div className="pt-1">
-              {/* <h4 className="text-xs text-orange-300 font-bold uppercase tracking-wide mb-2">
+              {/* <h4 className="text-xs text-tan font-bold uppercase tracking-wide mb-2">
                 Tech
               </h4> */}
               <div className="flex gap-2 overflow-x-auto pb-1 -mx-1">
                 {project.tech.map((tech, techIndex) => (
                   <span
                     key={techIndex}
-                    className="flex-shrink-0 px-3 py-1.5 text-xs font-medium text-orange-200 bg-orange-400/8 rounded-full border border-orange-400/12"
+                    className="flex-shrink-0 px-3 py-1.5 text-xs font-medium text-soft-linen bg-tan/8 rounded-full border border-tan/12"
                   >
                     {tech}
                   </span>
@@ -524,14 +524,14 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
 
       {/* DESKTOP / TABLET LAYOUT (unchanged) */}
       <div
-        className={`hidden md:block w-full bg-gradient-to-r from-gray-900/80 to-black/80 border rounded-2xl overflow-hidden shadow-2xl transition-transform duration-500 ${
-          isActive ? "scale-100 ring-1 ring-orange-400/20" : "opacity-90"
+        className={`hidden md:block w-full bg-gradient-to-r from-jet-black/80 to-black/80 border rounded-2xl overflow-hidden shadow-2xl transition-transform duration-500 ${
+          isActive ? "scale-100 ring-1 ring-tan/20" : "opacity-90"
         }`}
       >
         <div className="grid md:grid-cols-2 gap-0 h-full">
           {/* Image Section */}
           <div
-            className="relative h-56 sm:h-72 md:h-96 lg:h-[480px] overflow-hidden bg-gradient-to-br from-gray-800 via-gray-900 to-black cursor-pointer"
+            className="relative h-56 sm:h-72 md:h-96 lg:h-[480px] overflow-hidden bg-gradient-to-br from-jet-black via-jet-black to-black cursor-pointer"
             onClick={handleImageClick}
             title={
               project.live
@@ -562,16 +562,16 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
           <div className="p-6 sm:p-8 flex flex-col justify-center space-y-5">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <span className="bg-orange-400 text-black px-3 py-1 rounded-full text-sm font-bold">
+                <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold">
                   {project.year}
                 </span>
-                <span className="text-orange-300 text-sm font-medium">
+                <span className="text-blue-400 text-sm font-medium">
                   {project.event}
                 </span>
               </div>
 
               <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white leading-tight flex-1 mr-4">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-soft-linen leading-tight flex-1 mr-4">
                   {project.title}
                 </h3>
 
@@ -581,10 +581,10 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 bg-orange-400/20 backdrop-blur-sm text-orange-400 rounded-full hover:bg-orange-400/30 transition-all duration-300"
+                      className="p-2 bg-tan/20 backdrop-blur-sm text-tan rounded-full hover:bg-tan/30 transition-all duration-300"
                       title="Live Demo"
                     >
-                      <Link size={18} />
+                      <Link size={18} className = 'text-green-500'/>
                     </a>
                   )}
                   {project.github && (
@@ -592,29 +592,29 @@ const ProjectCard = ({ project, index, currentProject, projectProgress }) => {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 bg-orange-400/20 backdrop-blur-sm text-orange-400 rounded-full hover:bg-orange-400/30 transition-all duration-300"
+                      className="p-2 bg-tan/20 backdrop-blur-sm text-tan rounded-full hover:bg-tan/30 transition-all duration-300"
                       title="Source Code"
                     >
-                      <Github size={18} />
+                      <Github size={18} className = 'text-green-500'/>
                     </a>
                   )}
                 </div>
               </div>
 
-              <p className="text-gray-300 text-base leading-relaxed">
+              <p className="text-soft-linen/80 text-base leading-relaxed">
                 {project.description}
               </p>
             </div>
 
             <div>
-              <h4 className="text-orange-300 text-sm font-bold mb-3 uppercase tracking-wide">
+              <h4 className="text-tan text-sm font-bold mb-3 uppercase tracking-wide text-orange-500">
                 Technologies Used
               </h4>
-              <div className="flex flex-wrap gap-2 sm:gap-2 overflow-x-auto sm:overflow-visible pb-1">
+              <div className="flex flex-wrap gap-2 sm:gap-2 overflow-x-auto sm:overflow-visible pb-1 text-orange-500">
                 {project.tech.map((tech, techIndex) => (
                   <span
                     key={techIndex}
-                    className="px-3 py-1 text-xs font-medium text-orange-200 bg-orange-400/10 rounded-full border border-orange-400/20"
+                    className="px-3 py-1 text-xs font-medium text-soft-linen bg-tan/10 rounded-full border border-tan/20"
                   >
                     {tech}
                   </span>

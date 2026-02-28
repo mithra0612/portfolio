@@ -43,9 +43,9 @@ const DEFAULT_EFFECT_OPTIONS = {
     background: 0x000000,
     shoulderLines: 0xffffff,
     brokenLines: 0xffffff,
-    leftCars: [0xd856bf, 0x6750a2, 0xc247ac],
-    rightCars: [0x03b3c3, 0x0e5ea5, 0x324555],
-    sticks: 0x03b3c3,
+    leftCars: [0x0066ff, 0x0099ff, 0x00ccff],
+    rightCars: [0x00ff66, 0x00cc66, 0x33ff99],
+    sticks: 0x00ffcc,
   },
 };
 

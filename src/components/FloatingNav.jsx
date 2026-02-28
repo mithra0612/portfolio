@@ -160,7 +160,7 @@ const FixedNavbar = () => {
               <NavLink href="#about">ABOUT</NavLink>
               <NavLink href="#skills">SKILLS</NavLink>
               <NavLink href="#projects">PROJECTS</NavLink>
-              <NavLink href="/achievements">ACHIEVEMENTS</NavLink> {/* will navigate to page */}
+              {/* <NavLink href="/achievements">ACHIEVEMENTS</NavLink> will navigate to page */}
               <NavLink href="#contact">CONTACT</NavLink>
             </div>
           </div>

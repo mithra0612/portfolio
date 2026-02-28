@@ -179,7 +179,7 @@ export default function AboutMeSection() {
       <div className="max-w-7xl mx-auto">
         <h1 
           ref={titleRef}
-          className="text-3xl sm:text-7xl font-bold pb-6 sm:pb-10 mt-10 sm:mt-10 text-blue-400"
+          className="text-3xl sm:text-5xl font-bold pb-6 sm:pb-10 mt-10 sm:mt-10 text-blue-400"
         >
           About Me
         </h1>
@@ -246,10 +246,10 @@ export default function AboutMeSection() {
                 <div className="flex flex-col">
                   <span 
                     className="text-4xl font-bold text-green-400 stat-number"
-                    data-value="550"
+                    data-value="650"
                     data-suffix="+"
                   >
-                    550+
+                    650+
                   </span>
                   <span className="text-lg text-gray-300 font-medium mt-1">
                     DSA Problems Solved
@@ -262,7 +262,7 @@ export default function AboutMeSection() {
                     data-value="6"
                     data-suffix="+"
                   >
-                    0
+                    6
                   </span>
                   <span className="text-lg text-gray-300 font-medium mt-1">
                     Projects Completed

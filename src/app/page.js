@@ -26,8 +26,9 @@ export default function Home() {
         <PortfolioLoader onComplete={handleLoaderComplete} />
       ) : (
         <>
+          /* The line `          {/* <FloatingNav /> */}` is a commented-out code in JSX. This means that the `<FloatingNav />` component is not being rendered or displayed on the webpage. It is likely that the developer has temporarily disabled or removed the `<FloatingNav />` component from the page for testing or debugging purposes. */
           <FloatingNav />
-          <div id="hero">
+          <div id="hero" className="pt-8">
             <Hero />
           </div>
           <div id="about">

@@ -1,234 +1,177 @@
 "use client";
-import { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const titleVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: "easeOut" },
+  },
+};
+
+const sectionTitleVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const skillItemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+const SkillItem = ({ src, alt, name, hasInvert = true }) => (
+  <motion.div
+    className="text-center skill-item"
+    variants={skillItemVariants}
+    whileHover={{ y: -5 }}
+    transition={{ duration: 0.3 }}
+  >
+    <motion.img
+      src={src}
+      alt={alt}
+      className={`h-8 w-8 sm:h-16 sm:w-16 mx-auto ${hasInvert ? 'invert' : ''}`}
+      whileHover={{ 
+        scale: 1.1,
+        filter: hasInvert ? "invert(1) sepia(1) saturate(5) hue-rotate(85deg)" : "sepia(1) saturate(5) hue-rotate(85deg)"
+      }}
+      transition={{ duration: 0.3 }}
+    />
+    <p className="mt-1 sm:mt-2 text-xs sm:text-base">{name}</p>
+  </motion.div>
+);
 
 export default function Skills() {
-  const sectionRef = useRef(null);
-  const titleRef = useRef(null);
-  const languagesRef = useRef(null);
-  const frameworksRef = useRef(null);
-  const databasesRef = useRef(null);
-  const toolsRef = useRef(null);
-
-  useEffect(() => {
-    // Load GSAP
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
-    script.onload = () => {
-      const { gsap } = window;
-      
-      // ScrollTrigger plugin
-      const scrollTriggerScript = document.createElement('script');
-      scrollTriggerScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js';
-      scrollTriggerScript.onload = () => {
-        gsap.registerPlugin(window.ScrollTrigger);
-        
-        // Title animation - simple fade up
-        gsap.fromTo(titleRef.current, 
-          { 
-            opacity: 0, 
-            y: 30
-          },
-          { 
-            opacity: 1, 
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: titleRef.current,
-              start: "top 80%",
-              toggleActions: "play none none reverse"
-            }
-          }
-        );
-
-        // Animate each section with simple fade up
-        const sections = [languagesRef, frameworksRef, databasesRef, toolsRef];
-        sections.forEach((sectionRef, index) => {
-          // Section title animation
-          gsap.fromTo(
-            sectionRef.current.querySelector('h2'),
-            { opacity: 0, y: 30 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.6,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: sectionRef.current,
-                start: 'top 80%',
-                toggleActions: 'play none none reverse',
-              },
-            }
-          );
-
-          // Skill items animation
-          gsap.fromTo(
-            sectionRef.current.querySelectorAll('.skill-item'),
-            { opacity: 0, y: 20 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.5,
-              stagger: 0.1,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: sectionRef.current,
-                start: 'top 75%',
-                toggleActions: 'play none none reverse',
-              },
-            }
-          );
-        });
-
-        // Simple hover animations for skill items
-        const skillItems = document.querySelectorAll('.skill-item');
-        skillItems.forEach(item => {
-          const img = item.querySelector('img');
-          const text = item.querySelector('p');
-          
-          item.addEventListener('mouseenter', () => {
-            gsap.to(item, {
-              y: -5,
-              duration: 0.3,
-              ease: "power2.out"
-            });
-            gsap.to(img, { 
-              scale: 1.1,
-              duration: 0.3,
-              ease: "power2.out"
-            });
-          });
-          
-          item.addEventListener('mouseleave', () => {
-            gsap.to(item, {
-              y: 0,
-              duration: 0.3,
-              ease: "power2.out"
-            });
-            gsap.to(img, { 
-              scale: 1,
-              duration: 0.3,
-              ease: "power2.out"
-            });
-          });
-        });
-      };
-      document.head.appendChild(scrollTriggerScript);
-    };
-    document.head.appendChild(script);
-
-    return () => {
-      // Cleanup
-      if (window.ScrollTrigger) {
-        window.ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      }
-    };
-  }, []);
-
   return (
     <section
-      ref={sectionRef}
       id="about"
       className="px-4 sm:px-35 bg-black text-white overflow-hidden pt-0"
     >
-      <h1 ref={titleRef} className="text-3xl sm:text-7xl font-bold pb-6 sm:pb-10 mt-10 sm:mt-10 text-blue-400">Skills</h1>
+      <motion.h1
+        className="text-3xl sm:text-7xl font-bold pb-6 sm:pb-10 mt-10 sm:mt-10 text-blue-400"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.5 }}
+        variants={titleVariants}
+      >
+        Skills
+      </motion.h1>
 
       <div className="">
         {/* Programming Languages */}
-        <div ref={languagesRef}>
-          <h2 className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={containerVariants}
+        >
+          <motion.h2
+            className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12"
+            variants={sectionTitleVariants}
+          >
             <span className='text-xl sm:text-4xl text-green-400'>Languages</span> I Know,
-          </h2>
-          <div className="flex items-center space-x-4 sm:space-x-10 mb-6 sm:mb-12">
-            <div className="text-center skill-item">
-              <img src="/java.svg" alt="Java" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base">Java</p>
-            </div>
-            <div className="text-center skill-item">
-              <img src="/c.svg" alt="C" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base">C</p>
-            </div>
-            <div className="text-center skill-item">
-              <img src="/python.svg" alt="Python" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base">Python</p>
-            </div>
-            <div className="text-center skill-item">
-              <img src="/javascript.svg" alt="JavaScript" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base">JavaScript</p>
-            </div>
-          </div>
-        </div>
+          </motion.h2>
+          <motion.div
+            className="flex items-center space-x-4 sm:space-x-10 mb-6 sm:mb-12"
+            variants={containerVariants}
+          >
+            <SkillItem src="/java.svg" alt="Java" name="Java" />
+            <SkillItem src="/c.svg" alt="C" name="C" />
+            <SkillItem src="/python.svg" alt="Python" name="Python" />
+            <SkillItem src="/javascript.svg" alt="JavaScript" name="JavaScript" />
+          </motion.div>
+        </motion.div>
 
         {/* Frameworks */}
-        <div ref={frameworksRef}>
-          <h2 className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={containerVariants}
+        >
+          <motion.h2
+            className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12"
+            variants={sectionTitleVariants}
+          >
             <span className='text-xl sm:text-4xl text-green-400'>Frameworks</span> I've Used,
-          </h2>
-          <div className="flex items-center space-x-4 sm:space-x-10 mb-6 sm:mb-12">
-            <div className="text-center skill-item">
-              <img src="/nextjs.svg" alt="Next.js" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base">Next.js</p>
-            </div>
-            <div className="text-center skill-item">
-              <img src="/react.svg" alt="React.js" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base">React.js</p>
-            </div>
-            <div className="text-center skill-item">
-              <img src="/nodejs.svg" alt="Node.js" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base">Node.js</p>
-            </div>
-            <div className="text-center skill-item">
-              <img src="/expressjs.svg" alt="Express.js" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base">Express.js</p>
-            </div>
-          </div>
-        </div>
+          </motion.h2>
+          <motion.div
+            className="flex items-center space-x-4 sm:space-x-10 mb-6 sm:mb-12"
+            variants={containerVariants}
+          >
+            <SkillItem src="/nextjs.svg" alt="Next.js" name="Next.js" />
+            <SkillItem src="/react.svg" alt="React.js" name="React.js" />
+            <SkillItem src="/nodejs.svg" alt="Node.js" name="Node.js" />
+            <SkillItem src="/expressjs.svg" alt="Express.js" name="Express.js" />
+          </motion.div>
+        </motion.div>
 
         {/* Databases and Cloud */}
-        <div ref={databasesRef}>
-          <h2 className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={containerVariants}
+        >
+          <motion.h2
+            className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12"
+            variants={sectionTitleVariants}
+          >
             <span className='text-xl sm:text-4xl text-green-400'>Databases</span> and <span className='text-xl sm:text-4xl text-green-400'>Cloud</span> I've Used,
-          </h2>
-          <div className="flex items-center space-x-4 sm:space-x-10 mb-6 sm:mb-12">
-            <div className="text-center skill-item">
-              <img src="/mongodb.svg" alt="MongoDB" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base">MongoDB</p>
-            </div>
-            <div className="text-center skill-item">
-              <img src="/mysql.svg" alt="MySQL" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base">MySQL</p>
-            </div>
-            <div className="text-center skill-item">
-              <img src="/gcp.svg" alt="Google Cloud Platform" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base">GCP</p>
-            </div>
-          </div>
-        </div>
+          </motion.h2>
+          <motion.div
+            className="flex items-center space-x-4 sm:space-x-10 mb-6 sm:mb-12"
+            variants={containerVariants}
+          >
+            <SkillItem src="/mongodb.svg" alt="MongoDB" name="MongoDB" />
+            <SkillItem src="/mysql.svg" alt="MySQL" name="MySQL" />
+            <SkillItem src="/gcp.svg" alt="Google Cloud Platform" name="GCP" />
+          </motion.div>
+        </motion.div>
 
         {/* Developer & Designer Tools */}
-        <div ref={toolsRef}>
-          <h2 className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={containerVariants}
+        >
+          <motion.h2
+            className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12"
+            variants={sectionTitleVariants}
+          >
             <span className='text-xl sm:text-4xl text-green-400'>Developer/ Designer Tools</span> I've Worked With,
-          </h2>
-          <div className="flex items-center space-x-4 sm:space-x-10">
-            <div className="text-center skill-item">
-              <img src="/git.svg" alt="Git" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base">Git</p>
-            </div>
-            <div className="text-center skill-item">
-              <img src="/github.svg" alt="GitHub" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base">GitHub</p>
-            </div>
-            <div className="text-center skill-item">
-              <img src="/figma.svg" alt="Figma" className="h-8 w-8 sm:h-16 sm:w-16 invert mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base">Figma</p>
-            </div>
-            <div className="text-center skill-item">
-              <img src="/vercel.svg" alt="Vercel" className="h-8 w-8 sm:h-16 sm:w-16 mx-auto" />
-              <p className="mt-1 sm:mt-2 text-xs sm:text-base">Vercel</p>
-            </div>
-          </div>
-        </div>
+          </motion.h2>
+          <motion.div
+            className="flex items-center space-x-4 sm:space-x-10"
+            variants={containerVariants}
+          >
+            <SkillItem src="/git.svg" alt="Git" name="Git" />
+            <SkillItem src="/github.svg" alt="GitHub" name="GitHub" />
+            <SkillItem src="/figma.svg" alt="Figma" name="Figma" />
+            <SkillItem src="/vercel.svg" alt="Vercel" name="Vercel" hasInvert={false} />
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
