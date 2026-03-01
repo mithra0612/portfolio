@@ -68,7 +68,7 @@ export default function Skills() {
       className="px-4 sm:px-35 bg-black text-white overflow-hidden pt-0"
     >
       <motion.h1
-        className="text-3xl sm:text-7xl font-bold pb-6 sm:pb-10 mt-10 sm:mt-10 text-blue-400"
+        className="text-3xl sm:text-5xl font-bold pb-6 sm:pb-10 mt-10 sm:mt-10 text-blue-400"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.5 }}
