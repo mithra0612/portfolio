@@ -29,14 +29,14 @@ export const Timeline = ({ data }) => {
 
   return (
     <div
-      className="w-full bg-white dark:bg-neutral-950 font-sans md:px-10"
+      className="w-full bg-white dark:bg-black font-sans md:px-10"
       ref={containerRef}
     >
-      <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
-        <h2 className="font-bold text-5xl md:text-5xl mb-4 text-blue-500 dark:text-blue-500 max-w-4xl">
+      <div className="max-w-7xl mx-auto pt-20  px-4 md:px-8 lg:px-10">
+        <h2 className="font-bold text-5xl md:text-5xl mb-4 text-blue-400 dark:text-blue-400 max-w-4xl">
           Achievements
         </h2>
-        <p className="text-neutral-700 dark:text-neutral-300 text-6xl md:text-2xl font-bold">
+        <p className="text-neutral-700 dark:text-neutral-300 text-xl md:text-2xl font-medium ">
           This section highlights key accomplishments and milestones that
           reflect my experience, growth, and the work I’m most proud of.{" "}
         </p>
@@ -46,13 +46,13 @@ export const Timeline = ({ data }) => {
         {data.map((item, index) => (
           <div
             key={index}
-            className="flex justify-start pt-10 md:pt-40 md:gap-10"
+            className="flex justify-start pt-10 md:pt-20 md:gap-10"
           >
             <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
               <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-white dark:bg-black flex items-center justify-center">
                 <div className="h-4 w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2" />
               </div>
-              <h3 className="hidden md:block text-xl md:pl-20 md:text-5xl font-bold text-neutral-500 dark:text-neutral-500 ">
+              <h3 className="hidden md:block text-xl md:pl-20 md:text-5xl font-bold text-white dark:text-white opacity-70">
                 {item.title}
               </h3>
             </div>
@@ -76,7 +76,7 @@ export const Timeline = ({ data }) => {
               height: heightTransform,
               opacity: opacityTransform,
             }}
-            className="absolute inset-x-0 top-0 w-[2px] bg-gradient-to-t from-purple-500 via-blue-500 to-transparent from-[0%] via-[10%] rounded-full"
+            className="absolute inset-x-0 top-0 w-[2px] bg-gradient-to-t from-blue-500 via-green-500 to-orange-500 from-[0%] via-[10%] rounded-full"
           />
         </div>
       </div>

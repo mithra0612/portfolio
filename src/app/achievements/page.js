@@ -9,7 +9,7 @@ export default function TimelineDemo() {
       content: (
         <div>
           <p className="mb-8 text-xs font-normal text-neutral-800 md:text-xl dark:text-neutral-200">
-            Made it to the finalist of SIH 2024, as the top 5 team amoung 500+
+            Made it to the finalist of SIH 2024, as the top 5 team among 500
             teams across India, worked on a problem statement for the Department
             of Posts.
           </p>
