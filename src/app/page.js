@@ -6,15 +6,25 @@ import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import Contact from "@/components/contacts";
 import PortfolioLoader from "@/components/PortfolioLoader";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
 
 export default function Home() {
-  const [portfolioLoading, setPortfolioLoading] = useState(true);
+  const [portfolioLoading, setPortfolioLoading] = useState(() => {
+    // Check if loader has already been shown in this session
+    if (typeof window !== 'undefined') {
+      return !sessionStorage.getItem('loaderShown');
+    }
+    return true;
+  });
 
   const handleLoaderComplete = () => {
     setPortfolioLoading(false);
+    // Mark that loader has been shown
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('loaderShown', 'true');
+    }
   };
 
   return (

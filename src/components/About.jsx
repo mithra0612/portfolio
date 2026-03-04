@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -294,6 +295,20 @@ export default function AboutMeSection() {
                     Published Poems
                   </span>
                 </div>
+              </div>
+
+              {/* View Achievements Button */}
+              <div className="pt-6">
+              <a
+              href="/achievements"
+              target="_self"
+              rel="noopener noreferrer"
+              className="inline-block text-sm md:text-base font-medium leading-tight tracking-tight text-white no-underline relative group transition-all duration-500 ease-out hover:text-green-400"
+            >
+              VIEW ACHIEVEMENTS
+              <span className="absolute -bottom-2 left-0 w-8 h-px bg-green-400 transition-all duration-500 ease-out group-hover:w-full"></span>
+            </a>
+            
               </div>
             </div>
           </div>
