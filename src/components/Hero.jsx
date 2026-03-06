@@ -17,7 +17,7 @@ const LeetCodeIcon = ({ size = 30, className = "" }) => (
 
 const ShuffleHero = () => {
   return (
-    <section className="w-full bg-black px-8 py-12">
+    <section className="w-full bg-black px-8 pt-8 pb-12 md:pt-12">
       <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto">
         <div>
           <span className="block mb-4 text-2xl md:text-2xl text-white font-medium">
