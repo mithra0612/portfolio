@@ -22,13 +22,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <head>
         {/* Google Analytics */}
         <Script
+          async
           src="https://www.googletagmanager.com/gtag/js?id=G-JZ8RGLRC2M"
-          strategy="afterInteractive"
+          strategy="beforeInteractive"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="beforeInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -36,6 +37,8 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-JZ8RGLRC2M');
           `}
         </Script>
+      </head>
+      <body className={inter.className}>
         {children}
       </body>
     </html>
