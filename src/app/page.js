@@ -1,4 +1,5 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import FloatingNav from "@/components/FloatingNav";
 import About from "@/components/About";
@@ -6,8 +7,6 @@ import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import Contact from "@/components/contacts";
 import PortfolioLoader from "@/components/PortfolioLoader";
-import { useState, useEffect } from "react";
-import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
 
 export default function Home() {
@@ -28,7 +27,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="w-full bg-black">
       {/* Custom cursor mounted always so it's visible during load and after */}
       <CustomCursor />
 
@@ -53,7 +52,6 @@ export default function Home() {
          
           <div id="contact">
             <Contact />
-            <Footer />
           </div>
         </>
       )}

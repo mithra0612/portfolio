@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Timeline } from "@/components/ui/timeline";
 
 export default function TimelineDemo() {
@@ -218,8 +221,84 @@ export default function TimelineDemo() {
       ),
     },
   ];
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const imageVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  // Wrap date with animations
+  const animatedData = data.map((item, index) => ({
+    ...item,
+    content: (
+      <motion.div
+        variants={itemVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+      >
+        <div>
+          <motion.p
+            className="mb-8 text-xs font-normal text-neutral-800 md:text-xl dark:text-neutral-200"
+            variants={itemVariants}
+          >
+            {item.content.props.children[0]}
+          </motion.p>
+          <motion.div
+            className="grid grid-cols-2 gap-4"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+          >
+            {item.content.props.children[1].props.children.map((img, imgIdx) => (
+              <motion.div key={imgIdx} variants={imageVariants}>
+                {img}
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </motion.div>
+    ),
+  }));
+
   return (
-    <div className="relative w-full overflow-clip">
+    <motion.div
+      className="relative w-full overflow-clip"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <Link
         href="/"
         className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-neutral-900/80 backdrop-blur-sm border border-neutral-700 hover:border-neutral-500 text-white rounded-lg transition-all duration-200 hover:bg-neutral-800/80 group"
@@ -239,7 +318,7 @@ export default function TimelineDemo() {
         </svg>
         <span className="text-sm font-medium">Back to Home</span>
       </Link>
-      <Timeline data={data} />
-    </div>
+      <Timeline data={animatedData} />
+    </motion.div>
   );
 }

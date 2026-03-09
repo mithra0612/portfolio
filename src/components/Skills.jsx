@@ -1,5 +1,5 @@
 "use client";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 // Animation variants
 const containerVariants = {
@@ -50,10 +50,12 @@ const SkillItem = ({ src, alt, name, hasInvert = true }) => (
     <motion.img
       src={src}
       alt={alt}
-      className={`h-8 w-8 sm:h-16 sm:w-16 mx-auto ${hasInvert ? 'invert' : ''}`}
-      whileHover={{ 
+      className={`h-8 w-8 sm:h-16 sm:w-16 mx-auto ${hasInvert ? "invert" : ""}`}
+      whileHover={{
         scale: 1.1,
-        filter: hasInvert ? "invert(1) sepia(1) saturate(5) hue-rotate(85deg)" : "sepia(1) saturate(5) hue-rotate(85deg)"
+        filter: hasInvert
+          ? "invert(1) sepia(1) saturate(5) hue-rotate(85deg)"
+          : "sepia(1) saturate(5) hue-rotate(85deg)",
       }}
       transition={{ duration: 0.3 }}
     />
@@ -65,10 +67,10 @@ export default function Skills() {
   return (
     <section
       id="about"
-      className="px-4 sm:px-35 bg-black text-white overflow-hidden pt-0"
+      className="px-4 sm:px-20 lg:px-35 bg-black text-white overflow-hidden pt-0"
     >
       <motion.h1
-        className="text-3xl sm:text-5xl font-bold pb-6 sm:pb-10 mt-10 sm:mt-10 text-blue-400"
+        className="text-3xl sm:text-5xl font-bold pb-6 sm:pb-10 mt-10 text-blue-400"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.5 }}
@@ -77,9 +79,10 @@ export default function Skills() {
         Skills
       </motion.h1>
 
-      <div className="">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-14">
         {/* Programming Languages */}
         <motion.div
+          className="w-full"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
@@ -89,10 +92,12 @@ export default function Skills() {
             className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12"
             variants={sectionTitleVariants}
           >
-            <span className='text-xl sm:text-4xl text-green-400'>Languages</span> I Know,
+            <span className="text-xl sm:text-4xl text-green-400">Languages</span>{" "}
+            I Know,
           </motion.h2>
+
           <motion.div
-            className="flex items-center space-x-4 sm:space-x-10 mb-6 sm:mb-12"
+            className="flex flex-wrap items-center gap-4 sm:gap-10"
             variants={containerVariants}
           >
             <SkillItem src="/java.svg" alt="Java" name="Java" />
@@ -104,6 +109,7 @@ export default function Skills() {
 
         {/* Frameworks */}
         <motion.div
+          className="w-full"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
@@ -113,10 +119,12 @@ export default function Skills() {
             className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12"
             variants={sectionTitleVariants}
           >
-            <span className='text-xl sm:text-4xl text-green-400'>Frameworks</span> I've Used,
+            <span className="text-xl sm:text-4xl text-green-400">Frameworks</span>{" "}
+            I've Used,
           </motion.h2>
+
           <motion.div
-            className="flex items-center space-x-4 sm:space-x-10 mb-6 sm:mb-12"
+            className="flex flex-wrap items-center gap-4 sm:gap-10"
             variants={containerVariants}
           >
             <SkillItem src="/nextjs.svg" alt="Next.js" name="Next.js" />
@@ -128,6 +136,7 @@ export default function Skills() {
 
         {/* Databases and Cloud */}
         <motion.div
+          className="w-full"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
@@ -137,10 +146,14 @@ export default function Skills() {
             className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12"
             variants={sectionTitleVariants}
           >
-            <span className='text-xl sm:text-4xl text-green-400'>Databases</span> and <span className='text-xl sm:text-4xl text-green-400'>Cloud</span> I've Used,
+            <span className="text-xl sm:text-4xl text-green-400">Databases</span>{" "}
+            and{" "}
+            <span className="text-xl sm:text-4xl text-green-400">Cloud</span> I've
+            Used,
           </motion.h2>
+
           <motion.div
-            className="flex items-center space-x-4 sm:space-x-10 mb-6 sm:mb-12"
+            className="flex flex-wrap items-center gap-4 sm:gap-10"
             variants={containerVariants}
           >
             <SkillItem src="/mongodb.svg" alt="MongoDB" name="MongoDB" />
@@ -151,6 +164,7 @@ export default function Skills() {
 
         {/* Developer & Designer Tools */}
         <motion.div
+          className="w-full"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
@@ -160,16 +174,25 @@ export default function Skills() {
             className="text-xl sm:text-4xl font-semibold mb-6 sm:mb-12"
             variants={sectionTitleVariants}
           >
-            <span className='text-xl sm:text-4xl text-green-400'>Developer/ Designer Tools</span> I've Worked With,
+            <span className="text-xl sm:text-4xl text-green-400">
+              Developer / Designer Tools
+            </span>{" "}
+            I've Worked With,
           </motion.h2>
+
           <motion.div
-            className="flex items-center space-x-4 sm:space-x-10"
+            className="flex flex-wrap items-center gap-4 sm:gap-10"
             variants={containerVariants}
           >
             <SkillItem src="/git.svg" alt="Git" name="Git" />
             <SkillItem src="/github.svg" alt="GitHub" name="GitHub" />
             <SkillItem src="/figma.svg" alt="Figma" name="Figma" />
-            <SkillItem src="/vercel.svg" alt="Vercel" name="Vercel" hasInvert={false} />
+            <SkillItem
+              src="/vercel.svg"
+              alt="Vercel"
+              name="Vercel"
+              hasInvert={false}
+            />
           </motion.div>
         </motion.div>
       </div>
