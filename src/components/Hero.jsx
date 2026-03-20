@@ -29,8 +29,7 @@ const ShuffleHero = () => {
           </h3>
 
           <p className="text-base md:text-lg text-slate-300 my-4 md:my-6">
-            Blending logic and creativity to build scalable systems from the
-            ground up.{" "}
+            A passionate problem solver bridging the gap between logic and creativity, dedicated to architecting and developing robust, scalable solutions from the ground up.{" "}
           </p>
           {/* <div className="flex gap-4">
             <button className="bg-violet-500 text-white font-medium py-2 px-4 rounded transition-all hover:bg-violet-600 active:scale-95 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:ring-offset-2 focus:ring-offset-black">

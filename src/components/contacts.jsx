@@ -162,9 +162,7 @@ export default function ContactsSection() {
                   ref={descriptionRef}
                   className="text-gray-300 text-lg sm:text-xl leading-relaxed max-w-lg text-justify"
                 >
-                  I'm always open to exploring new opportunities and enthusiastic
-                  about collaborating on meaningful, impactful projects that drive
-                  growth and positive change.
+                  I am always eager to explore new opportunities and highly enthusiastic about collaborating on meaningful, forward-thinking projects that drive innovation, growth, and positive impact.
                 </p>
               </div>
 
@@ -270,5 +268,4 @@ export default function ContactsSection() {
       </div>
     </section>
   );
-}
 }
