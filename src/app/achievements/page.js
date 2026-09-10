@@ -3,322 +3,224 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Timeline } from "@/components/ui/timeline";
 
-export default function TimelineDemo() {
-  const data = [
-    {
-      title: "Smart India Hackathon 2024",
-      content: (
-        <div>
-          <p className="mb-8 text-xs font-normal text-neutral-800 md:text-xl dark:text-neutral-200">
-            Made it to the finalist of SIH 2024, as the top 5 team among 500
-            teams across India, worked on a problem statement for the Department
-            of Posts.
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            <img
-              src="./sih1.jpg"
-              alt="startup template"
-              width={500}
-              height={500}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-            <img
-              src="./sih2.jpg"
-              alt="startup template"
-              width={500}
-              height={500}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-            <img
-              src="./sih3.jpg"
-              alt="startup template"
-              width={500}
-              height={500}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-            <img
-              src="./sih4.jpg"
-              alt="startup template"
-              width={500}
-              height={500}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "TNWISE 2025",
-      content: (
-        <div>
-          <p className="mb-8 text-xs font-normal text-neutral-800 md:text-xl dark:text-neutral-200">
-            Made it to the top 50 finalists in TNWISE 2025 among 400+ teams
-            across Tamil Nadu, worked on a problem statement for Women Wellness.
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            <img
-              src="./tnwise1.jpg"
-              alt="startup template"
-              width={500}
-              height={600}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-            <img
-              src="./tnwise2.jpg"
-              alt="startup template"
-              width={500}
-              height={600}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "HackIT'25",
-      content: (
-        <div>
-          <p className="mb-8 text-xs font-normal text-neutral-800 md:text-xl dark:text-neutral-200">
-            Won 1st place in HackIT'25, a hackathon organized by the Anna University, College of Engineering, Guindy, with a Cash Prize of Rs.12,000.
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            <img
-              src="./hackit1.jpg"
-              alt="startup template"
-              width={500}
-              height={600}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-            <img
-              src="./hackit2.jpg"
-              alt="startup template"
-              width={500}
-              height={600}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "Nexathon 2025",
-      content: (
-        <div>
-          <p className="mb-8 text-xs font-normal text-neutral-800 md:text-xl dark:text-neutral-200">
-           Won the Best Business Pitch Award at Nexathon 2025 organized by the KCG College of Technology.
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            <img
-              src="./nexathon1.jpg"
-              alt="startup template"
-              width={500}
-              height={600}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-            <img
-              src="./nexathon2.jpg"
-              alt="startup template"
-              width={500}
-              height={600}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "Hack'25",
-      content: (
-        <div>
-          <p className="mb-8 text-xs font-normal text-neutral-800 md:text-xl dark:text-neutral-200">
-           Made it to the finals of Hack'25 organized by the IEEE Student Branch of Mar Athanasius College of Engineering.
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            <img
-              src="./hack251.jpg"
-              alt="startup template"
-              width={500}
-              height={600}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-            <img
-              src="./hack252.jpg"
-              alt="startup template"
-              width={500}
-              height={600}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "Published Poetry",
-      content: (
-        <div>
-          <p className="mb-8 text-xs font-normal text-neutral-800 md:text-xl dark:text-neutral-200">
-           Published 3 original poems in two anthologies by Writer's Pocket.
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            <img
-              src="./poetry1.jpg"
-              alt="startup template"
-              width={500}
-              height={600}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-            <img
-              src="./poetry3.jpg"
-              alt="startup template"
-              width={500}
-              height={600}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-            <img
-              src="./poetry4.jpg"
-              alt="startup template"
-              width={500}
-              height={600}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-            <img
-              src="./poetry2.jpg"
-              alt="startup template"
-              width={500}
-              height={600}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "Achievements Throughout School",
-      content: (
-        <div>
-          <p className="mb-8 text-xs font-normal text-neutral-800 md:text-xl dark:text-neutral-200">
-           Participated and won in scholastic and co-scholastic competitions in school, including Olympiads, creative writing, ,elocution, zonal level abacus etc.
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            <img
-              src="./other1.jpg"
-              alt="startup template"
-              width={500}
-              height={600}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-            <img
-              src="./other2.jpg"
-              alt="startup template"
-              width={500}
-              height={600}
-              className="h-32 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-60 lg:h-80"
-            />
-          </div>
-        </div>
-      ),
-    },
-  ];
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
-      },
-    },
-  };
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+};
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-      },
-    },
-  };
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
 
-  const imageVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    },
-  };
+const achievements = [
+  {
+    title: "Smart India Hackathon 2024",
+    description:
+      "Finalist — top 5 team among 500+ teams across India. Problem statement for the Department of Posts.",
+    photos: ["/sih1.jpg", "/sih2.jpg", "/sih3.jpg", "/sih4.jpg"],
+  },
+  {
+    title: "Hack'IT 25",
+    description:
+      "1st Place — Anna University, College of Engineering, Guindy, Chennai. Cash prize of ₹12,000.",
+    photos: ["/hackit1.jpg", "/hackit2.jpg"],
+  },
+  {
+    title: "Nexathon 2025",
+    description:
+      "Best Business Pitch Award — KCG College of Technology.",
+    photos: ["/nexathon1.jpg", "/nexathon2.jpg"],
+  },
+  {
+    title: ".hack();25",
+    description:
+      "Finalist — IEEE Student Branch, Mar Athanasius College of Engineering, Kerala.",
+    photos: ["/hack251.jpg", "/hack252.jpg"],
+  },
+  {
+    title: "TNWISE 2025",
+    description:
+      "Top 50 finalist among 400+ teams across Tamil Nadu. Problem statement for Women Wellness — Tamil Nadu Centre of Excellence for Advanced Manufacturing.",
+    photos: ["/tnwise1.jpg", "/tnwise2.jpg"],
+  },
+  {
+    title: "Published Poetry",
+    description:
+      "3 original poems published across two anthologies by Writer's Pocket.",
+    photos: ["/poetry1.jpg", "/poetry3.jpg", "/poetry4.jpg", "/poetry2.jpg"],
+  },
+  {
+    title: "School Achievements",
+    description:
+      "National, state, and zonal placements in scholastic and co-scholastic competitions — Olympiads, creative writing, elocution, abacus.",
+    photos: ["/other1.jpg", "/other2.jpg"],
+  },
+];
 
-  // Wrap date with animations
-  const animatedData = data.map((item, index) => ({
-    ...item,
-    content: (
-      <motion.div
-        variants={itemVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-      >
-        <div>
-          <motion.p
-            className="mb-8 text-xs font-normal text-neutral-800 md:text-xl dark:text-neutral-200"
-            variants={itemVariants}
-          >
-            {item.content.props.children[0]}
-          </motion.p>
-          <motion.div
-            className="grid grid-cols-2 gap-4"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            {item.content.props.children[1].props.children.map((img, imgIdx) => (
-              <motion.div key={imgIdx} variants={imageVariants}>
-                {img}
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </motion.div>
-    ),
-  }));
-
+export default function AchievementsPage() {
   return (
-    <motion.div
-      className="relative w-full overflow-clip"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+    <div
+      style={{
+        backgroundColor: "var(--bg-base)",
+        color: "var(--text-primary)",
+        minHeight: "100vh",
+        padding: "5rem 3rem 8rem",
+        fontFamily: "var(--font-body)",
+      }}
     >
-      <Link
-        href="/"
-        className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-neutral-900/80 backdrop-blur-sm border border-neutral-700 hover:border-neutral-500 text-white rounded-lg transition-all duration-200 hover:bg-neutral-800/80 group"
-      >
-        <svg
-          className="w-5 h-5 transition-transform group-hover:-translate-x-1"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+
+        {/* Back link */}
+        <div style={{ marginBottom: "4rem" }}>
+          <Link
+            href="/"
+            className="font-mono"
+            style={{
+              fontSize: "0.6875rem",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "var(--text-muted)",
+              transition: "color 0.15s ease",
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = "var(--text-secondary)"}
+            onMouseLeave={e => e.currentTarget.style.color = "var(--text-muted)"}
+          >
+            ← Back
+          </Link>
+        </div>
+
+        {/* Page header */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          style={{ marginBottom: "5rem" }}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M10 19l-7-7m0 0l7-7m-7 7h18"
-          />
-        </svg>
-        <span className="text-sm font-medium">Back to Home</span>
-      </Link>
-      <Timeline data={animatedData} />
-    </motion.div>
+          <p
+            className="font-mono"
+            style={{
+              fontSize: "0.6875rem",
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "var(--text-muted)",
+              marginBottom: "1rem",
+            }}
+          >
+            — Achievements
+          </p>
+          <h1
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 800,
+              fontSize: "clamp(2.5rem, 6vw, 5rem)",
+              letterSpacing: "-0.03em",
+              lineHeight: 1,
+              color: "var(--text-primary)",
+            }}
+          >
+            Competition &<br />Recognition
+          </h1>
+        </motion.div>
+
+        {/* Achievement entries */}
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          animate="visible"
+          style={{ display: "flex", flexDirection: "column" }}
+        >
+          {achievements.map((item, i) => (
+            <motion.div
+              key={i}
+              variants={fadeUp}
+              style={{ borderTop: "1px solid var(--border)", paddingTop: "3rem", paddingBottom: "3rem" }}
+            >
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "4rem",
+                  alignItems: "start",
+                }}
+                className="achievement-row"
+              >
+                {/* Left: title + description */}
+                <div>
+                  <h2
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontWeight: 700,
+                      fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)",
+                      letterSpacing: "-0.02em",
+                      lineHeight: 1.2,
+                      color: "var(--text-primary)",
+                      marginBottom: "0.875rem",
+                    }}
+                  >
+                    {item.title}
+                  </h2>
+                  <p
+                    style={{
+                      fontSize: "0.9375rem",
+                      lineHeight: 1.7,
+                      color: "var(--text-secondary)",
+                    }}
+                  >
+                    {item.description}
+                  </p>
+                </div>
+
+                {/* Right: photos */}
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: item.photos.length === 1 ? "1fr" : "1fr 1fr",
+                    gap: "0.5rem",
+                  }}
+                >
+                  {item.photos.map((src, j) => (
+                    <div
+                      key={j}
+                      style={{
+                        height: "160px",
+                        overflow: "hidden",
+                        backgroundColor: "var(--bg-surface)",
+                      }}
+                    >
+                      <img
+                        src={src}
+                        alt={`${item.title} — photo ${j + 1}`}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          display: "block",
+                        }}
+                        onError={e => { e.target.style.display = "none"; }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+
+          {/* Bottom rule */}
+          <div style={{ borderTop: "1px solid var(--border)" }} />
+        </motion.div>
+
+      </div>
+
+      <style>{`
+        @media (max-width: 767px) {
+          .achievement-row {
+            grid-template-columns: 1fr !important;
+            gap: 1.5rem !important;
+          }
+        }
+      `}</style>
+    </div>
   );
 }

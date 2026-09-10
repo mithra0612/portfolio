@@ -1,29 +1,49 @@
-import { Inter } from 'next/font/google';
+import { Inter, Syne, JetBrains_Mono, Outfit } from 'next/font/google';
 import './globals.css';
-import { Caveat } from 'next/font/google';
 import Script from 'next/script';
+import SmoothScroll from '@/components/SmoothScroll';
 
-const caveat = Caveat({
-  weight: '700',
+const outfit = Outfit({
   subsets: ['latin'],
+  weight: ['400', '600', '700', '800', '900'],
+  variable: '--font-outfit',
+  display: 'swap',
 });
 
-const inter = Inter({ subsets: ['latin'] });
+const syne = Syne({
+  subsets: ['latin'],
+  weight: ['400', '600', '700', '800'],
+  variable: '--font-syne',
+  display: 'swap',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-mono-jetbrains',
+  display: 'swap',
+});
 
 export const metadata = {
-  title: 'Madhumithra | Portfolio',
-  description: 'Portfolio of Madhumithra – Full-stack Developer, Problem Solver, Creative Designer, UI/UX Enthusiast, and Tech Innovator. View resume, projects, and contact info.',
+  title: 'Madhumithra M. — Software Engineer',
+  description: 'Portfolio of Madhumithra M. — Computer Science undergraduate, full-stack developer, and problem solver. View projects, experience, and contact.',
   openGraph: {
-    title: 'Madhumithra | Portfolio',
-    description: 'Portfolio of Madhumithra – Full-stack Developer, Problem Solver, Creative Designer, UI/UX Enthusiast, and Tech Innovator. View resume, projects, and contact info.'
+    title: 'Madhumithra M. — Software Engineer',
+    description: 'Portfolio of Madhumithra M. — Computer Science undergraduate, full-stack developer, and problem solver.',
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${outfit.variable} ${syne.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
       <head>
-        {/* Google Analytics */}
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-JZ8RGLRC2M"
@@ -38,8 +58,10 @@ export default function RootLayout({ children }) {
           `}
         </Script>
       </head>
-      <body className={inter.className}>
-        {children}
+      <body style={{ fontFamily: 'var(--font-inter)' }}>
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

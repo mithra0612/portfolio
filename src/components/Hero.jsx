@@ -1,95 +1,175 @@
-import { Github, Linkedin, Mail } from "lucide-react";
-import ShuffleGrid from "./ShuffleGrid";
+'use client';
 
-// Custom LeetCode Icon Component
-const LeetCodeIcon = ({ size = 30, className = "" }) => (
-  <svg
-    width={size}
-    height={size}
-    fill="currentColor"
-    viewBox="0 0 32 32"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-  >
-    <path d="M21.469 23.907l-3.595 3.473c-0.624 0.625-1.484 0.885-2.432 0.885s-1.807-0.26-2.432-0.885l-5.776-5.812c-0.62-0.625-0.937-1.537-0.937-2.485 0-0.952 0.317-1.812 0.937-2.432l5.76-5.844c0.62-0.619 1.5-0.859 2.448-0.859s1.808 0.26 2.432 0.885l3.595 3.473c0.687 0.688 1.823 0.663 2.536-0.052 0.708-0.713 0.735-1.848 0.047-2.536l-3.473-3.511c-0.901-0.891-2.032-1.505-3.261-1.787l3.287-3.333c0.688-0.687 0.667-1.823-0.047-2.536s-1.849-0.735-2.536-0.052l-13.469 13.469c-1.307 1.312-1.989 3.113-1.989 5.113 0 1.996 0.683 3.86 1.989 5.168l5.797 5.812c1.307 1.307 3.115 1.937 5.115 1.937 1.995 0 3.801-0.683 5.109-1.989l3.479-3.521c0.688-0.683 0.661-1.817-0.052-2.531s-1.849-0.74-2.531-0.052zM27.749 17.349h-13.531c-0.932 0-1.692 0.801-1.692 1.791 0 0.991 0.76 1.797 1.692 1.797h13.531c0.933 0 1.693-0.807 1.693-1.797 0-0.989-0.76-1.791-1.693-1.791z" />
-  </svg>
-);
+import HeroBackground from './HeroBackground';
+import KineticGrid from './KineticGrid';
+import SocialLinks from './portfolio/social-links';
 
-const ShuffleHero = () => {
+export default function Hero() {
   return (
-    <section className="w-full bg-black px-8 pt-8 pb-12 md:pt-12">
-      <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto">
-        <div>
-          <span className="block mb-4 text-2xl md:text-2xl text-white font-medium">
-            Hello!
-          </span>
+    <section
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100vh',
+        overflow: 'hidden',
+        color: '#fff',
+        fontFamily: 'var(--font-headline)',
+      }}
+    >
+      {/* ── SILK WEBGL BACKGROUND ── */}
+      <HeroBackground />
 
-          <h3 className="text-4xl md:text-6xl font-semibold text-white">
-            <span className="text-blue-500">I&apos;m Madhumithra</span> 
-          </h3>
+      {/* ── KINETIC GRID OVERLAY ── */}
+      <KineticGrid />
 
-          <p className="text-base md:text-lg text-slate-300 my-4 md:my-6">
-            A passionate problem solver bridging the gap between logic and creativity, dedicated to architecting and developing robust, scalable solutions from the ground up.{" "}
-          </p>
-          {/* <div className="flex gap-4">
-            <button className="bg-violet-500 text-white font-medium py-2 px-4 rounded transition-all hover:bg-violet-600 active:scale-95 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:ring-offset-2 focus:ring-offset-black">
-              Resume
-            </button>
-            <button className="bg-violet-500 text-white font-medium py-2 px-4 rounded transition-all hover:bg-violet-600 active:scale-95 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:ring-offset-2 focus:ring-offset-black">
-              Contact
-            </button>
-          </div> */}
-          <div className="flex justify-start items-center gap-8 mt-8">
-            <a
-              href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block text-sm md:text-base font-medium leading-tight tracking-tight text-white no-underline relative group transition-all duration-500 ease-out hover:text-green-400"
-            >
-              VIEW RESUME
-              <span className="absolute -bottom-2 left-0 w-8 h-px bg-green-400 transition-all duration-500 ease-out group-hover:w-full"></span>
-            </a>
-            
-          {/* Social Icons */}
-          <div className="flex items-center gap-4 ">
-            <a
-              href="https://github.com/mithra0612"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-green-400 hover:text-green-400 transition-colors duration-300"
-            >
-              <Github size={20} />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/mithra0612/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-green-400 hover:text-white transition-colors duration-300"
-            >
-              <Linkedin size={20} />
-            </a>
-            <a
-              href="https://leetcode.com/u/mithra_612"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-green-400 hover:text-white transition-colors duration-300"
-            >
-              <LeetCodeIcon size={20} />
-            </a>
-            <a
-              href="mailto:mithramadhu005.email@gmail.com"
-              className="text-green-400 hover:text-white transition-colors duration-300"
-            >
-              <Mail size={20} />
-            </a>
-          </div>
+      {/* ── MAIN FOREGROUND CONTAINER (Anchored to bottom like reference) ── */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          width: '100%',
+          padding: '0 2.8vw 2.2vh',
+          boxSizing: 'border-box',
+          zIndex: 10,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+        }}
+      >
+        {/* ── TOP LABEL: CS UG · 2027 (Matches "EST. 2021") ── */}
+        <div
+          style={{
+            fontFamily: 'var(--font-headline)',
+            fontSize: 'clamp(0.72rem, 0.9vw, 1rem)',
+            fontWeight: 800,
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+            marginBottom: '0.8vw',
+            color: '#ffffff',
+          }}
+        >
+          CS UG · 2027
+        </div>
+
+        {/* ── ROW 1: "Madhumithra" + Personality List ── */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            width: '100%',
+          }}
+        >
+          {/* Main Headline Line 1 (Matches "Strategic") */}
+          <h1
+            style={{
+              fontFamily: 'var(--font-headline)',
+              fontSize: 'clamp(3.5rem, 12.8vw, 13.5rem)',
+              fontWeight: 900,
+              lineHeight: 0.88,
+              letterSpacing: '-0.04em',
+              margin: 0,
+              color: '#ffffff',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Madhumithra
+          </h1>
+
+          {/* Right-Side Capabilities / Personality List (Matches "Brand Identity...") */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.35rem',
+              marginTop: '-1.2vw', // shifted up
+              textAlign: 'left',
+              flexShrink: 0,
+            }}
+          >
+            {[
+              'Software Engineering',
+              'AI Integration & Tools',
+              'DSA Problem Solving',
+              'Public Speaking & Poetry',
+            ].map(item => (
+              <span
+                key={item}
+                style={{
+                  fontFamily: 'var(--font-headline)',
+                  fontSize: 'clamp(0.75rem, 1.05vw, 1.18rem)',
+                  fontWeight: 700,
+                  lineHeight: 1.35,
+                  color: '#ffffff',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {item}
+              </span>
+            ))}
           </div>
         </div>
 
-        <ShuffleGrid />
+        {/* ── ROW 2: Bio Statement + Limelight Social Dock (Left) & "Software Engineer" (Right) ── */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+            width: '100%',
+            marginTop: 'clamp(0.4rem, 1.2vw, 1.6rem)',
+            gap: '1rem',
+          }}
+        >
+          {/* Left: One-line Statement + Limelight Links Dock */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: 'clamp(0.4rem, 0.75vw, 0.9rem)',
+              maxWidth: 'clamp(260px, 32vw, 440px)',
+              flexShrink: 0,
+              paddingBottom: '0.2vw',
+            }}
+          >
+            <p
+              style={{
+                fontFamily: 'var(--font-headline)',
+                fontSize: 'clamp(0.7rem, 0.82vw, 0.92rem)',
+                fontWeight: 500,
+                lineHeight: 1.45,
+                color: 'rgba(255, 255, 255, 0.82)',
+                margin: 0,
+                letterSpacing: '-0.01em',
+              }}
+            >
+              Building intelligent software at the intersection of engineering, AI, and creativity.
+            </p>
+
+            <SocialLinks />
+          </div>
+
+          {/* Main Headline Line 2 — "Software Engineer" */}
+          <h1
+            style={{
+              fontFamily: 'var(--font-headline)',
+              fontSize: 'clamp(2.5rem, 8.4vw, 8.6rem)',
+              fontWeight: 800,
+              lineHeight: 0.88,
+              letterSpacing: '-0.035em',
+              margin: 0,
+              color: '#ffffff',
+              textAlign: 'right',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+            }}
+          >
+            Software Engineer
+          </h1>
+        </div>
       </div>
     </section>
   );
-};
-
-export default ShuffleHero;
+}

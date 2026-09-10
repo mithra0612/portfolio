@@ -1,205 +1,231 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Home, User, Code, Briefcase, Mail } from 'lucide-react';
-import { useRouter } from 'next/navigation'; // added import
+'use client';
 
-const FixedNavbar = () => {
-  const router = useRouter(); // added router
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+const NAV_ITEMS = [
+  { label: 'About',        href: '#about' },
+  { label: 'Experience',   href: '#experience' },
+  { label: 'Work',         href: '#projects' },
+  { label: 'Skills',       href: '#skills' },
+  { label: 'Contact',      href: '#contact' },
+  { label: 'Achievements', href: '/achievements' },
+];
+
+const SECTION_IDS = ['hero', 'about', 'experience', 'skills', 'projects', 'contact'];
+
+export default function FloatingNav() {
+  const router = useRouter();
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [activeSection, setActiveSection] = useState('hero');
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  const navItems = [
-    { name: 'Home', href: '#hero', icon: Home },
-    { name: 'About', href: '#about', icon: User },
-    { name: 'Skills', href: '#skills', icon: Code },
-    { name: 'Projects', href: '#projects', icon: Briefcase },
-    { name: 'Contact', href: '#contact', icon: Mail },
-  ];
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  // Smooth scroll / navigation function
-  const scrollToSection = (sectionId) => {
-    if (!sectionId) return;
-    // if it's an in-page anchor (starts with #) perform smooth scroll
-    if (sectionId.startsWith('#')) {
-      const element = document.querySelector(sectionId);
-      if (element) {
-        element.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      }
-      // ensure mobile menu closes after in-page navigation
-      setIsMobileMenuOpen(false);
-      return;
-    }
-    // otherwise navigate to the route (external page)
-    router.push(sectionId);
-    // ensure mobile menu closes after route navigation
-    setIsMobileMenuOpen(false);
-  };
-
+  /* Hide on scroll down, show on scroll up */
   useEffect(() => {
-    const controlNavbar = () => {
-      if (typeof window !== 'undefined') {
-        const currentScrollY = window.scrollY;
-        
-        // Show navbar when scrolling up or at the top
-        if (currentScrollY < lastScrollY || currentScrollY < 10) {
-          setIsVisible(true);
-        } else {
-          // Hide navbar when scrolling down
-          setIsVisible(false);
-        }
-        
-        setLastScrollY(currentScrollY);
-      }
+    const onScroll = () => {
+      const y = window.scrollY;
+      setIsVisible(y < lastScrollY || y < 80);
+      setLastScrollY(y);
     };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('scroll', controlNavbar);
-      
-      // Cleanup function
-      return () => {
-        window.removeEventListener('scroll', controlNavbar);
-      };
-    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, [lastScrollY]);
 
-  // Track active section on scroll
+  /* Track active section */
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['hero', 'about', 'skills', 'projects', 'contact'];
-      const current = sections.find(section => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
-        }
-        return false;
+    const onScroll = () => {
+      const current = SECTION_IDS.find(id => {
+        const el = document.getElementById(id);
+        if (!el) return false;
+        const rect = el.getBoundingClientRect();
+        return rect.top <= 120 && rect.bottom >= 120;
       });
-      if (current) {
-        setActiveSection(current);
-      }
+      if (current) setActiveSection(current);
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const handleDownload = () => {
-    // Add your download logic here
-    console.log('Download resume');
+  const navigate = (href) => {
+    setIsMobileOpen(false);
+    if (href.startsWith('#')) {
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      router.push(href);
+    }
   };
 
-  // Component to render text with bouncing characters
-  const BounceText = ({ text, className = "" }) => {
-    const [isAnimating, setIsAnimating] = useState(false);
-
-    const handleMouseEnter = () => {
-      if (!isAnimating) {
-        setIsAnimating(true);
-        setTimeout(() => setIsAnimating(false), 600); // Reset after animation duration
-      }
-    };
-
-    return (
-      <span 
-        className={`inline-block group ${className}`}
-        onMouseEnter={handleMouseEnter}
-      >
-        {text.split('').map((char, index) => (
-          <span
-            key={index}
-            className={`inline-block transition-all duration-300 ease-out font-bold group-hover:text-[#F68B08] ${
-              isAnimating ? 'animate-[bounce_0.6s_ease-out_1]' : ''
-            }`}
-            style={{
-              animationDelay: isAnimating ? `${index * 50}ms` : '0ms'
-            }}
-          >
-            {char === ' ' ? '\u00A0' : char}
-          </span>
-        ))}
-      </span>
-    );
+  const isActive = (href) => {
+    if (href.startsWith('#')) return activeSection === href.slice(1);
+    return false;
   };
 
-  // Navigation link component with bounce effect
-  const NavLink = ({ href, children, onClick }) => (
-    <button 
-      onClick={() => {
-        scrollToSection(href);
-        if (onClick) onClick();
-      }}
-      className="text-sm md:text-base font-medium leading-tight tracking-tight text-white no-underline transition-all duration-500 ease-out"
-    >
-      <BounceText text={children} />
-    </button>
-  );
+  const navBg = lastScrollY > 80
+    ? 'rgba(8, 8, 8, 0.92)'
+    : 'transparent';
 
   return (
     <>
-      {/* Desktop Navigation - Fixed */}
-      <nav className={`fixed top-0 left-0 right-0 z-40 hidden lg:block bg-black/70 backdrop-blur-md transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            {/* Left side - Name */}
-            <div className="text-white font-medium leading-tight tracking-tight text-2xl">
-              <BounceText text="MADHUMITHRA" />
-            </div>
-            
-            {/* Right side - Navigation Links */}
-            <div className="flex items-center gap-8">
-              <NavLink href="#hero">HOME</NavLink>
-              <NavLink href="#about">ABOUT</NavLink>
-              <NavLink href="#skills">SKILLS</NavLink>
-              <NavLink href="#projects">PROJECTS</NavLink>
-              <NavLink href="/achievements">ACHIEVEMENTS</NavLink>
-              <NavLink href="#contact">CONTACT</NavLink>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Mobile Navigation */}
-      <nav className="lg:hidden">
-        {/* Mobile Menu Button */}
+      {/* Desktop nav */}
+      <nav
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '1.25rem 3rem',
+          backgroundColor: navBg,
+          borderBottom: lastScrollY > 80 ? '1px solid var(--border)' : 'none',
+          transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
+          transition: 'transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease',
+        }}
+        className="nav-desktop"
+      >
+        {/* Name / logo mark */}
         <button
-          onClick={toggleMobileMenu}
-          className={`fixed top-6 right-6 z-50 bg-black/70 backdrop-blur-md rounded-full p-3 shadow-lg hover:bg-black/80 transition-all duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
+          onClick={() => navigate('#hero')}
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontWeight: 700,
+            fontSize: '0.9375rem',
+            letterSpacing: '0.04em',
+            color: 'var(--text-primary)',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 0,
+          }}
         >
-          <div className="w-5 h-5 flex flex-col justify-center items-center relative">
-            <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-1.5'}`}></span>
-            <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
-            <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-1' : 'translate-y-1.5'}`}></span>
-          </div>
+          MM.
         </button>
 
-        {/* Mobile Menu Overlay */}
-        <div className={`fixed inset-0 z-40 transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={toggleMobileMenu}></div>
-        </div>
-
-        {/* Mobile Menu Panel */}
-        <div className={`fixed top-0 right-0 h-full w-64 bg-black/70 backdrop-blur-md z-40 transform transition-transform duration-500 ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-          <div className="relative z-10 p-6 pt-20 flex flex-col space-y-6">
-            <NavLink href="#hero" onClick={toggleMobileMenu}>HOME</NavLink>
-            <NavLink href="#about" onClick={toggleMobileMenu}>ABOUT</NavLink>
-            <NavLink href="#skills" onClick={toggleMobileMenu}>SKILLS</NavLink>
-            <NavLink href="#projects" onClick={toggleMobileMenu}>PROJECTS</NavLink>
-            <NavLink href="/achievements" onClick={toggleMobileMenu}>ACHIEVEMENTS</NavLink> {/* navigates to page and closes menu */}
-            <NavLink href="#contact" onClick={toggleMobileMenu}>CONTACT</NavLink>
-          </div>
+        {/* Nav links */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}>
+          {NAV_ITEMS.map(({ label, href }) => (
+            <button
+              key={label}
+              onClick={() => navigate(href)}
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '0.125rem 0',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.6875rem',
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: isActive(href) ? 'var(--text-primary)' : 'var(--text-secondary)',
+                borderBottom: isActive(href) ? '1px solid var(--accent)' : '1px solid transparent',
+                transition: 'color 0.15s ease, border-color 0.15s ease',
+              }}
+              onMouseEnter={e => {
+                if (!isActive(href)) e.currentTarget.style.color = 'var(--text-primary)';
+              }}
+              onMouseLeave={e => {
+                if (!isActive(href)) e.currentTarget.style.color = 'var(--text-secondary)';
+              }}
+            >
+              {label}
+            </button>
+          ))}
         </div>
       </nav>
+
+      {/* Mobile: hamburger button */}
+      <button
+        onClick={() => setIsMobileOpen(v => !v)}
+        aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}
+        style={{
+          position: 'fixed',
+          top: '1.25rem',
+          right: '1.5rem',
+          zIndex: 60,
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          padding: '0.5rem',
+          display: 'none',
+          flexDirection: 'column',
+          gap: '5px',
+        }}
+        className="nav-mobile-btn"
+      >
+        <span style={{
+          display: 'block', width: '22px', height: '1px',
+          background: 'var(--text-primary)',
+          transform: isMobileOpen ? 'rotate(45deg) translate(4px, 4px)' : 'none',
+          transition: 'transform 0.2s ease',
+        }} />
+        <span style={{
+          display: 'block', width: '22px', height: '1px',
+          background: 'var(--text-primary)',
+          opacity: isMobileOpen ? 0 : 1,
+          transition: 'opacity 0.2s ease',
+        }} />
+        <span style={{
+          display: 'block', width: '22px', height: '1px',
+          background: 'var(--text-primary)',
+          transform: isMobileOpen ? 'rotate(-45deg) translate(4px, -4px)' : 'none',
+          transition: 'transform 0.2s ease',
+        }} />
+      </button>
+
+      {/* Mobile menu panel */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          right: 0,
+          bottom: 0,
+          width: '260px',
+          backgroundColor: 'var(--bg-raised)',
+          borderLeft: '1px solid var(--border)',
+          zIndex: 55,
+          padding: '5rem 2rem 2rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0',
+          transform: isMobileOpen ? 'translateX(0)' : 'translateX(100%)',
+          transition: 'transform 0.3s ease',
+        }}
+        className="nav-mobile-panel"
+      >
+        {NAV_ITEMS.map(({ label, href }) => (
+          <button
+            key={label}
+            onClick={() => navigate(href)}
+            style={{
+              background: 'none',
+              border: 'none',
+              borderBottom: '1px solid var(--border)',
+              cursor: 'pointer',
+              padding: '1rem 0',
+              textAlign: 'left',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.75rem',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              color: isActive(href) ? 'var(--accent)' : 'var(--text-secondary)',
+              transition: 'color 0.15s ease',
+            }}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      <style>{`
+        @media (max-width: 767px) {
+          .nav-desktop { display: none !important; }
+          .nav-mobile-btn { display: flex !important; }
+        }
+      `}</style>
     </>
   );
-};
-
-export default FixedNavbar;
+}

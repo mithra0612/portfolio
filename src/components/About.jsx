@@ -1,319 +1,223 @@
-"use client";
-import React, { useState, useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Link from "next/link";
+'use client';
 
-// Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger);
+import React, { useRef } from 'react';
+import { motion } from 'framer-motion';
 
-export default function AboutMeSection() {
-  const [displayText, setDisplayText] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [charIndex, setCharIndex] = useState(0);
-  const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+};
+
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } },
+};
+
+export default function About() {
   const sectionRef = useRef(null);
-  const titleRef = useRef(null);
-  const imageRef = useRef(null);
-  const contentRef = useRef(null);
-  const statsRef = useRef(null);
-  const textRef = useRef(null);
-
-  const rotatingTexts = [
-    "Fullstack Developer",
-    "Problem Solver",
-    "DSA Enthusiast",
-    "Designer",
-    "Poet",
-  ];
-
-  // GSAP animations on mount
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Initial setup - hide elements
-      gsap.set([titleRef.current, imageRef.current, contentRef.current], {
-        opacity: 0,
-        y: 50
-      });
-
-      // Title animation
-      gsap.to(titleRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        delay: 0.2
-      });
-
-      // Image animation with scale and rotation
-      gsap.to(imageRef.current, {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        rotation: 0,
-        duration: 1.2,
-        ease: "power3.out",
-        delay: 0.4
-      });
-
-      // Content animation
-      gsap.to(contentRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        delay: 0.6
-      });
-
-      // Stats counter animation (animate numeric value per element and append suffix)
-      const statEls = statsRef.current?.querySelectorAll('.stat-number') || [];
-      statEls.forEach((el) => {
-        const end = parseInt(el.getAttribute('data-value') || '0', 10);
-        const suffix = el.getAttribute('data-suffix') || '';
-        const obj = { val: 0 };
-        gsap.to(obj, {
-          val: end,
-          duration: 2,
-          ease: "power2.out",
-          delay: 1,
-          snap: { val: 1 },
-          onUpdate: function() {
-            el.innerText = Math.ceil(obj.val) + suffix;
-          }
-        });
-      });
-
-      // Parallax effect for content
-      gsap.to(contentRef.current, {
-        yPercent: -20,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true
-        }
-      });
-
-      // Image hover effect
-      const imageElement = imageRef.current;
-      if (imageElement) {
-        imageElement.addEventListener('mouseenter', () => {
-          gsap.to(imageElement, {
-            scale: 1.05,
-            duration: 0.3,
-            ease: "power2.out"
-          });
-        });
-
-        imageElement.addEventListener('mouseleave', () => {
-          gsap.to(imageElement, {
-            scale: 1,
-            duration: 0.3,
-            ease: "power2.out"
-          });
-        });
-      }
-
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  // Typewriter effect trigger
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !isTyping && !isDeleting) {
-          setIsTyping(true);
-        }
-      },
-      { threshold: 0.3 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [isTyping, isDeleting]);
-
-  // Typewriter effect for rotating texts
-  useEffect(() => {
-    if (!isTyping && !isDeleting) return;
-
-    const currentWord = rotatingTexts[currentTextIndex];
-
-    const typewriterEffect = () => {
-      if (isTyping && !isDeleting) {
-        if (charIndex < currentWord.length) {
-          setDisplayText(currentWord.slice(0, charIndex + 1));
-          setCharIndex((prev) => prev + 1);
-        } else {
-          setTimeout(() => {
-            setIsDeleting(true);
-            setIsTyping(false);
-          }, 2000);
-        }
-      } else if (isDeleting) {
-        if (charIndex > 0) {
-          setDisplayText(currentWord.slice(0, charIndex - 1));
-          setCharIndex((prev) => prev - 1);
-        } else {
-          setIsDeleting(false);
-          setIsTyping(true);
-          setCurrentTextIndex((prev) => (prev + 1) % rotatingTexts.length);
-        }
-      }
-    };
-
-    const typingSpeed = isDeleting ? 50 : 100;
-    const timer = setTimeout(typewriterEffect, typingSpeed);
-
-    return () => clearTimeout(timer);
-  }, [currentTextIndex, charIndex, isTyping, isDeleting, rotatingTexts]);
 
   return (
-    <div ref={sectionRef} className="min-h-screen bg-black text-white py-20 px-4 sm:px-6 lg:px-16">
-      <div className="max-w-7xl mx-auto">
-        <h1 
-          ref={titleRef}
-          className="text-3xl sm:text-5xl font-bold pb-6 sm:pb-10 mt-10 sm:mt-10 text-blue-400"
-        >
-          About Me
-        </h1>
+    <section
+      ref={sectionRef}
+      id="about-section"
+      style={{
+        backgroundColor: 'var(--bg-base)',
+        padding: '8rem 3rem',
+        borderTop: '1px solid var(--border)',
+      }}
+    >
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
 
-        <div className="grid p-2 lg:flex lg:gap-36 items-center gap-8">
-          {/* Left Side - Profile Image */}
-          <div className="">
-            {/* Profile Image */}
-            <div 
-              ref={imageRef}
-              className="relative w-80 h-96 mx-auto lg:mx-0 cursor-pointer"
-              style={{ transform: 'scale(0.8) rotate(5deg)' }}
+        {/* Section label */}
+        <motion.p
+          className="label"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          style={{ marginBottom: '4rem' }}
+        >
+          — About
+        </motion.p>
+
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'auto 1fr',
+            gap: '5rem',
+            alignItems: 'start',
+          }}
+          className="about-grid"
+        >
+          {/* ── LEFT: Photo + Education ── */}
+          <motion.div variants={fadeUp} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            {/* Profile photo */}
+            <div
+              style={{
+                width: '260px',
+                height: '320px',
+                overflow: 'hidden',
+                flexShrink: 0,
+              }}
             >
               <img
                 src="/profile.png"
-                alt="Profile"
-                className="w-full h-full object-cover"
+                alt="Madhumithra M."
                 style={{
-                  WebkitMaskImage:
-                    "linear-gradient(to bottom, black 85%, transparent)",
-                  maskImage:
-                    "linear-gradient(to bottom, black 85%, transparent)",
-                  WebkitMaskSize: "100% 100%",
-                  maskSize: "100% 100%",
-                  WebkitMaskRepeat: "no-repeat",
-                  maskRepeat: "no-repeat",
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'top',
+                  WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent)',
+                  maskImage: 'linear-gradient(to bottom, black 70%, transparent)',
+                  display: 'block',
                 }}
               />
             </div>
-          </div>
 
-          {/* Right Side - Content with Typography and Stats */}
-          <div
-            ref={contentRef}
-            className="space-y-8"
-          >
-            {/* Large Typography with Typewriter Effect */}
-            <div className="flex items-center">
-              <h2 
-                ref={textRef}
-                className="text-4xl lg:text-5xl font-semibold text-white tracking-tight min-h-[80px] flex items-center"
+            {/* Education — below photo, no card */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+              <p
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontWeight: 700,
+                  fontSize: '0.9375rem',
+                  color: 'var(--text-primary)',
+                  lineHeight: 1.3,
+                }}
               >
-                {displayText}
-                <span className="animate-pulse ml-2 text-orange-400">
-                  {isTyping || isDeleting ? "|" : ""}
-                </span>
-              </h2>
-            </div>
-
-            <div className="space-y-8">
-              <p className="text-lg text-gray-400 leading-relaxed">
-                A passionate full-stack developer and Computer Science
-                student, well-versed in solving DSA problems and building
-                end-to-end web applications with the MERN stack incorporating AI and ML
-                problem with a mix of logic, creativity, and attention to detail
-                — whether it's backend APIs or frontend experiences.
+                Bannari Amman Institute<br />of Technology
               </p>
-
-              {/* Stats - Text Only with GSAP Counter */}
-              <div 
-                ref={statsRef}
-                className="grid grid-cols-2 gap-x- gap-y-6 pt-4"
+              <p
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '0.875rem',
+                  color: 'var(--text-secondary)',
+                  marginTop: '0.15rem',
+                }}
               >
-                <div className="flex flex-col">
-                  <span 
-                    className="text-4xl font-bold text-green-400 stat-number"
-                    data-value="650"
-                    data-suffix="+"
-                  >
-                    650+
-                  </span>
-                  <span className="text-lg text-gray-300 font-medium mt-1">
-                    DSA Problems Solved
-                  </span>
-                </div>
-
-                <div className="flex flex-col">
-                  <span 
-                    className="text-4xl font-bold text-green-400 stat-number"
-                    data-value="6"
-                    data-suffix="+"
-                  >
-                    6
-                  </span>
-                  <span className="text-lg text-gray-300 font-medium mt-1">
-                    Projects Completed
-                  </span>
-                </div>
-
-                <div className="flex flex-col">
-                  <span 
-                    className="text-4xl font-bold text-green-400 stat-number"
-                    data-value="16"
-                    data-suffix="+"
-                  >
-                    0
-                  </span>
-                  <span className="text-lg text-gray-300 font-medium mt-1">
-                    Competitions Participated
-                  </span>
-                </div>
-
-                <div className="flex flex-col">
-                  <span 
-                    className="text-4xl font-bold text-green-400 stat-number"
-                    data-value="3"
-                    data-suffix=""
-                  >
-                    0
-                  </span>
-                  <span className="text-lg text-gray-300 font-medium mt-1">
-                    Published Poems
-                  </span>
-                </div>
-              </div>
-
-              {/* View Achievements Button */}
-              <div className="pt-6">
-              <a
-              href="/achievements"
-              target="_self"
-              rel="noopener noreferrer"
-              className="inline-block text-sm md:text-base font-medium leading-tight tracking-tight text-white no-underline relative group transition-all duration-500 ease-out hover:text-green-400"
-            >
-              VIEW ACHIEVEMENTS
-              <span className="absolute -bottom-2 left-0 w-8 h-px bg-green-400 transition-all duration-500 ease-out group-hover:w-full"></span>
-            </a>
-            
-              </div>
+                Computer Science & Engineering
+              </p>
+              <p
+                className="font-mono"
+                style={{
+                  fontSize: '0.75rem',
+                  color: 'var(--text-muted)',
+                  letterSpacing: '0.05em',
+                  marginTop: '0.25rem',
+                }}
+              >
+                2023 – 2027 · CGPA 9.04 / 10
+              </p>
             </div>
-          </div>
-        </div>
+          </motion.div>
+
+          {/* ── RIGHT: Bio + Stats + Link ── */}
+          <motion.div
+            variants={stagger}
+            style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}
+          >
+            {/* Bio */}
+            <motion.div variants={fadeUp} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <p
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '1.125rem',
+                  lineHeight: 1.75,
+                  color: 'var(--text-secondary)',
+                  maxWidth: '560px',
+                }}
+              >
+                A full-stack developer and CS student, versed in building end-to-end
+                web applications with the MERN stack and incorporating AI into
+                practical systems. Comfortable across the stack — from backend APIs
+                to frontend experiences — with a habit of solving problems through
+                logic, structure, and care.
+              </p>
+            </motion.div>
+
+            {/* Stats — 2×2 grid, text-only */}
+            <motion.div
+              variants={fadeUp}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '2rem 3rem',
+              }}
+            >
+              {[
+                { value: '550+', label: 'DSA Problems Solved' },
+                { value: '5',    label: 'Projects Shipped' },
+                { value: '5',    label: 'Competition Results' },
+                { value: '3',    label: 'Published Poems' },
+              ].map(({ value, label }) => (
+                <div key={label}>
+                  <p
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontWeight: 800,
+                      fontSize: '2.5rem',
+                      letterSpacing: '-0.02em',
+                      lineHeight: 1,
+                      color: 'var(--text-primary)',
+                    }}
+                  >
+                    {value}
+                  </p>
+                  <p
+                    style={{
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '0.8125rem',
+                      color: 'var(--text-secondary)',
+                      marginTop: '0.375rem',
+                    }}
+                  >
+                    {label}
+                  </p>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Link */}
+            <motion.div variants={fadeUp}>
+              <a
+                href="/achievements"
+                className="label"
+                style={{
+                  color: 'var(--text-secondary)',
+                  transition: 'color 0.15s ease',
+                  letterSpacing: '0.15em',
+                }}
+                onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+              >
+                View Achievements →
+              </a>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </div>
-    </div>
+
+      {/* Mobile responsive: stack columns */}
+      <style>{`
+        @media (max-width: 767px) {
+          .about-grid {
+            grid-template-columns: 1fr !important;
+            gap: 3rem !important;
+          }
+          .about-grid > div:first-child {
+            align-items: center;
+          }
+          .about-grid img {
+            width: 220px !important;
+            height: 270px !important;
+          }
+        }
+      `}</style>
+    </section>
   );
 }

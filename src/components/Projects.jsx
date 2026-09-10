@@ -429,52 +429,39 @@ const HorizontalScrollProjects = () => {
   }, [currentProject, scrollToIndex, isModalOpen]);
 
   return (
-    <div className="relative bg-black text-white">
-      <style>{`
-        @keyframes floatGradient {
-          0% { transform: translate(-40%, -30%) rotate(0deg) scale(1); opacity: .7; }
-          50% { transform: translate(-20%, -10%) rotate(10deg) scale(1.05); opacity: .85; }
-          100% { transform: translate(-40%, -30%) rotate(0deg) scale(1); opacity: .7; }
-        }
-      `}</style>
-
-      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div
-          aria-hidden
-          className="absolute -left-40 -top-40 h-[900px] w-[900px] rounded-full blur-3xl opacity-60"
-          style={{
-            background:
-              "radial-gradient(circle at 30% 30%, rgba(59,130,246,0.22), rgba(0,0,0,0)) , radial-gradient(circle at 70% 70%, rgba(249,115,22,0.12), rgba(0,0,0,0))",
-            animation: "floatGradient 10s ease-in-out infinite",
-          }}
-        />
-      </div>
-
-      <div className="mx-auto max-w-7xl px-4 py-8 pb-4 md:py-12 -mb-20">
-        <motion.h1
+    <div style={{ position: 'relative', backgroundColor: 'var(--bg-base)', color: 'var(--text-primary)', borderTop: '1px solid var(--border)' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '8rem 3rem 2rem' }}>
+        <motion.p
+          className="label"
           initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="mt-20 text-3xl font-extrabold tracking-tight text-blue-500 sm:text-5xl md:text-5xl"
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
         >
-          My Projects
-        </motion.h1>
+          — Selected Work
+        </motion.p>
       </div>
 
       <div className="hidden md:block" ref={containerRef} style={{ height: `${containerHeight}vh`, scrollBehavior: "smooth" }}>
         <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
           <div className="mx-auto w-full max-w-7xl px-4">
-            <div className="absolute right-6 top-1/2 z-20 flex -translate-y-1/2 flex-col items-center gap-3">
+            <div style={{ position: 'absolute', right: '1.5rem', top: '50%', transform: 'translateY(-50%)', zIndex: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.625rem' }}>
               {projects.map((p, i) => (
                 <button
                   key={p.title}
                   onClick={() => scrollToIndex(i)}
                   aria-label={`Go to project ${i + 1}`}
-                  className={`h-3 w-3 rounded-full transition-all duration-300 ${
-                    i === currentProject
-                      ? "bg-orange-300 scale-125 shadow-[0_0_0_6px_rgba(253,186,116,0.08)]"
-                      : "bg-zinc-600 hover:bg-orange-200/70"
-                  }`}
+                  style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    background: i === currentProject ? 'var(--accent)' : 'var(--text-muted)',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: 0,
+                    transition: 'background 0.2s ease',
+                    transform: i === currentProject ? 'scale(1.4)' : 'scale(1)',
+                  }}
                 />
               ))}
             </div>
@@ -495,91 +482,74 @@ const HorizontalScrollProjects = () => {
         </div>
       </div>
 
-      <div className="md:hidden">
-        <div className="mx-auto max-w-7xl px-4 py-8">
-          <div className="space-y-6">
-            {projects.map((project, index) => (
-              <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+      <div className="md:hidden" style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1.5rem 6rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+          {projects.map((project, index) => (
+            <motion.div
+              key={project.title}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.08, duration: 0.5 }}
+              style={{ borderTop: '1px solid var(--border)' }}
+            >
+              <div
+                style={{ padding: '1.75rem 0', cursor: 'pointer' }}
+                onClick={() => openModal(project)}
               >
-                <div className="w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-zinc-950/90 to-black/90 shadow-2xl transition-all duration-300">
-                  <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
-                    <img
-                      src={project.thumbnail}
-                      alt={project.title}
-                      className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
-                      onError={(e) => {
-                        e.target.style.display = "none";
-                        e.target.parentElement.innerHTML = `
-                          <div class="w-full h-full flex items-center justify-center bg-gray-800">
-                            <div class="text-center text-gray-400">
-                              <div class="text-4xl mb-2">📷</div>
-                              <div class="text-sm">Project Image</div>
-                            </div>
-                          </div>
-                        `;
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  </div>
-
-                  <div className="space-y-4 p-6">
-                    <div className="flex items-center justify-center gap-3">
-                      <span className="rounded-full bg-blue-500 px-4 py-1.5 text-sm font-bold text-white">
-                        {project.year}
-                      </span>
-                      <span className="text-xs font-medium text-blue-400 line-clamp-1">
-                        {project.event}
-                      </span>
-                    </div>
-
-                    <div className="text-center">
-                      <h3 className="text-lg font-bold leading-tight text-white line-clamp-2">
-                        {project.title}
-                      </h3>
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      {project.live && (
-                        <a
-                          href={project.live}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group flex w-full items-center justify-center gap-2 rounded-xl bg-blue-500 px-4 py-2.5 font-semibold text-white transition-all duration-300 hover:bg-blue-600"
-                        >
-                          <Link size={18} />
-                          <span>Live Demo</span>
-                        </a>
-                      )}
-
-                      {project.github && (
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group flex w-full items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 font-semibold text-white transition-all duration-300 hover:bg-white/20"
-                        >
-                          <Github size={18} />
-                          <span>Source Code</span>
-                        </a>
-                      )}
-                    </div>
-
-                    <button
-                      onClick={() => openModal(project)}
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-gray-300 transition-all duration-300 hover:bg-white/10 flex items-center justify-center gap-2"
-                    >
-                      <span>View Full Details</span>
-                      <SquareArrowOutUpRight className="w-4 h-4"/>
-                    </button>
-                  </div>
+                <div style={{ height: '200px', overflow: 'hidden', marginBottom: '1.25rem' }}>
+                  <img
+                    src={project.thumbnail}
+                    alt={project.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    onError={(e) => { e.target.style.display = 'none'; }}
+                  />
                 </div>
-              </motion.div>
-            ))}
-          </div>
+
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.5rem' }}>
+                  <p className="font-mono" style={{ fontSize: '0.7rem', color: 'var(--text-muted)', letterSpacing: '0.1em' }}>
+                    {project.year} · {project.event}
+                  </p>
+                </div>
+
+                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.125rem', lineHeight: 1.3, color: 'var(--text-primary)', marginBottom: '1rem' }}>
+                  {project.title}
+                </h3>
+
+                <div style={{ display: 'flex', gap: '1.5rem' }}>
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="label"
+                      style={{ color: 'var(--text-secondary)', transition: 'color 0.15s ease' }}
+                      onClick={e => e.stopPropagation()}
+                      onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                      onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+                    >
+                      Live ↗
+                    </a>
+                  )}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="label"
+                      style={{ color: 'var(--text-secondary)', transition: 'color 0.15s ease' }}
+                      onClick={e => e.stopPropagation()}
+                      onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                      onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+                    >
+                      GitHub ↗
+                    </a>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+          <div style={{ borderTop: '1px solid var(--border)' }} />
         </div>
       </div>
 
@@ -653,70 +623,40 @@ const ProjectCard = ({
         x: cardX,
         opacity: cardOpacity,
         scale: cardScale,
-        filter: `blur(${cardBlur}px)`,
         zIndex: isActive ? 20 : 1,
-      }}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        type: "spring",
-        stiffness: 220,
-        damping: 28,
-        mass: 0.7,
       }}
       className="absolute left-1/2 top-1/2 w-full max-w-3xl -translate-x-1/2 -translate-y-1/2 px-4"
     >
-      <motion.div
+      <div
         onClick={() => onCardClick(project)}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        className={`w-full cursor-pointer overflow-hidden rounded-3xl border bg-gradient-to-br from-zinc-950/90 to-black/90 shadow-2xl transition-all duration-300 ${
-          isActive
-            ? "ring-2 ring-blue-500/50 shadow-blue-500/20"
-            : "ring-1 ring-white/10"
-        }`}
+        style={{
+          width: '100%',
+          cursor: 'pointer',
+          overflow: 'hidden',
+          backgroundColor: 'var(--bg-raised)',
+          border: isActive ? '1px solid var(--accent)' : '1px solid var(--border)',
+          transition: 'border-color 0.2s ease',
+        }}
       >
-        <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 md:h-64">
+        <div style={{ position: 'relative', height: '260px', width: '100%', overflow: 'hidden', backgroundColor: 'var(--bg-surface)' }}>
           <img
             src={project.thumbnail}
             alt={project.title}
-            className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
-            onError={(e) => {
-              e.target.style.display = "none";
-              e.target.parentElement.innerHTML = `
-                <div class="w-full h-full flex items-center justify-center bg-gray-800">
-                  <div class="text-center text-gray-400">
-                    <div class="text-4xl mb-2">📷</div>
-                    <div class="text-sm">Project Image</div>
-                  </div>
-                </div>
-              `;
-            }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            onError={(e) => { e.target.style.display = 'none'; }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
         </div>
 
-        <div className="space-y-4 p-6 text-center md:p-8">
-          <div className="flex items-center justify-center gap-3">
-            <span className="rounded-full bg-blue-500 px-4 py-1.5 text-sm font-bold text-white">
-              {project.year}
-            </span>
-            <span className="text-sm font-medium text-blue-400">
-              {project.event}
-            </span>
-          </div>
-
-          <h3 className="text-xl font-bold leading-tight text-white md:text-3xl">
+        <div style={{ padding: '1.5rem 2rem' }}>
+          <p className="font-mono" style={{ fontSize: '0.7rem', color: 'var(--text-muted)', letterSpacing: '0.1em', marginBottom: '0.625rem' }}>
+            {project.year} · {project.event}
+          </p>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.375rem', lineHeight: 1.25, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
             {project.title}
           </h3>
-          <div className="flex items-center justify-center gap-2">
-          <p className="text-sm text-gray-400 md:text-base">
-            View 
-          </p>
-          <SquareArrowOutUpRight className ="w-4 h-4"/>
-          </div>
+          <p className="label" style={{ color: 'var(--text-muted)' }}>View details →</p>
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   );
 };
@@ -740,84 +680,60 @@ const ProjectDetailPage = ({ isOpen, onClose, project }) => {
         duration: 0.4,
         ease: [0.4, 0, 0.2, 1],
       }}
-      className="fixed inset-0 z-[100] bg-black"
+      style={{ backgroundColor: 'var(--bg-base)' }}
+      className="fixed inset-0 z-[100]"
     >
-      <div className="h-full w-full overflow-y-auto">
-        <div className="sticky top-0 z-20 bg-gradient-to-b from-black via-black/95 to-transparent backdrop-blur-sm">
-          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between gap-4">
+      <div style={{ height: '100%', width: '100%', overflowY: 'auto' }}>
+        <div style={{ position: 'sticky', top: 0, zIndex: 20, backgroundColor: 'var(--bg-base)', borderBottom: '1px solid var(--border)' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.25rem 3rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
               <button
                 onClick={onClose}
-                className="group flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2 text-white transition-all duration-300 hover:bg-white/20"
+                className="label"
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', transition: 'color 0.15s ease', padding: 0 }}
+                onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
               >
-                <svg
-                  className="h-5 w-5 transition-transform group-hover:-translate-x-1"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-                <span className="font-medium">Back to Projects</span>
+                ← Back
               </button>
 
-              <div className="flex items-center gap-3">
-                <span className="rounded-full bg-blue-500 px-4 py-1.5 text-sm font-bold text-white">
-                  {project.year}
-                </span>
-                <span className="hidden text-sm font-medium text-blue-400 sm:inline">
-                  {project.event}
-                </span>
-              </div>
+              <p className="font-mono" style={{ fontSize: '0.7rem', color: 'var(--text-muted)', letterSpacing: '0.1em' }}>
+                {project.year} · {project.event}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="mx-auto max-w-7xl px-4 py-8 pb-20 sm:px-6 lg:px-8">
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '3rem 3rem 8rem' }}>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="mb-8 h-[200px] w-full overflow-hidden rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg sm:h-[300px] md:h-[400px]"
+            style={{ marginBottom: '3rem', height: '320px', width: '100%', overflow: 'hidden', backgroundColor: 'var(--bg-surface)' }}
           >
             <img
               src={project.thumbnail}
               alt={project.title}
-              className="h-full w-full object-cover"
-              onError={(e) => {
-                e.target.style.display = "none";
-                e.target.parentElement.innerHTML = `
-                  <div class="w-full h-full flex items-center justify-center bg-gray-800">
-                    <div class="text-center text-gray-400">
-                      <div class="text-6xl mb-4">📷</div>
-                      <div class="text-xl">Project Image</div>
-                    </div>
-                  </div>
-                `;
-              }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              onError={(e) => { e.target.style.display = 'none'; }}
             />
           </motion.div>
 
           <div className="grid gap-8 md:gap-12 lg:grid-cols-3">
-            <div className="space-y-8 lg:col-span-2">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }} className="lg:col-span-2">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <h1 className="mb-4 text-2xl font-bold leading-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
+                <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(1.75rem, 4vw, 3.5rem)', lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '1rem' }}>
                   {project.title}
                 </h1>
 
                 <div className="md:hidden">
-                  <span className="text-xs sm:text-sm font-medium text-blue-400">
+                  <p className="font-mono" style={{ fontSize: '0.7rem', color: 'var(--text-muted)', letterSpacing: '0.1em' }}>
                     {project.event}
-                  </span>
+                  </p>
                 </div>
               </motion.div>
 
@@ -830,30 +746,25 @@ const ProjectDetailPage = ({ isOpen, onClose, project }) => {
                 return (
                   <motion.section
                     key={sectionKey}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.25 + sectionIndex * 0.05 }}
+                    transition={{ delay: 0.25 + sectionIndex * 0.04 }}
+                    style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}
                   >
-                    <h2 className="mb-3 text-xs sm:text-sm font-semibold text-white/90">
+                    <p className="label" style={{ color: 'var(--text-muted)', marginBottom: '0.875rem' }}>
                       {label}
-                    </h2>
+                    </p>
 
                     {typeof value === "string" ? (
-                      <p className="text-sm sm:text-base leading-relaxed text-gray-400">
+                      <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
                         {value}
                       </p>
                     ) : (
-                      <div className="space-y-3">
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                         {value.map((item, index) => (
-                          <div
-                            key={index}
-                            className="flex items-start gap-3 rounded-lg border border-white/10 bg-white/5 p-3 sm:p-4"
-                          >
-                            <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400" />
-                            <p className="text-xs sm:text-sm leading-relaxed text-gray-300">
-                              {item}
-                            </p>
-                          </div>
+                          <p key={index} style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', lineHeight: 1.7, color: 'var(--text-secondary)', paddingLeft: '1rem', borderLeft: '1px solid var(--border)' }}>
+                            {item}
+                          </p>
                         ))}
                       </div>
                     )}
@@ -863,143 +774,84 @@ const ProjectDetailPage = ({ isOpen, onClose, project }) => {
 
               {project.outcome && (
                 <motion.section
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
-                  className="rounded-lg border border-white/10 bg-gradient-to-br from-blue-500/10 to-purple-500/10 p-4 sm:p-5"
+                  style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}
                 >
-                  <h2 className="mb-3 text-xs sm:text-sm font-semibold text-white/90">
+                  <p className="label" style={{ color: 'var(--text-muted)', marginBottom: '0.875rem' }}>
                     {SECTION_LABELS.outcome}
-                  </h2>
-                  <p className="text-sm sm:text-base leading-relaxed text-gray-300">
+                  </p>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
                     {project.outcome}
                   </p>
                 </motion.section>
               )}
 
               <motion.section
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.55 }}
+                style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}
               >
-                <h2 className="mb-3 text-xs sm:text-sm font-semibold text-white/90">
-                  Tech Stack
-                </h2>
-                <div className="flex flex-wrap gap-2">
-                  {project.tech.map((tech, techIndex) => (
-                    <motion.span
-                      key={techIndex}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.55 + techIndex * 0.02 }}
-                      className="rounded-md border border-white/10 bg-white/5 px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-medium text-gray-300 transition-colors hover:border-white/20 hover:bg-white/10"
-                    >
-                      {tech}
-                    </motion.span>
-                  ))}
-                </div>
+                <p className="label" style={{ color: 'var(--text-muted)', marginBottom: '0.875rem' }}>
+                  Stack
+                </p>
+                <p className="font-mono" style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.8 }}>
+                  {project.tech.join(' · ')}
+                </p>
               </motion.section>
             </div>
 
             <div className="lg:col-span-1">
               <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="sticky top-32 space-y-4 sm:space-y-6"
+                style={{ position: 'sticky', top: '6rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}
               >
-                <div className="rounded-lg border border-white/10 bg-white/5 p-4 sm:p-5">
-                  <h3 className="mb-3 sm:mb-4 text-xs sm:text-sm font-semibold text-white">Links</h3>
-                  <div className="space-y-2 sm:space-y-3">
+                <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}>
+                  <p className="label" style={{ color: 'var(--text-muted)', marginBottom: '1rem' }}>Links</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                     {project.live && (
                       <a
                         href={project.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex w-full items-center justify-between gap-3 rounded-xl bg-blue-500 px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-white transition-all duration-300 hover:bg-blue-600"
+                        className="label"
+                        style={{ color: 'var(--text-secondary)', transition: 'color 0.15s ease' }}
+                        onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                        onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
                       >
-                        <span className="flex items-center gap-2">
-                          <Link size={18} className="sm:w-5 sm:h-5" />
-                          <span className="hidden sm:inline">Live Demo</span>
-                          <span className="sm:hidden">Live</span>
-                        </span>
-                        <svg
-                          className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"
-                          />
-                        </svg>
+                        Live Demo ↗
                       </a>
                     )}
-
                     {project.github && (
                       <a
                         href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex w-full items-center justify-between gap-3 rounded-xl border border-white/20 bg-white/10 px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-white transition-all duration-300 hover:bg-white/20"
+                        className="label"
+                        style={{ color: 'var(--text-secondary)', transition: 'color 0.15s ease' }}
+                        onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                        onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
                       >
-                        <span className="flex items-center gap-2">
-                          <Github size={18} className="sm:w-5 sm:h-5" />
-                          <span className="hidden sm:inline">Source Code</span>
-                          <span className="sm:hidden">Code</span>
-                        </span>
-                        <svg
-                          className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"
-                          />
-                        </svg>
+                        Source Code ↗
                       </a>
                     )}
                   </div>
                 </div>
 
-                <div className="rounded-lg border border-white/10 bg-white/5 p-4 sm:p-5">
-                  <h3 className="mb-3 sm:mb-4 text-xs sm:text-sm font-semibold text-white">
-                    Project Info
-                  </h3>
-                  <div className="space-y-3 text-xs sm:text-sm">
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-400">Year</span>
-                      <span className="font-medium text-white">
-                        {project.year}
-                      </span>
+                <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}>
+                  <p className="label" style={{ color: 'var(--text-muted)', marginBottom: '1rem' }}>Info</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <p className="font-mono" style={{ fontSize: '0.7rem', color: 'var(--text-muted)', letterSpacing: '0.08em' }}>Year</p>
+                      <p className="font-mono" style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', letterSpacing: '0.08em' }}>{project.year}</p>
                     </div>
-
-                    <div className="flex items-center justify-between border-t border-white/10 pt-3">
-                      <span className="text-gray-400">Event</span>
-                      <span className="max-w-[60%] text-right font-medium text-white line-clamp-2">
-                        {project.event}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between border-t border-white/10 pt-3">
-                      <span className="text-gray-400">Stack Size</span>
-                      <span className="font-medium text-white">
-                        {project.tech.length}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between border-t border-white/10 pt-3">
-                      <span className="text-gray-400">Status</span>
-                      <span className="font-medium text-green-400">
-                        {project.live ? "Live" : "Code Available"}
-                      </span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <p className="font-mono" style={{ fontSize: '0.7rem', color: 'var(--text-muted)', letterSpacing: '0.08em' }}>Status</p>
+                      <p className="font-mono" style={{ fontSize: '0.7rem', color: 'var(--accent)', letterSpacing: '0.08em' }}>{project.live ? 'Live' : 'Code Available'}</p>
                     </div>
                   </div>
                 </div>
@@ -1009,22 +861,7 @@ const ProjectDetailPage = ({ isOpen, onClose, project }) => {
         </div>
       </div>
 
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div
-          className="absolute -right-40 -top-40 h-[600px] w-[600px] rounded-full blur-3xl opacity-20"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(59,130,246,0.3), rgba(0,0,0,0))",
-          }}
-        />
-        <div
-          className="absolute -left-40 bottom-0 h-[600px] w-[600px] rounded-full blur-3xl opacity-20"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(249,115,22,0.3), rgba(0,0,0,0))",
-          }}
-        />
-      </div>
+      {/* No decorative blobs — composition carries the visual weight */}
     </motion.div>
   );
 };

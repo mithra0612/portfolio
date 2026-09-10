@@ -1,271 +1,217 @@
-import React, { useState, useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  Mail,
-  Linkedin,
-  Github,
-  Copy,
-  Clock,
-  MapPin,
-  CheckCircle,
-  ExternalLink,
-} from "lucide-react";
+'use client';
 
-gsap.registerPlugin(ScrollTrigger);
+import React, { useState } from 'react';
+import { Mail, Linkedin, Github, Copy, CheckCheck, MapPin, Clock } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-export default function ContactsSection() {
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+};
+
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+export default function Contact() {
   const [copied, setCopied] = useState(false);
-  const sectionRef = useRef(null);
-  const statusRef = useRef(null);
-  const titleRef = useRef(null);
-  const descriptionRef = useRef(null);
-  const contactLinksRef = useRef(null);
-  const cardsRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Initial state
-      gsap.set(
-        [
-          statusRef.current,
-          titleRef.current,
-          descriptionRef.current,
-          contactLinksRef.current,
-          cardsRef.current,
-        ],
-        {
-          opacity: 0,
-          y: 50,
-        }
-      );
-
-      // Entrance animations
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      tl.to(statusRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power2.out",
-      })
-        .to(
-          titleRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power2.out",
-          },
-          "-=0.4"
-        )
-        .to(
-          descriptionRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out",
-          },
-          "-=0.6"
-        )
-        .to(
-          contactLinksRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out",
-          },
-          "-=0.4"
-        )
-        .to(
-          cardsRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out",
-          },
-          "-=0.6"
-        );
-
-      // Contact links hover animations
-      const contactLinks = contactLinksRef.current?.querySelectorAll("a");
-      contactLinks?.forEach((link) => {
-        link.addEventListener("mouseenter", () => {
-          gsap.to(link, {
-            scale: 1.1,
-            duration: 0.3,
-            ease: "power2.out",
-          });
-        });
-
-        link.addEventListener("mouseleave", () => {
-          gsap.to(link, {
-            scale: 1,
-            duration: 0.3,
-            ease: "power2.out",
-          });
-        });
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   const copyEmail = () => {
-    navigator.clipboard.writeText("mithramadhu005@gmail.com");
+    navigator.clipboard.writeText('mithramadhu005@gmail.com');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <section
-      ref={sectionRef}
-      className="bg-black text-white py-16 lg:py-24 overflow-hidden"
+      style={{
+        backgroundColor: 'var(--bg-base)',
+        padding: '8rem 3rem',
+        borderTop: '1px solid var(--border)',
+      }}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Status Badge */}
-        <div
-          ref={statusRef}
-          className="flex items-center justify-center sm:justify-start gap-3 mb-12"
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+
+        {/* Section label */}
+        <motion.p
+          className="label"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          style={{ marginBottom: '4rem' }}
         >
-          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-          <span className="text-green-400 text-sm sm:text-base font-medium">
-            Available for new projects
-          </span>
-        </div>
+          — Contact
+        </motion.p>
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 lg:items-stretch">
-          {/* Left Side - Main Content */}
-          <div className="flex flex-col justify-between min-h-full">
-            <div className="space-y-8">
-              <div>
-                <h2
-                  ref={titleRef}
-                  className="text-4xl sm:text-5xl lg:text-6xl font-semibold mb-6 leading-[1.1] text-white"
-                >
-                  Let's work
-                  <br />
-                  <span className="text-blue-400">together</span>
-                </h2>
-                <p
-                  ref={descriptionRef}
-                  className="text-gray-300 text-lg sm:text-xl leading-relaxed max-w-lg text-justify"
-                >
-                  I am always eager to explore new opportunities and highly enthusiastic about collaborating on meaningful, forward-thinking projects that drive innovation, growth, and positive impact.
-                </p>
-              </div>
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '6rem',
+            alignItems: 'start',
+          }}
+          className="contact-grid"
+        >
+          {/* Left: statement + email as anchor */}
+          <motion.div variants={fadeUp} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <h2
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontWeight: 800,
+                fontSize: 'clamp(2rem, 4vw, 3.5rem)',
+                letterSpacing: '-0.025em',
+                lineHeight: 1.1,
+                color: 'var(--text-primary)',
+              }}
+            >
+              Open to new<br />opportunities.
+            </h2>
 
-              {/* Contact Links */}
-              <div className="space-y-6">
-                <div
-                  ref={contactLinksRef}
-                  className="flex items-center gap-6"
-                >
-                  <a
-                    href="mailto:mithramadhu005@gmail.com"
-                    className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
-                    aria-label="Email"
-                  >
-                    <Mail size={24} />
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/mithra0612/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
-                    aria-label="LinkedIn"
-                  >
-                    <Linkedin size={24} />
-                  </a>
-                  <a
-                    href="https://github.com/mithra0612"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
-                    aria-label="GitHub"
-                  >
-                    <Github size={24} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '1rem',
+                lineHeight: 1.75,
+                color: 'var(--text-secondary)',
+                maxWidth: '420px',
+              }}
+            >
+              Available for full-time roles, internships, and meaningful
+              engineering projects. Response within 24 hours.
+            </p>
 
-          {/* Right Side - Cards */}
-          <div ref={cardsRef} className="flex flex-col space-y-4 min-h-full">
-            {/* Availability Card */}
-            <div className="rounded-lg bg-gray-900 p-5 flex-1">
-              <div className="space-y-4">
-                <h3 className="text-lg font-medium text-green-400">
-                  Availability
-                </h3>
-                <div className="space-y-3">
-                  <div className="flex items-start gap-3">
-                    <Clock
-                      size={18}
-                      className="text-gray-400 mt-0.5 flex-shrink-0"
-                    />
-                    <div>
-                      <div className="font-medium text-white text-sm">
-                        Response Time
-                      </div>
-                      <div className="text-gray-400 text-sm">
-                        Usually within 24 hours
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <MapPin
-                      size={18}
-                      className="text-gray-400 mt-0.5 flex-shrink-0"
-                    />
-                    <div>
-                      <div className="font-medium text-white text-sm">
-                        Timezone
-                      </div>
-                      <div className="text-gray-400 text-sm">
-                        Indian Standard Time (IST)
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Schedule Call Card */}
-            <div className="rounded-lg bg-gray-900 p-5 flex-1">
-              <div className="space-y-4">
-                <h3 className="text-lg font-medium text-green-400">
-                  Schedule a Call
-                </h3>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  Let's discuss your project and explore how we can work together.
-                </p>
+            {/* Email — functional, no decoration */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <p className="label" style={{ color: 'var(--text-muted)' }}>Email</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <a
-                  href="https://cal.com/madhumithra-m/30min?user=madhumithra-m"
+                  href="mailto:mithramadhu005@gmail.com"
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '1rem',
+                    color: 'var(--text-primary)',
+                    transition: 'color 0.15s ease',
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
+                  onMouseLeave={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                >
+                  mithramadhu005@gmail.com
+                </a>
+                <button
+                  onClick={copyEmail}
+                  aria-label="Copy email address"
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: copied ? 'var(--accent)' : 'var(--text-muted)',
+                    transition: 'color 0.15s ease',
+                    lineHeight: 0,
+                    padding: 0,
+                  }}
+                >
+                  {copied ? <CheckCheck size={14} /> : <Copy size={14} />}
+                </button>
+              </div>
+            </div>
+
+            {/* Social links — text, not icons */}
+            <div style={{ display: 'flex', gap: '2rem' }}>
+              {[
+                { label: 'LinkedIn', href: 'https://www.linkedin.com/in/mithra0612/' },
+                { label: 'GitHub', href: 'https://github.com/mithra0612' },
+                { label: 'LeetCode', href: 'https://leetcode.com/u/mithra_612' },
+              ].map(({ label, href }) => (
+                <a
+                  key={label}
+                  href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 w-full bg-green-500 hover:bg-green-600 text-white font-medium px-4 py-2.5 rounded transition-colors duration-200"
+                  className="label"
+                  style={{ color: 'var(--text-secondary)', transition: 'color 0.15s ease', letterSpacing: '0.12em' }}
+                  onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                  onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
                 >
-                  Book a call
-                  <ExternalLink size={14} />
+                  {label} ↗
                 </a>
-              </div>
+              ))}
             </div>
-          </div>
-        </div>
+          </motion.div>
+
+          {/* Right: logistics */}
+          <motion.div
+            variants={fadeUp}
+            style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}
+          >
+            {[
+              {
+                label: 'Location',
+                value: 'Tamil Nadu, India',
+                sub: 'IST (UTC +5:30)',
+              },
+              {
+                label: 'Response',
+                value: 'Within 24 hours',
+                sub: null,
+              },
+              {
+                label: 'Schedule',
+                value: 'Book a 30-min call',
+                href: 'https://cal.com/madhumithra-m/30min?user=madhumithra-m',
+              },
+            ].map((item, i) => (
+              <div key={i} style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}>
+                <p className="label" style={{ color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
+                  {item.label}
+                </p>
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '0.9375rem',
+                      color: 'var(--text-primary)',
+                      transition: 'color 0.15s ease',
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
+                    onMouseLeave={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                  >
+                    {item.value} ↗
+                  </a>
+                ) : (
+                  <>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: 'var(--text-primary)' }}>
+                      {item.value}
+                    </p>
+                    {item.sub && (
+                      <p className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.2rem', letterSpacing: '0.05em' }}>
+                        {item.sub}
+                      </p>
+                    )}
+                  </>
+                )}
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
       </div>
+
+      <style>{`
+        @media (max-width: 767px) {
+          .contact-grid {
+            grid-template-columns: 1fr !important;
+            gap: 3rem !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
