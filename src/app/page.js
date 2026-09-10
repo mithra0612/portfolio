@@ -1,6 +1,6 @@
 "use client";
 import Hero from "@/components/Hero";
-import FloatingNav from "@/components/FloatingNav";
+import RightSidebarNav from "@/components/RightSidebarNav";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
@@ -32,6 +32,9 @@ export default function Home() {
         <PortfolioLoader onComplete={handleLoaderComplete} />
       ) : (
         <>
+          {/* ── HIGH-END RIGHT SIDEBAR NAVIGATION ── */}
+          <RightSidebarNav />
+
           {/* ── STICKY HERO LAYER ── pinned behind all content sections */}
           <section className="sticky top-0 h-screen w-full z-0 overflow-hidden">
             <Hero />
@@ -39,17 +42,8 @@ export default function Home() {
 
           {/* ── CURTAIN STACK ── each section slides up and covers the hero ── */}
 
-          {/* About Me Card (The Reveal) */}
-          <section
-            id="about"
-            className="relative z-10 bg-white min-h-screen w-full"
-          >
-            <h2 className="text-6xl md:text-9xl font-bold tracking-tighter text-black uppercase pt-20 px-8">
-              About Me
-            </h2>
-            {/* <!-- Layout and content to be injected here later --> */}
-            <div className="w-full"></div>
-          </section>
+          {/* ── ABOUT ME ── */}
+          <About />
 
           {/* Experience */}
           <section
