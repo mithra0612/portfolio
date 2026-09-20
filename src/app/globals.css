@@ -1,24 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: var(--font-poppins), system-ui, -apple-system, sans-serif;
   --font-poppins: var(--font-poppins), system-ui, -apple-system, sans-serif;
+  --font-script: 'Caveat', cursive;
 }
 
 /* ============================================================
-   DESIGN SYSTEM — CUSTOM PROPERTIES
+   DESIGN SYSTEM — COLOR SYSTEM (Harmonized with Hero Page Palette)
    ============================================================ */
 :root {
-  --bg-base:       #080D14;
-  --bg-raised:     #0D1520;
-  --bg-surface:    #13202E;
-  --text-primary:  #F1F5F9;
-  --text-secondary:#94A3B8;
-  --text-muted:    #506579;
-  --accent:        #FF5722;
-  --accent-hover:  #FF7043;
-  --accent-glow:   rgba(255, 87, 34, 0.15);
-  --border:        #192735;
+  /* Deep oceanic twilight backgrounds from the hero sky shadows */
+  --bg-base:        #080E18;
+  --bg-raised:      #0D1624;
+  --bg-surface:     #132238;
+
+  /* Typography */
+  --text-primary:   #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted:     #526A82;
+
+  /* Signature Hero Accents: Sunset Ember Orange & Sunlight Amber */
+  --accent:         #FF5722;
+  --accent-hover:   #FF7043;
+  --accent-glow:    rgba(255, 87, 34, 0.2);
+  --accent-amber:   #F59E0B;
+  --amber-glow:     rgba(245, 158, 11, 0.16);
+
+  /* Cerulean / Sky Blue Accents directly from the hero sky */
+  --accent-sky:     #38BDF8;
+  --accent-blue:    #2563EB;
+  --sky-glow:       rgba(56, 189, 248, 0.16);
+
+  /* Refined twilight slate borders */
+  --border:         #1B2D42;
+  --border-subtle:  rgba(56, 189, 248, 0.12);
+  --border-amber:   rgba(255, 87, 34, 0.2);
 
   --font-display:  var(--font-poppins), system-ui, -apple-system, sans-serif;
   --font-headline: var(--font-poppins), system-ui, -apple-system, sans-serif;

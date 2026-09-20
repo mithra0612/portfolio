@@ -44,21 +44,36 @@ export default function Skills() {
         backgroundColor: 'var(--bg-base)',
         padding: '8rem 3rem',
         borderTop: '1px solid var(--border)',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      {/* Ambient lighting matching hero palette */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          pointerEvents: 'none',
+          background:
+            'radial-gradient(ellipse 65% 45% at 15% 30%, rgba(56, 189, 248, 0.05) 0%, transparent 60%), radial-gradient(ellipse 55% 45% at 90% 70%, rgba(245, 158, 11, 0.04) 0%, transparent 55%)',
+        }}
+        aria-hidden="true"
+      />
+      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
 
         {/* Section label */}
-        <motion.p
-          className="label"
+        <motion.div
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
-          style={{ marginBottom: '4rem' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '4rem' }}
         >
-          — Skills
-        </motion.p>
+          <span style={{ width: '20px', height: '1px', backgroundColor: 'var(--accent)' }} aria-hidden="true" />
+          <p className="label" style={{ margin: 0, letterSpacing: '0.22em' }}>
+            SKILLS & EXPERTISE
+          </p>
+        </motion.div>
 
         <motion.div
           variants={stagger}

@@ -429,17 +429,31 @@ const HorizontalScrollProjects = () => {
   }, [currentProject, scrollToIndex, isModalOpen]);
 
   return (
-    <div style={{ position: 'relative', backgroundColor: 'var(--bg-base)', color: 'var(--text-primary)', borderTop: '1px solid var(--border)' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '8rem 3rem 2rem' }}>
-        <motion.p
-          className="label"
+    <div style={{ position: 'relative', backgroundColor: 'var(--bg-base)', color: 'var(--text-primary)', borderTop: '1px solid var(--border)', overflow: 'hidden' }}>
+      {/* Ambient lighting matching hero palette */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          pointerEvents: 'none',
+          background:
+            'radial-gradient(ellipse 70% 50% at 85% 25%, rgba(56, 189, 248, 0.05) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 15% 75%, rgba(255, 87, 34, 0.04) 0%, transparent 55%)',
+        }}
+        aria-hidden="true"
+      />
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '8rem 3rem 2rem', position: 'relative' }}>
+        <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}
         >
-          — Selected Work
-        </motion.p>
+          <span style={{ width: '20px', height: '1px', backgroundColor: 'var(--accent)' }} aria-hidden="true" />
+          <p className="label" style={{ margin: 0, letterSpacing: '0.22em' }}>
+            SELECTED WORK & PROJECTS
+          </p>
+        </motion.div>
       </div>
 
       <div className="hidden md:block" ref={containerRef} style={{ height: `${containerHeight}vh`, scrollBehavior: "smooth" }}>

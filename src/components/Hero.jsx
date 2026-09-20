@@ -8,16 +8,18 @@ import DecryptedText from './DecryptedText';
 
 export default function Hero() {
   return (
-    <div className="relative w-full h-screen min-h-[600px] overflow-hidden select-none bg-[#07131d] font-sans">
+    <div className="relative w-full h-screen min-h-[600px] overflow-hidden select-none bg-[var(--bg-base)] font-sans">
       {/* ── BACKGROUND PHOTOGRAPH LAYER ── */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <Image
-          src="/heroImg.jpg"
+          src="/heroImg_wide.jpg?v=2"
           alt="Madhumithra M."
           fill
           priority
+          unoptimized
           sizes="100vw"
-          className="object-cover object-[80%_0%] sm:object-[82%_0%] md:object-[84%_0%] lg:object-[85%_0%] select-none"
+          className="object-cover select-none"
+          style={{ objectPosition: '85% 88%' }}
         />
 
         {/* Soft contrast scrim on left side to guarantee flawless text legibility */}
@@ -26,15 +28,6 @@ export default function Hero() {
           style={{
             background:
               'linear-gradient(to right, rgba(5, 14, 22, 0.6) 0%, rgba(5, 14, 22, 0.3) 45%, transparent 100%)',
-          }}
-        />
-
-        {/* Soft bottom edge blend to transition smoothly into the About section */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-28 pointer-events-none"
-          style={{
-            background:
-              'linear-gradient(to top, rgba(8, 13, 20, 1) 0%, rgba(8, 13, 20, 0.5) 60%, transparent 100%)',
           }}
         />
       </div>

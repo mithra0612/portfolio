@@ -75,19 +75,19 @@ export default function AchievementsPage() {
         {/* Back link */}
         <div style={{ marginBottom: "4rem" }}>
           <Link
-            href="/"
-            className="font-mono"
+            href="/#about"
+            className="font-mono inline-flex items-center gap-2"
             style={{
-              fontSize: "0.6875rem",
+              fontSize: "0.75rem",
               letterSpacing: "0.14em",
               textTransform: "uppercase",
               color: "var(--text-muted)",
               transition: "color 0.15s ease",
             }}
-            onMouseEnter={e => e.currentTarget.style.color = "var(--text-secondary)"}
+            onMouseEnter={e => e.currentTarget.style.color = "var(--accent)"}
             onMouseLeave={e => e.currentTarget.style.color = "var(--text-muted)"}
           >
-            ← Back
+            ← Back to About
           </Link>
         </div>
 

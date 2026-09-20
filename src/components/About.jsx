@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useInView } from 'framer-motion';
 
 function CountUpNumber({ target, suffix = '', duration = 1.8 }) {
@@ -50,64 +51,27 @@ const STATS = [
   { value: '3', target: 3, suffix: '', duration: 1.2, label: 'Published Poems' },
 ];
 
-const ACHIEVEMENTS = [
-  {
-    title: 'Smart India Hackathon 2024',
-    role: 'National Finalist · Top 5',
-    description: 'Top 5 team among 500+ teams across India. Problem statement for the Department of Posts.',
-    year: '2024',
-    photos: ['/sih1.jpg', '/sih2.jpg', '/sih3.jpg', '/sih4.jpg'],
-  },
-  {
-    title: "Hack'IT 25",
-    role: '1st Place Winner',
-    description: 'Anna University, College of Engineering, Guindy, Chennai. Cash prize of ₹12,000.',
-    year: '2025',
-    photos: ['/hackit1.jpg', '/hackit2.jpg'],
-  },
-  {
-    title: 'Nexathon 2025',
-    role: 'Best Business Pitch Award',
-    description: 'Awarded for best business presentation and venture pitch at KCG College of Technology.',
-    year: '2025',
-    photos: ['/nexathon1.jpg', '/nexathon2.jpg'],
-  },
-  {
-    title: '.hack();25',
-    role: 'National Finalist',
-    description: 'Finalist at IEEE Student Branch, Mar Athanasius College of Engineering, Kerala.',
-    year: '2025',
-    photos: ['/hack251.jpg', '/hack252.jpg'],
-  },
-  {
-    title: 'TNWISE 2025',
-    role: 'Top 50 Finalist',
-    description: 'Top 50 finalist among 400+ teams across Tamil Nadu. Women Wellness solution for TANCAM.',
-    year: '2025',
-    photos: ['/tnwise1.jpg', '/tnwise2.jpg'],
-  },
-  {
-    title: 'Published Poetry',
-    role: 'Author · 3 Poems',
-    description: '3 original poems published across two contemporary literary anthologies by Writer\'s Pocket.',
-    year: '2024',
-    photos: ['/poetry1.jpg', '/poetry3.jpg', '/poetry4.jpg', '/poetry2.jpg'],
-  },
-];
-
 export default function About() {
-  const [activePhotoItem, setActivePhotoItem] = useState(null);
 
   return (
     <section
       id="about"
-      className="relative w-full bg-[var(--bg-base)] text-[var(--text-primary)] pt-28 sm:pt-36 lg:pt-40 pb-24 sm:pb-32 border-t border-[var(--border)] z-10 selection:bg-[var(--accent)] selection:text-[var(--bg-base)]"
+      className="relative w-full bg-[var(--bg-base)] text-[var(--text-primary)] pt-28 sm:pt-36 lg:pt-40 pb-24 sm:pb-32 border-t border-[var(--border)] z-10 selection:bg-[var(--accent)] selection:text-[var(--bg-base)] overflow-hidden"
     >
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16">
-        
+      {/* Subtle atmospheric ambient glow reflecting the hero sky & warm amber lighting */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(ellipse 65% 45% at 85% 15%, rgba(56, 189, 248, 0.06) 0%, transparent 70%), radial-gradient(ellipse 55% 45% at 8% 45%, rgba(255, 87, 34, 0.05) 0%, transparent 60%)',
+        }}
+        aria-hidden="true"
+      />
+      <div className="relative max-w-[1440px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16">
+
         {/* Asymmetrical 3-Column Editorial Composition */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-10 xl:gap-14 items-start">
-          
+
           {/* ── COLUMN 1: Portrait strictly anchored to the left ── */}
           <div className="lg:col-span-4 xl:col-span-3 flex flex-col items-start">
             <div className="w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[320px]">
@@ -126,8 +90,8 @@ export default function About() {
 
               {/* Understated Editorial Caption */}
               <div className="pt-3 flex items-center justify-between border-t border-[var(--border)] mt-2 text-[10px] font-mono text-[var(--text-muted)] tracking-[0.16em] uppercase">
-                <span>Madhumithra M.</span>
-                <span>Portrait // 01</span>
+                <span>Madhumithra M</span>
+                {/* <span>Portrait // 01</span> */}
               </div>
             </div>
           </div>
@@ -160,6 +124,19 @@ export default function About() {
               <p className="text-[var(--text-secondary)] font-light">
                 Outside of software, I’m usually listening to music, playing the keyboard, or writing poetry. I’ve had three poems published across two anthologies.
               </p>
+
+              {/* CTA button to achievements page */}
+              <div className="pt-2">
+                <Link
+                  href="/achievements"
+                  className="group inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-[var(--border)] hover:border-[var(--accent)] bg-[var(--bg-raised)] hover:bg-[var(--bg-surface)] text-[var(--text-primary)] transition-all duration-200"
+                >
+                  <span className="text-xs font-mono tracking-wider uppercase">View Achievements</span>
+                  <span className="text-[var(--accent)] group-hover:translate-x-1 transition-transform duration-200 text-xs">
+                    →
+                  </span>
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -197,94 +174,6 @@ export default function About() {
                 </div>
               ))}
             </div>
-          </div>
-
-        </div>
-
-        {/* ── ACHIEVEMENTS & RECOGNITIONS SECTION (Embedded directly in About) ── */}
-        <div id="achievements" className="mt-20 sm:mt-24 pt-16 border-t border-[var(--border)]">
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
-            <div className="flex items-center gap-3">
-              <span className="w-5 h-px bg-[var(--accent)]" aria-hidden="true" />
-              <h3 className="font-mono text-[11px] tracking-[0.26em] text-[var(--text-secondary)] uppercase">
-                RECOGNITIONS & ACHIEVEMENTS
-              </h3>
-            </div>
-            <span className="font-mono text-[10px] text-[var(--text-muted)] tracking-wider uppercase">
-              {ACHIEVEMENTS.length} Selected Competitions & Honors
-            </span>
-          </div>
-
-          {/* Editorial Rows */}
-          <div className="divide-y divide-[var(--border)] border-t border-b border-[var(--border)]">
-            {ACHIEVEMENTS.map((item, idx) => (
-              <div
-                key={item.title}
-                className="py-6 sm:py-7 group transition-colors duration-150"
-              >
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 items-start">
-                  {/* Number & Year */}
-                  <div className="md:col-span-2 flex items-baseline gap-3">
-                    <span className="font-mono text-[10px] text-[var(--text-muted)]">
-                      0{idx + 1}
-                    </span>
-                    <span className="font-mono text-xs text-[var(--accent)] tracking-wider">
-                      {item.year}
-                    </span>
-                  </div>
-
-                  {/* Title & Role */}
-                  <div className="md:col-span-4">
-                    <h4 className="text-base sm:text-[1.05rem] font-medium text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200">
-                      {item.title}
-                    </h4>
-                    <p className="font-mono text-[11px] text-[var(--text-muted)] mt-1 tracking-wider uppercase">
-                      {item.role}
-                    </p>
-                  </div>
-
-                  {/* Description */}
-                  <div className="md:col-span-4">
-                    <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
-
-                  {/* Photos Toggle */}
-                  <div className="md:col-span-2 flex justify-start md:justify-end pt-1 md:pt-0">
-                    {item.photos && item.photos.length > 0 && (
-                      <button
-                        onClick={() => setActivePhotoItem(activePhotoItem === item.title ? null : item.title)}
-                        className="font-mono text-[10px] text-[var(--text-muted)] hover:text-[var(--text-primary)] border border-[var(--border)] hover:border-[var(--accent)] px-2.5 py-1 rounded transition-colors duration-150 flex items-center gap-1.5 cursor-pointer"
-                      >
-                        <span>{activePhotoItem === item.title ? 'Hide' : 'Photos'}</span>
-                        <span className="text-[10px] text-[var(--accent)]">({item.photos.length})</span>
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                {/* Expandable photo strip */}
-                {activePhotoItem === item.title && (
-                  <div className="mt-5 pt-4 border-t border-[var(--border)] grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    {item.photos.map((photo, pIdx) => (
-                      <div
-                        key={pIdx}
-                        className="relative aspect-[4/3] bg-[var(--bg-surface)] border border-[var(--border)] overflow-hidden"
-                      >
-                        <img
-                          src={photo}
-                          alt={`${item.title} photo ${pIdx + 1}`}
-                          className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300 pointer-events-none"
-                          onError={(e) => { e.currentTarget.parentElement.style.display = 'none'; }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
           </div>
 
         </div>
