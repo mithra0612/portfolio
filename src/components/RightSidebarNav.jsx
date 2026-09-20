@@ -99,6 +99,7 @@ export default function RightSidebarNav() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('Home');
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [showTrigger, setShowTrigger] = useState(false);
 
   // Close on Escape key
   const handleKeyDown = useCallback(
@@ -133,6 +134,8 @@ export default function RightSidebarNav() {
 
     const scrollY = window.scrollY;
     const vh = window.innerHeight;
+
+    setShowTrigger(scrollY > 100);
 
     // If near the top, active section is Home
     if (scrollY < 200) {
@@ -193,15 +196,18 @@ export default function RightSidebarNav() {
 
   return (
     <>
-      {/* ── MINIMALIST HAMBURGER TRIGGER BUTTON ── */}
+      {/* ── MINIMALIST HAMBURGER TRIGGER BUTTON (Visible when scrolled past hero) ── */}
       <motion.button
         type="button"
         onClick={() => setIsOpen(true)}
         aria-label="Open Navigation"
         initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: isOpen ? 0 : 1, scale: isOpen ? 0.9 : 1 }}
+        animate={{
+          opacity: !isOpen && showTrigger ? 1 : 0,
+          scale: !isOpen && showTrigger ? 1 : 0.85,
+        }}
         transition={{ duration: 0.25 }}
-        style={{ pointerEvents: isOpen ? 'none' : 'auto' }}
+        style={{ pointerEvents: !isOpen && showTrigger ? 'auto' : 'none' }}
         className="fixed top-8 right-8 z-50 group flex items-center justify-center w-12 h-12 cursor-pointer mix-blend-difference"
       >
         <div className="flex flex-col justify-center items-end gap-[5px] w-6 h-5">

@@ -1,26 +1,12 @@
-import { Inter, Syne, JetBrains_Mono, Outfit } from 'next/font/google';
+import { Poppins, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import Script from 'next/script';
 import SmoothScroll from '@/components/SmoothScroll';
 
-const outfit = Outfit({
+const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['400', '600', '700', '800', '900'],
-  variable: '--font-outfit',
-  display: 'swap',
-});
-
-const syne = Syne({
-  subsets: ['latin'],
-  weight: ['400', '600', '700', '800'],
-  variable: '--font-syne',
-  display: 'swap',
-});
-
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-inter',
+  weight: ['300', '400', '500', '600', '700', '800'],
+  variable: '--font-poppins',
   display: 'swap',
 });
 
@@ -42,7 +28,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${syne.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${poppins.variable} ${jetbrainsMono.variable}`}>
       <head>
         <Script
           async
@@ -58,7 +44,7 @@ export default function RootLayout({ children }) {
           `}
         </Script>
       </head>
-      <body style={{ fontFamily: 'var(--font-inter)' }}>
+      <body style={{ fontFamily: 'var(--font-poppins)' }}>
         <SmoothScroll>
           {children}
         </SmoothScroll>

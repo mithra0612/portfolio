@@ -1,6 +1,5 @@
 "use client";
 import Hero from "@/components/Hero";
-import RightSidebarNav from "@/components/RightSidebarNav";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
@@ -8,6 +7,7 @@ import Contact from "@/components/contacts";
 import Experience from "@/components/Experience";
 import PortfolioLoader from "@/components/PortfolioLoader";
 import { useState } from "react";
+import FloatingNav from "@/components/FloatingNav";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -32,11 +32,11 @@ export default function Home() {
         <PortfolioLoader onComplete={handleLoaderComplete} />
       ) : (
         <>
-          {/* ── HIGH-END RIGHT SIDEBAR NAVIGATION ── */}
-          <RightSidebarNav />
+          {/* ── FLOATING NAVIGATION ── */}
+          <FloatingNav />
 
           {/* ── STICKY HERO LAYER ── pinned behind all content sections */}
-          <section className="sticky top-0 h-screen w-full z-0 overflow-hidden">
+          <section id="hero" className="sticky top-0 h-screen w-full z-0 overflow-hidden">
             <Hero />
           </section>
 

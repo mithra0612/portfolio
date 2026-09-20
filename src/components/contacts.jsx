@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Mail, Linkedin, Github, Copy, CheckCheck, MapPin, Clock } from 'lucide-react';
+import { Mail, Linkedin, Github, Code2, FileText, Copy, CheckCheck, MapPin, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const fadeUp = {
@@ -121,24 +121,40 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Social links — text, not icons */}
-            <div style={{ display: 'flex', gap: '2rem' }}>
+            {/* Social links — Lucide React icons */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginTop: '0.5rem' }}>
               {[
-                { label: 'LinkedIn', href: 'https://www.linkedin.com/in/mithra0612/' },
-                { label: 'GitHub', href: 'https://github.com/mithra0612' },
-                { label: 'LeetCode', href: 'https://leetcode.com/u/mithra_612' },
-              ].map(({ label, href }) => (
+                {
+                  label: 'GitHub',
+                  href: 'https://github.com/mithra0612',
+                  icon: <Github size={21} strokeWidth={1.9} />,
+                },
+                {
+                  label: 'LinkedIn',
+                  href: 'https://www.linkedin.com/in/mithra0612/',
+                  icon: <Linkedin size={21} strokeWidth={1.9} />,
+                },
+                {
+                  label: 'LeetCode',
+                  href: 'https://leetcode.com/u/mithra_612',
+                  icon: <Code2 size={21} strokeWidth={1.9} />,
+                },
+                {
+                  label: 'Resume',
+                  href: '/resume.pdf',
+                  icon: <FileText size={21} strokeWidth={1.9} />,
+                },
+              ].map(({ label, href, icon }) => (
                 <a
                   key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="label"
-                  style={{ color: 'var(--text-secondary)', transition: 'color 0.15s ease', letterSpacing: '0.12em' }}
-                  onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
-                  onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+                  aria-label={label}
+                  title={label}
+                  className="text-white hover:text-white/70 transition-all duration-200 hover:scale-115 active:scale-95 flex items-center justify-center p-0.5"
                 >
-                  {label} ↗
+                  {icon}
                 </a>
               ))}
             </div>

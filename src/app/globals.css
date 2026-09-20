@@ -1,22 +1,33 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-poppins), system-ui, -apple-system, sans-serif;
+  --font-poppins: var(--font-poppins), system-ui, -apple-system, sans-serif;
+}
+
 /* ============================================================
    DESIGN SYSTEM — CUSTOM PROPERTIES
    ============================================================ */
 :root {
-  --bg-base:       #080808;
-  --bg-raised:     #101010;
-  --bg-surface:    #161616;
-  --text-primary:  #ebebeb;
-  --text-secondary:#777777;
-  --text-muted:    #3d3d3d;
-  --accent:        #c9b99a;
-  --border:        #1e1e1e;
+  --bg-base:       #080D14;
+  --bg-raised:     #0D1520;
+  --bg-surface:    #13202E;
+  --text-primary:  #F1F5F9;
+  --text-secondary:#94A3B8;
+  --text-muted:    #506579;
+  --accent:        #FF5722;
+  --accent-hover:  #FF7043;
+  --accent-glow:   rgba(255, 87, 34, 0.15);
+  --border:        #192735;
 
-  --font-display: var(--font-syne), system-ui, sans-serif;
-  --font-headline: var(--font-outfit), system-ui, -apple-system, sans-serif;
-  --font-body:    var(--font-inter), system-ui, sans-serif;
-  --font-mono:    var(--font-mono-jetbrains), 'Courier New', monospace;
+  --font-display:  var(--font-poppins), system-ui, -apple-system, sans-serif;
+  --font-headline: var(--font-poppins), system-ui, -apple-system, sans-serif;
+  --font-body:     var(--font-poppins), system-ui, -apple-system, sans-serif;
+  --font-inter:    var(--font-poppins), system-ui, -apple-system, sans-serif;
+  --font-syne:     var(--font-poppins), system-ui, -apple-system, sans-serif;
+  --font-outfit:   var(--font-poppins), system-ui, -apple-system, sans-serif;
+  --font-sans:     var(--font-poppins), system-ui, -apple-system, sans-serif;
+  --font-mono:     var(--font-mono-jetbrains), 'Courier New', monospace;
 }
 
 @layer base {
@@ -28,12 +39,13 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  font-family: var(--font-poppins), system-ui, -apple-system, sans-serif;
 }
 
 body {
   background-color: var(--bg-base);
   color: var(--text-primary);
-  font-family: var(--font-body);
+  font-family: var(--font-poppins), system-ui, -apple-system, sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;

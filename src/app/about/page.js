@@ -4,7 +4,7 @@ import CustomCursor from "@/components/CustomCursor";
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-[var(--bg-base)]">
       <CustomCursor />
       <div id="about">
         <About />
