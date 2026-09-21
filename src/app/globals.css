@@ -11,10 +11,10 @@
    DESIGN SYSTEM — COLOR SYSTEM (Harmonized with Hero Page Palette)
    ============================================================ */
 :root {
-  /* Deep oceanic twilight backgrounds from the hero sky shadows */
-  --bg-base:        #080E18;
-  --bg-raised:      #0D1624;
-  --bg-surface:     #132238;
+  /* Pure black app background */
+  --bg-base:        #000000;
+  --bg-raised:      #080808;
+  --bg-surface:     #121212;
 
   /* Typography */
   --text-primary:   #F8FAFC;
@@ -58,10 +58,11 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   font-family: var(--font-poppins), system-ui, -apple-system, sans-serif;
+  background-color: #000000;
 }
 
 body {
-  background-color: var(--bg-base);
+  background-color: #000000;
   color: var(--text-primary);
   font-family: var(--font-poppins), system-ui, -apple-system, sans-serif;
   font-size: 1rem;

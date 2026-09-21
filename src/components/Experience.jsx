@@ -62,7 +62,7 @@ function ExperienceWorkCard({
         onMouseLeave={handleMouseLeave}
         whileHover={{ y: -7, scale: 1.008 }}
         transition={{ type: 'spring', stiffness: 380, damping: 24 }}
-        className={`relative rounded-lg bg-[#06080e] p-6 sm:p-7 flex flex-col justify-between hover:shadow-[0_22px_45px_-12px_rgba(0,0,0,0.95),0_0_28px_-6px_rgba(${accentRgb},0.22)] transition-shadow duration-300 overflow-hidden h-full ${className || ''}`}
+        className={`relative rounded-xl bg-[#0a0f1d]/70 backdrop-blur-md p-7 sm:p-8 flex flex-col justify-between border border-white/[0.05] shadow-[0_16px_40px_-12px_rgba(0,0,0,0.95)] hover:shadow-[0_24px_50px_-12px_rgba(0,0,0,0.98),0_0_24px_-4px_rgba(${accentRgb},0.22)] transition-all duration-300 overflow-hidden h-full ${className || ''}`}
       >
         {/* ── CANVAS REVEAL EFFECT (ANIMATED DOT MATRIX AROUND CURSOR) ── */}
         <div
@@ -167,11 +167,11 @@ export default function Experience() {
                 shouldReduceMotion
                   ? undefined
                   : {
-                      x: headingX,
-                      y: headingY,
-                      rotate: headingRotate,
-                      opacity: headingOpacity,
-                    }
+                    x: headingX,
+                    y: headingY,
+                    rotate: headingRotate,
+                    opacity: headingOpacity,
+                  }
               }
               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase text-white tracking-tight leading-none m-0 font-sans select-none"
             >
@@ -185,11 +185,11 @@ export default function Experience() {
                 ...(shouldReduceMotion
                   ? {}
                   : {
-                      x: scriptX,
-                      y: scriptY,
-                      rotate: scriptRotate,
-                      opacity: scriptOpacity,
-                    }),
+                    x: scriptX,
+                    y: scriptY,
+                    rotate: scriptRotate,
+                    opacity: scriptOpacity,
+                  }),
               }}
               className="absolute -bottom-3 sm:-bottom-4 md:-bottom-5 right-0 sm:right-2 md:right-4 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[var(--accent)] tracking-normal normal-case pointer-events-none drop-shadow-[0_4px_16px_rgba(255,87,34,0.35)] select-none whitespace-nowrap z-20"
             >
@@ -213,61 +213,80 @@ export default function Experience() {
               shouldReduceMotion
                 ? undefined
                 : {
-                    x: card01X,
-                    y: card01Y,
-                    rotate: card01Rotate,
-                    opacity: card01Opacity,
-                  }
+                  x: card01X,
+                  y: card01Y,
+                  rotate: card01Rotate,
+                  opacity: card01Opacity,
+                }
             }
           >
             <div>
               {/* Category Header */}
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-[var(--accent)] font-mono text-sm">✦</span>
-                <span className="font-mono text-[11px] tracking-[0.2em] text-[var(--accent)] uppercase font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF5722]" aria-hidden="true" />
+                <span className="font-mono text-[10.5px] tracking-[0.22em] text-[#FF5722] uppercase font-semibold">
                   PRODUCT ENGINEERING
                 </span>
               </div>
 
-              {/* Title */}
-              <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-5">
-                01 — Virtual Terminal
-              </h3>
+              {/* Large Number + Heading Anchor */}
+              <div className="flex items-baseline gap-3.5 mb-5">
+                <span className="font-mono text-4xl sm:text-[2.65rem] font-bold tracking-tight text-[#FF5722] leading-none select-none flex-shrink-0">
+                  01
+                </span>
+                <h3 className="text-xl sm:text-[1.35rem] font-bold text-white tracking-tight leading-snug m-0">
+                  Virtual Terminal
+                </h3>
+              </div>
 
               {/* Visual Motif Box */}
-              <div className="rounded-md bg-[#0a0f1c]/90 p-4 sm:p-5 mb-6 backdrop-blur-sm">
+              <div className="rounded-md bg-[#0a0d14] border border-white/[0.04] p-4 sm:p-4.5 mb-5">
                 <div className="flex items-center justify-between font-mono text-[9.5px] tracking-[0.2em] text-neutral-400 uppercase mb-2">
                   <span>MIGRATION</span>
-                  <span className="text-[var(--accent-sky)] font-medium">NEXT.JS 15</span>
+                  <span className="text-[#38BDF8] font-medium">NEXT.JS 15</span>
                 </div>
                 <div className="flex items-center gap-3 font-mono text-sm sm:text-base font-semibold tracking-tight">
                   <span className="text-neutral-300">LEGACY</span>
-                  <span className="text-[var(--accent)] font-bold">→</span>
-                  <span className="text-white border-b-2 border-[var(--accent)] pb-0.5">
+                  <span className="text-[#FF5722] font-bold">→</span>
+                  <span className="text-white border-b-2 border-[#FF5722] pb-0.5">
                     NEXT.JS 15
                   </span>
                 </div>
               </div>
 
-              {/* Short Description */}
-              <p className="text-[13.5px] sm:text-[14px] text-neutral-200 leading-[1.7] font-normal mb-3 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+              {/* Description */}
+              <p className="text-[13.5px] sm:text-[14px] text-neutral-200 leading-[1.7] font-normal mb-3">
                 Rebuilt a customer-facing Virtual Terminal in Next.js 15, working across routing, authentication, order-entry, and error handling.
               </p>
 
               {/* Supporting Line */}
-              <p className="font-mono text-[11px] text-neutral-400 tracking-wide mb-6 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+              <p className="font-mono text-[11px] text-neutral-400 tracking-wide mb-6">
                 Testing · Shadow Testing · Traffic Routing
               </p>
             </div>
 
-            {/* Stack Footer */}
-            <div className="pt-4 mt-auto border-t border-[#1a2334]">
-              <p className="font-mono text-[9.5px] tracking-[0.2em] text-neutral-500 uppercase mb-1.5">
-                STACK
-              </p>
-              <p className="font-mono text-[11.5px] text-neutral-200 leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
-                Next.js 15 · React · TypeScript · Jest · Cypress · CI/CD
-              </p>
+            {/* Stack Footer with Visual Emphasis */}
+            <div className="pt-4 mt-auto border-t border-white/[0.08]">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF5722]" aria-hidden="true" />
+                <span className="font-mono text-[9.5px] tracking-[0.22em] text-neutral-400 uppercase font-semibold">
+                  STACK
+                </span>
+              </div>
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px]">
+                {['Next.js 15', 'React', 'TypeScript', 'Jest', 'Cypress', 'CI/CD'].map((tech, idx, arr) => (
+                  <React.Fragment key={tech}>
+                    <span className="text-[#FF5722] font-semibold tracking-tight">
+                      {tech}
+                    </span>
+                    {idx < arr.length - 1 && (
+                      <span className="text-neutral-600 select-none">
+                        ·
+                      </span>
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
             </div>
           </ExperienceWorkCard>
 
@@ -283,32 +302,37 @@ export default function Experience() {
               shouldReduceMotion
                 ? undefined
                 : {
-                    x: card02X,
-                    y: card02Y,
-                    rotate: card02Rotate,
-                    opacity: card02Opacity,
-                  }
+                  x: card02X,
+                  y: card02Y,
+                  rotate: card02Rotate,
+                  opacity: card02Opacity,
+                }
             }
           >
             <div>
               {/* Category Header */}
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-[var(--accent-amber)] font-mono text-sm">✦</span>
-                <span className="font-mono text-[11px] tracking-[0.2em] text-[var(--accent-amber)] uppercase font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" aria-hidden="true" />
+                <span className="font-mono text-[10.5px] tracking-[0.22em] text-[#F59E0B] uppercase font-semibold">
                   MONITORING & RELIABILITY
                 </span>
               </div>
 
-              {/* Title */}
-              <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-5">
-                02 — Observability
-              </h3>
+              {/* Large Number + Heading Anchor */}
+              <div className="flex items-baseline gap-3.5 mb-5">
+                <span className="font-mono text-4xl sm:text-[2.65rem] font-bold tracking-tight text-[#F59E0B] leading-none select-none flex-shrink-0">
+                  02
+                </span>
+                <h3 className="text-xl sm:text-[1.35rem] font-bold text-white tracking-tight leading-snug m-0">
+                  Observability
+                </h3>
+              </div>
 
               {/* Visual Motif Box */}
-              <div className="rounded-md bg-[#0a0f1c]/90 p-4 sm:p-5 mb-6 backdrop-blur-sm">
-                <div className="flex items-baseline justify-between mb-3">
+              <div className="rounded-md bg-[#0a0d14] border border-white/[0.04] p-4 sm:p-4.5 mb-5">
+                <div className="flex items-baseline justify-between mb-2.5">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-3xl sm:text-4xl font-mono font-light text-[var(--accent-amber)] leading-none">
+                    <span className="text-3xl sm:text-4xl font-mono font-light text-[#F59E0B] leading-none">
                       43
                     </span>
                     <span className="font-mono text-xs uppercase tracking-[0.2em] text-white font-semibold">
@@ -321,37 +345,42 @@ export default function Experience() {
                 </div>
                 <div className="pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono text-[11px] text-neutral-300 tracking-wider">
                   <span>API</span>
-                  <span className="text-[var(--accent-amber)]">→</span>
+                  <span className="text-[#F59E0B]">→</span>
                   <span>METRICS</span>
-                  <span className="text-[var(--accent-amber)]">→</span>
+                  <span className="text-[#F59E0B]">→</span>
                   <span className="text-white font-semibold">ALERTS</span>
                 </div>
               </div>
 
-              {/* Short Description */}
-              <p className="text-[13.5px] sm:text-[14px] text-neutral-200 leading-[1.7] font-normal mb-3 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+              {/* Description */}
+              <p className="text-[13.5px] sm:text-[14px] text-neutral-200 leading-[1.7] font-normal mb-3">
                 Built a Datadog dashboard covering API traffic, authorization rates, and payment dimensions including card country, currency, and brand.
               </p>
 
               {/* Supporting Line */}
-              <p className="font-mono text-[11px] text-neutral-400 tracking-wide mb-6 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+              <p className="font-mono text-[11px] text-neutral-400 tracking-wide mb-6">
                 Threshold Alerts · Drill-down Views
               </p>
             </div>
 
-            {/* Stack Footer */}
-            <div className="pt-4 mt-auto border-t border-[#1a2334]">
-              <p className="font-mono text-[9.5px] tracking-[0.2em] text-neutral-500 uppercase mb-1.5">
-                STACK
-              </p>
-              <p className="font-mono text-[11.5px] text-neutral-200 leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
-                Datadog
-              </p>
+            {/* Stack Footer with Visual Emphasis */}
+            <div className="pt-4 mt-auto border-t border-white/[0.08]">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" aria-hidden="true" />
+                <span className="font-mono text-[9.5px] tracking-[0.22em] text-neutral-400 uppercase font-semibold">
+                  STACK
+                </span>
+              </div>
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px]">
+                <span className="text-[#F59E0B] font-semibold tracking-tight">
+                  Datadog
+                </span>
+              </div>
             </div>
           </ExperienceWorkCard>
 
           {/* ══════════════════════════════════════════════════════════════
-              CARD 03 — AI-ASSISTED DEVELOPER TOOLING (Accent: #38BDF8)
+              CARD 03 — CLAUDE SKILL FOR NEXT.JS (Accent: #38BDF8)
               ══════════════════════════════════════════════════════════════ */}
           <ExperienceWorkCard
             colors={[
@@ -363,61 +392,80 @@ export default function Experience() {
               shouldReduceMotion
                 ? undefined
                 : {
-                    x: card03X,
-                    y: card03Y,
-                    rotate: card03Rotate,
-                    opacity: card03Opacity,
-                  }
+                  x: card03X,
+                  y: card03Y,
+                  rotate: card03Rotate,
+                  opacity: card03Opacity,
+                }
             }
           >
             <div>
               {/* Category Header */}
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-[var(--accent-sky)] font-mono text-sm">✦</span>
-                <span className="font-mono text-[11px] tracking-[0.2em] text-[var(--accent-sky)] uppercase font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" aria-hidden="true" />
+                <span className="font-mono text-[10.5px] tracking-[0.22em] text-[#38BDF8] uppercase font-semibold">
                   DEVELOPER PRODUCTIVITY
                 </span>
               </div>
 
-              {/* Title */}
-              <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-5">
-                03 — AI-Assisted Developer Tooling
-              </h3>
+              {/* Large Number + Heading Anchor */}
+              <div className="flex items-baseline gap-3.5 mb-5">
+                <span className="font-mono text-4xl sm:text-[2.65rem] font-bold tracking-tight text-[#38BDF8] leading-none select-none flex-shrink-0">
+                  03
+                </span>
+                <h3 className="text-xl sm:text-[1.35rem] font-bold text-white tracking-tight leading-snug m-0">
+                  Claude Skill for Next.js
+                </h3>
+              </div>
 
               {/* Visual Motif Box */}
-              <div className="rounded-md bg-[#0a0f1c]/90 p-4 sm:p-5 mb-6 backdrop-blur-sm">
+              <div className="rounded-md bg-[#0a0d14] border border-white/[0.04] p-4 sm:p-4.5 mb-5">
                 <div className="flex items-center justify-between font-mono text-[9.5px] tracking-[0.2em] text-neutral-400 uppercase mb-2">
                   <span>WORKFLOW INTEGRATION</span>
-                  <span className="text-[var(--accent-sky)] font-medium">CLAUDE SKILL</span>
+                  <span className="text-[#38BDF8] font-medium">CLAUDE SKILL</span>
                 </div>
                 <div className="flex items-center gap-3 font-mono text-sm sm:text-base font-semibold tracking-tight">
                   <span className="text-neutral-300">CONFLUENCE</span>
-                  <span className="text-[var(--accent-sky)] font-bold">→</span>
-                  <span className="text-white border-b-2 border-[var(--accent-sky)] pb-0.5">
+                  <span className="text-[#38BDF8] font-bold">→</span>
+                  <span className="text-white border-b-2 border-[#38BDF8] pb-0.5">
                     CLAUDE
                   </span>
                 </div>
               </div>
 
-              {/* Short Description */}
-              <p className="text-[13.5px] sm:text-[14px] text-neutral-200 leading-[1.7] font-normal mb-3 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+              {/* Description */}
+              <p className="text-[13.5px] sm:text-[14px] text-neutral-200 leading-[1.7] font-normal mb-3">
                 Created an internal Claude skill with Confluence integration for migration reports, existing patterns, and internal documentation.
               </p>
 
               {/* Supporting Line */}
-              <p className="font-mono text-[11px] text-neutral-400 tracking-wide mb-6 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+              <p className="font-mono text-[11px] text-neutral-400 tracking-wide mb-6">
                 Initiative beyond assigned work · Near-production ready
               </p>
             </div>
 
-            {/* Stack Footer */}
-            <div className="pt-4 mt-auto border-t border-[#1a2334]">
-              <p className="font-mono text-[9.5px] tracking-[0.2em] text-neutral-500 uppercase mb-1.5">
-                STACK
-              </p>
-              <p className="font-mono text-[11.5px] text-neutral-200 leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
-                Claude · Confluence
-              </p>
+            {/* Stack Footer with Visual Emphasis */}
+            <div className="pt-4 mt-auto border-t border-white/[0.08]">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" aria-hidden="true" />
+                <span className="font-mono text-[9.5px] tracking-[0.22em] text-neutral-400 uppercase font-semibold">
+                  STACK
+                </span>
+              </div>
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px]">
+                {['Claude', 'Confluence'].map((tech, idx, arr) => (
+                  <React.Fragment key={tech}>
+                    <span className="text-[#38BDF8] font-semibold tracking-tight">
+                      {tech}
+                    </span>
+                    {idx < arr.length - 1 && (
+                      <span className="text-neutral-600 select-none">
+                        ·
+                      </span>
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
             </div>
           </ExperienceWorkCard>
 
