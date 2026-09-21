@@ -1,681 +1,403 @@
 'use client';
 
-import { useRef, useEffect, useState, useCallback } from 'react';
-import { gsap } from 'gsap';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Code2, Database, BrainCircuit, Wrench, Layers3 } from 'lucide-react';
 
 const SKILL_CATEGORIES = [
   {
     id: '01',
     title: 'DEVELOPMENT',
     accent: '#FF5722',
-    countLabel: '12 SKILLS',
-    subgroups: [
-      {
-        name: 'LANGUAGES',
-        skills: ['JavaScript', 'TypeScript', 'Java', 'Python', 'HTML', 'CSS'],
-      },
-      {
-        name: 'FRAMEWORKS',
-        skills: ['React', 'Next.js', 'Node.js', 'Express.js', 'Tailwind CSS', 'shadcn/ui'],
-      },
+    icon: Code2,
+    skills: [
+      'JavaScript',
+      'TypeScript',
+      'Java',
+      'Python',
+      'HTML',
+      'CSS',
+      'React',
+      'Next.js',
+      'Node.js',
+      'Express.js',
+      'Tailwind CSS',
+      'shadcn/ui',
     ],
   },
   {
     id: '02',
     title: 'DATA & BACKEND',
     accent: '#F59E0B',
-    countLabel: '06 SKILLS',
+    icon: Database,
     skills: ['MongoDB', 'PostgreSQL', 'Supabase', 'Firebase', 'REST APIs', 'JWT'],
   },
   {
     id: '03',
     title: 'AI',
     accent: '#38BDF8',
-    countLabel: '05 SKILLS',
+    icon: BrainCircuit,
     skills: ['LLM Integration', 'RAG', 'Prompt Engineering', 'Hugging Face', 'Ollama'],
   },
   {
     id: '04',
     title: 'TOOLS',
     accent: '#FF5722',
-    countLabel: '08 SKILLS',
+    icon: Wrench,
     skills: ['Git', 'GitHub', 'Jest', 'Cypress', 'Figma', 'VS Code', 'Datadog', 'Vercel'],
   },
   {
     id: '05',
     title: 'FOUNDATIONS',
     accent: '#94A3B8',
-    countLabel: '05 SKILLS',
+    icon: Layers3,
     skills: ['DSA', 'OOP', 'DBMS', 'Operating Systems', 'Computer Networks'],
   },
 ];
 
-export default function Skills() {
-  const [active, setActive] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+// Staggered reveal animation variants for tech stack items
+const stackContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.02,
+      delayChildren: 0.03,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: 0.15 },
+  },
+};
 
-  const rootRef = useRef(null);
-  const panelRefs = useRef([]);
-  const activeContentRefs = useRef([]);
-  const collapsedContentRefs = useRef([]);
-  const tlRef = useRef(null);
-  const firstRunRef = useRef(true);
+const stackItemVariants = {
+  hidden: { opacity: 0, y: 4 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] },
+  },
+};
 
-  const count = SKILL_CATEGORIES.length;
-  // Controlled expansion ratio: active takes ~36%, each inactive panel takes ~16%
-  const expandRatio = 0.36;
-  const duration = 0.45;
-  const ease = 'power3.out';
-
-  const checkIsMobile = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      // Only switch to vertical on small phone screens (<520px); remains horizontal on all desktop/split-screen views
-      setIsMobile(window.innerWidth < 520);
-    }
-  }, []);
+/**
+ * Editorial typewriter component for category titles
+ */
+function TypewriterHeading({ title, active, speed = 24, accentColor }) {
+  const [displayText, setDisplayText] = useState(title);
 
   useEffect(() => {
-    checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
-    return () => window.removeEventListener('resize', checkIsMobile);
-  }, [checkIsMobile]);
+    if (!active) {
+      setDisplayText(title);
+      return;
+    }
 
-  const applyDesktopLayout = useCallback(
-    (animate) => {
-      const panels = panelRefs.current;
-      if (!panels.length || isMobile) return;
+    let i = 0;
+    setDisplayText('');
 
-      const r = Math.min(Math.max(expandRatio, 0.2), 0.5);
-      const grow = count > 1 ? (r * (count - 1)) / (1 - r) : 1;
+    const timer = setInterval(() => {
+      i++;
+      if (i <= title.length) {
+        setDisplayText(title.slice(0, i));
+      } else {
+        clearInterval(timer);
+      }
+    }, speed);
 
-      const prefersReduced =
-        typeof window !== 'undefined' && window.matchMedia
-          ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-          : false;
+    return () => clearInterval(timer);
+  }, [active, title, speed]);
 
-      tlRef.current?.kill();
+  if (!active) {
+    return (
+      <span className="font-sans font-bold uppercase tracking-tight text-white/90 group-hover:text-white transition-colors duration-200">
+        {title}
+      </span>
+    );
+  }
 
-      const dur = animate && !prefersReduced ? duration : 0;
-      const tl = gsap.timeline();
+  return (
+    <span className="inline-flex items-baseline" aria-label={title}>
+      <span
+        className="font-sans font-bold uppercase tracking-tight transition-colors duration-300"
+        style={{ color: accentColor }}
+      >
+        {displayText}
+      </span>
+      <span
+        className="inline-block ml-1 font-mono animate-pulse select-none text-base sm:text-lg md:text-xl"
+        style={{ color: accentColor }}
+        aria-hidden="true"
+      >
+        _
+      </span>
+    </span>
+  );
+}
 
-      panels.forEach((panel, i) => {
-        if (!panel) return;
-        const isActive = i === active;
-        const activeContent = activeContentRefs.current[i];
-        const collapsedContent = collapsedContentRefs.current[i];
+/**
+ * Lightweight typewriter text for the section header
+ */
+function TypewriterHeader({ text, active, speed = 28 }) {
+  const [displayText, setDisplayText] = useState(text);
 
-        tl.to(
-          panel,
-          {
-            flexGrow: isActive ? grow : 1,
-            backgroundColor: isActive ? '#111111' : '#000000',
-            duration: dur,
-            ease,
-          },
-          0
-        );
+  useEffect(() => {
+    if (!active) {
+      setDisplayText(text);
+      return;
+    }
 
-        if (activeContent) {
-          if (isActive) {
-            tl.to(
-              activeContent,
-              {
-                opacity: 1,
-                y: 0,
-                duration: dur * 0.85,
-                ease,
-                delay: dur * 0.15,
-                display: 'flex',
-              },
-              0
-            );
-          } else {
-            tl.to(
-              activeContent,
-              {
-                opacity: 0,
-                y: 8,
-                duration: dur * 0.35,
-                ease,
-                display: 'none',
-              },
-              0
-            );
-          }
-        }
+    let i = 0;
+    setDisplayText('');
 
-        if (collapsedContent) {
-          if (isActive) {
-            tl.to(
-              collapsedContent,
-              {
-                opacity: 0,
-                duration: dur * 0.25,
-                ease,
-                display: 'none',
-              },
-              0
-            );
-          } else {
-            tl.to(
-              collapsedContent,
-              {
-                opacity: 1,
-                duration: dur * 0.55,
-                ease,
-                delay: dur * 0.2,
-                display: 'flex',
-              },
-              0
-            );
+    const timer = setInterval(() => {
+      i++;
+      if (i <= text.length) {
+        setDisplayText(text.slice(0, i));
+      } else {
+        clearInterval(timer);
+      }
+    }, speed);
+
+    return () => clearInterval(timer);
+  }, [active, text, speed]);
+
+  return (
+    <span>
+      {displayText}
+      {active && (
+        <span className="inline-block ml-0.5 font-mono animate-pulse text-[var(--accent)] select-none">
+          |
+        </span>
+      )}
+    </span>
+  );
+}
+
+export default function Skills() {
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [scrollActiveIndex, setScrollActiveIndex] = useState(null);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [sectionHeaderHovered, setSectionHeaderHovered] = useState(false);
+  const rowRefs = useRef([]);
+
+  // Detect touch devices and establish scroll-based activation for touch
+  useEffect(() => {
+    const checkTouch = () => {
+      const hasTouch =
+        window.matchMedia('(hover: none) and (pointer: coarse)').matches ||
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0;
+      setIsTouchDevice(hasTouch);
+    };
+
+    checkTouch();
+    window.addEventListener('resize', checkTouch);
+
+    // Scroll calculation for touch devices (targeting ~40%-60% central viewport area)
+    const handleScroll = () => {
+      if (!isTouchDevice) return;
+      const viewportCenter = window.innerHeight * 0.5;
+      let closestIdx = null;
+      let minDistance = Infinity;
+
+      rowRefs.current.forEach((el, idx) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const rowCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(rowCenter - viewportCenter);
+
+        // Check if row is within the central 40%-60% interaction zone
+        if (rect.bottom >= window.innerHeight * 0.35 && rect.top <= window.innerHeight * 0.65) {
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestIdx = idx;
           }
         }
       });
 
-      tlRef.current = tl;
-    },
-    [active, count, expandRatio, duration, ease, isMobile]
-  );
-
-  useEffect(() => {
-    if (!isMobile) {
-      applyDesktopLayout(!firstRunRef.current);
-      firstRunRef.current = false;
-    }
-  }, [applyDesktopLayout, isMobile]);
-
-  useEffect(() => {
-    return () => {
-      tlRef.current?.kill();
+      setScrollActiveIndex(closestIdx);
     };
-  }, []);
 
-  const handleKeyDown = (i, e) => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-      e.preventDefault();
-      setActive((i + 1) % count);
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      setActive((i - 1 + count) % count);
-    } else if (e.key === 'Home') {
-      e.preventDefault();
-      setActive(0);
-    } else if (e.key === 'End') {
-      e.preventDefault();
-      setActive(count - 1);
-    }
-  };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('resize', checkTouch);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isTouchDevice]);
+
+  // Determine active row: hover/focus takes precedence on desktop; scroll handles touch
+  const activeIndex = hoveredIndex !== null ? hoveredIndex : (isTouchDevice ? scrollActiveIndex : null);
 
   return (
     <section
       id="skills"
+      className="w-full relative overflow-hidden"
       style={{
         backgroundColor: 'var(--bg-base)',
-        padding: '8rem 3rem',
-        borderTop: '1px solid var(--border)',
-        position: 'relative',
-        overflow: 'hidden',
+        padding: '7rem 0',
       }}
     >
-      {/* Ambient lighting matching hero palette */}
+      {/* Subtle background ambient glow */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
           pointerEvents: 'none',
           background:
-            'radial-gradient(ellipse 65% 45% at 15% 30%, rgba(56, 189, 248, 0.05) 0%, transparent 60%), radial-gradient(ellipse 55% 45% at 90% 70%, rgba(245, 158, 11, 0.04) 0%, transparent 55%)',
+            'radial-gradient(ellipse 70% 50% at 20% 30%, rgba(56, 189, 248, 0.035) 0%, transparent 65%), radial-gradient(ellipse 60% 50% at 85% 70%, rgba(245, 158, 11, 0.03) 0%, transparent 60%)',
         }}
         aria-hidden="true"
       />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
-        {/* Section label — preserved exactly */}
+      <div className="w-full px-4 sm:px-8 md:px-12 lg:px-16 relative">
+        {/* Section label with hover typewriter effect */}
         <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem',
-            marginBottom: '3.5rem',
-          }}
+          className="flex items-center gap-3 mb-10 md:mb-14 cursor-default w-fit group"
+          onMouseEnter={() => setSectionHeaderHovered(true)}
+          onMouseLeave={() => setSectionHeaderHovered(false)}
         >
           <span
             style={{ width: '20px', height: '1px', backgroundColor: 'var(--accent)' }}
             aria-hidden="true"
           />
-          <p className="label" style={{ margin: 0, letterSpacing: '0.22em' }}>
-            SKILLS & EXPERTISE
+          <p
+            className="label text-xs sm:text-sm tracking-[0.22em] uppercase font-mono m-0 font-semibold"
+            style={{ color: 'var(--accent)' }}
+          >
+            <TypewriterHeader
+              text="SKILLS & EXPERTISE"
+              active={sectionHeaderHovered}
+              speed={28}
+            />
           </p>
         </div>
 
-        {/* Horizontal Technical Skills Accordion */}
-        {!isMobile ? (
-          <div
-            ref={rootRef}
-            className="skills-accordion-frame"
-            role="tablist"
-            aria-label="Technical skills categorized archive"
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              width: '100%',
-              height: '490px',
-              backgroundColor: '#000000',
-              border: '1px solid var(--border)',
-              borderRadius: '2px',
-              overflow: 'hidden',
-            }}
-          >
-            {SKILL_CATEGORIES.map((cat, i) => {
-              const isActive = i === active;
-              return (
-                <div
-                  key={cat.id}
-                  ref={(el) => (panelRefs.current[i] = el)}
-                  role="tab"
-                  tabIndex={0}
-                  aria-selected={isActive}
-                  aria-controls={`panel-${cat.id}`}
-                  id={`tab-${cat.id}`}
-                  onMouseEnter={() => setActive(i)}
-                  onClick={() => setActive(i)}
-                  onFocus={() => setActive(i)}
-                  onKeyDown={(e) => handleKeyDown(i, e)}
-                  style={{
-                    flex: '1 1 0%',
-                    minWidth: '0px',
-                    position: 'relative',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    borderRight: i < count - 1 ? '1px solid var(--border)' : 'none',
-                    outline: 'none',
-                    userSelect: 'none',
-                    overflow: 'hidden',
-                  }}
-                  className={`skills-panel ${isActive ? 'is-active' : ''}`}
-                >
-                  {/* Thin structural accent indicator on top */}
-                  <div
-                    style={{
-                      height: '2px',
-                      width: '100%',
-                      backgroundColor: isActive ? cat.accent : 'transparent',
-                      transition: 'background-color 0.3s ease',
-                    }}
-                    aria-hidden="true"
-                  />
+        {/* ── FULL-WIDTH EDITORIAL TECHNICAL INDEX ── */}
+        <div
+          role="list"
+          aria-label="Technical skills index"
+          className="w-full border-t border-b border-white/[0.08] divide-y divide-white/[0.08]"
+        >
+          {SKILL_CATEGORIES.map((cat, i) => {
+            const isActive = i === activeIndex;
+            const IconComponent = cat.icon;
 
-                  {/* ── COLLAPSED VIEW (When inactive) ── */}
-                  <div
-                    ref={(el) => (collapsedContentRefs.current[i] = el)}
-                    style={{
-                      display: isActive ? 'none' : 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                      height: '100%',
-                      padding: '1.75rem 1.15rem',
-                      opacity: isActive ? 0 : 1,
-                      pointerEvents: isActive ? 'none' : 'auto',
+            return (
+              <div
+                key={cat.id}
+                ref={(el) => (rowRefs.current[i] = el)}
+                data-index={i}
+                role="listitem"
+                tabIndex={0}
+                aria-label={`${cat.id} ${cat.title}`}
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                onFocus={() => setHoveredIndex(i)}
+                onBlur={() => setHoveredIndex(null)}
+                style={{
+                  backgroundColor: isActive ? 'rgba(255, 255, 255, 0.018)' : 'transparent',
+                }}
+                className="group relative w-full py-8 sm:py-9 md:py-10 flex items-start justify-between gap-4 sm:gap-8 md:gap-12 outline-none transition-colors duration-300 select-none cursor-default focus-visible:bg-white/[0.02]"
+              >
+                {/* ── LEFT ANCHOR: LARGE EDITORIAL NUMBER ── */}
+                <div className="w-16 sm:w-20 md:w-28 flex-shrink-0 flex items-baseline pt-0.5">
+                  <motion.span
+                    animate={{
+                      color: isActive ? cat.accent : 'rgba(255, 255, 255, 0.22)',
+                      y: isActive ? -2 : 0,
+                      scale: isActive ? 1.02 : 1,
                     }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="font-mono text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-none block select-none origin-left"
                   >
-                    {/* Index header */}
-                    <div>
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-mono, monospace)',
-                          fontSize: '0.85rem',
-                          color: 'var(--text-muted)',
-                          letterSpacing: '0.12em',
-                        }}
-                      >
-                        {cat.id}
-                      </span>
-                    </div>
+                    {cat.id}
+                  </motion.span>
+                </div>
 
-                    {/* Middle: Category Title */}
-                    <div style={{ margin: 'auto 0' }}>
-                      <h3
-                        style={{
-                          fontFamily: 'var(--font-headline, sans-serif)',
-                          fontSize: '0.92rem',
-                          fontWeight: 600,
-                          letterSpacing: '0.08em',
-                          lineHeight: 1.45,
-                          color: 'var(--text-secondary)',
-                          textTransform: 'uppercase',
-                          margin: 0,
-                          transition: 'color 0.2s ease',
-                        }}
-                        className="panel-collapsed-title"
-                      >
-                        {cat.title}
-                      </h3>
-                    </div>
-
-                    {/* Bottom: Plain Editorial Metadata (no pills/badges) */}
-                    <div>
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-mono, monospace)',
-                          fontSize: '0.68rem',
-                          color: 'var(--text-muted)',
-                          letterSpacing: '0.14em',
-                          textTransform: 'uppercase',
-                        }}
-                      >
-                        {cat.countLabel}
-                      </span>
-                    </div>
+                {/* ── MIDDLE TRANSFORM AREA: CONFIDENT HEADING + TECHNICAL FIELD ── */}
+                <div className="flex-1 min-w-0 flex flex-col justify-start pt-1 sm:pt-1.5 pr-2 sm:pr-6 md:pr-10">
+                  {/* Category Title — Remains Large & Bold in Both States */}
+                  <div className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight tracking-tight">
+                    <TypewriterHeading
+                      title={cat.title}
+                      active={isActive}
+                      speed={22}
+                      accentColor={cat.accent}
+                    />
                   </div>
 
-                  {/* ── EXPANDED VIEW (When active) ── */}
-                  <div
-                    ref={(el) => (activeContentRefs.current[i] = el)}
-                    id={`panel-${cat.id}`}
-                    role="tabpanel"
-                    aria-labelledby={`tab-${cat.id}`}
-                    style={{
-                      display: isActive ? 'flex' : 'none',
-                      flexDirection: 'column',
-                      height: '100%',
-                      padding: '1.75rem 2rem',
-                      opacity: isActive ? 1 : 0,
-                      overflowY: 'auto',
-                    }}
-                  >
-                    {/* Panel Header */}
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'baseline',
-                        justifyContent: 'space-between',
-                        paddingBottom: '1.15rem',
-                        borderBottom: '1px solid var(--border)',
-                        marginBottom: '1.5rem',
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem' }}>
-                        <span
-                          style={{
-                            fontFamily: 'var(--font-mono, monospace)',
-                            fontSize: '0.85rem',
-                            fontWeight: 600,
-                            color: cat.accent,
-                            letterSpacing: '0.1em',
-                          }}
-                        >
-                          {cat.id}
-                        </span>
-                        <h3
-                          style={{
-                            fontFamily: 'var(--font-headline, sans-serif)',
-                            fontSize: '1.1rem',
-                            fontWeight: 600,
-                            letterSpacing: '0.08em',
-                            color: 'var(--text-primary)',
-                            margin: 0,
-                            textTransform: 'uppercase',
-                          }}
-                        >
-                          {cat.title}
-                        </h3>
-                      </div>
-
-                      {/* Plain editorial metadata */}
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-mono, monospace)',
-                          fontSize: '0.7rem',
-                          color: 'var(--text-muted)',
-                          letterSpacing: '0.14em',
-                        }}
+                  {/* Active Tech Stack & Extended Editorial Accent Rule */}
+                  <AnimatePresence>
+                    {isActive && (
+                      <motion.div
+                        key={`content-${cat.id}`}
+                        initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                        animate={{ opacity: 1, height: 'auto', marginTop: 14 }}
+                        exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                        transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden w-full"
                       >
-                        {cat.countLabel}
-                      </span>
-                    </div>
-
-                    {/* Purely Typographic Editorial Content — zero icons */}
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                      {cat.subgroups ? (
-                        cat.subgroups.map((group) => (
-                          <div key={group.name}>
-                            <p
-                              style={{
-                                fontFamily: 'var(--font-mono, monospace)',
-                                fontSize: '0.68rem',
-                                color: 'var(--text-muted)',
-                                letterSpacing: '0.16em',
-                                textTransform: 'uppercase',
-                                marginBottom: '0.75rem',
-                              }}
-                            >
-                              {group.name}
-                            </p>
-                            <div
-                              style={{
-                                display: 'grid',
-                                gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))',
-                                columnGap: '1.25rem',
-                                rowGap: '0.65rem',
-                              }}
-                            >
-                              {group.skills.map((skillName) => (
-                                <SkillTypoItem key={skillName} name={skillName} />
-                              ))}
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <div
-                          style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-                            columnGap: '1.25rem',
-                            rowGap: '0.85rem',
-                            marginTop: '0.5rem',
-                          }}
+                        {/* Staggered Technology Items spanning the full available width */}
+                        <motion.div
+                          variants={stackContainerVariants}
+                          initial="hidden"
+                          animate="visible"
+                          exit="exit"
+                          className="flex flex-wrap items-center gap-x-3 gap-y-1.5 font-mono text-sm sm:text-base text-neutral-200 leading-relaxed max-w-full"
                         >
-                          {cat.skills.map((skillName) => (
-                            <SkillTypoItem key={skillName} name={skillName} />
+                          {cat.skills.map((skill, sIdx) => (
+                            <motion.span
+                              key={skill}
+                              variants={stackItemVariants}
+                              className="inline-flex items-center gap-3"
+                            >
+                              <span className="text-neutral-200 hover:text-white transition-colors duration-150 cursor-default">
+                                {skill}
+                              </span>
+                              {sIdx < cat.skills.length - 1 && (
+                                <span className="text-neutral-600 select-none">·</span>
+                              )}
+                            </motion.span>
                           ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                        </motion.div>
+
+                        {/* Extended Editorial Horizontal Accent Rule */}
+                        <motion.div
+                          initial={{ scaleX: 0, opacity: 0 }}
+                          animate={{ scaleX: 1, opacity: 0.3 }}
+                          exit={{ scaleX: 0, opacity: 0 }}
+                          transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
+                          style={{ backgroundColor: cat.accent, transformOrigin: 'left' }}
+                          className="h-[1px] w-full max-w-full sm:max-w-[96%] mt-4"
+                          aria-hidden="true"
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-              );
-            })}
-          </div>
-        ) : (
-          /* Mobile Stacked Accordion (<520px only) */
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              border: '1px solid var(--border)',
-              borderRadius: '2px',
-              backgroundColor: '#000000',
-              overflow: 'hidden',
-            }}
-          >
-            {SKILL_CATEGORIES.map((cat, i) => {
-              const isActive = i === active;
-              return (
-                <div
-                  key={cat.id}
-                  style={{
-                    borderBottom: i < count - 1 ? '1px solid var(--border)' : 'none',
-                    backgroundColor: isActive ? '#111111' : '#000000',
-                    transition: 'background-color 0.25s ease',
-                  }}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setActive(isActive ? -1 : i)}
-                    style={{
-                      width: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: '1.25rem 1.25rem',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      textAlign: 'left',
+
+                {/* ── RIGHT ANCHOR: RELEVANT LUCIDE ICON ── */}
+                <div className="flex-shrink-0 flex items-center justify-center pl-2 pt-1 sm:pt-2">
+                  <motion.div
+                    animate={{
+                      color: isActive ? cat.accent : 'rgba(255, 255, 255, 0.22)',
+                      scale: isActive ? 1.05 : 1,
                     }}
-                    aria-expanded={isActive}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex items-center justify-center"
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-mono, monospace)',
-                          fontSize: '0.8rem',
-                          color: isActive ? cat.accent : 'var(--text-muted)',
-                          letterSpacing: '0.1em',
-                        }}
-                      >
-                        {cat.id}
-                      </span>
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-headline, sans-serif)',
-                          fontSize: '0.9rem',
-                          fontWeight: 600,
-                          letterSpacing: '0.06em',
-                          color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
-                          textTransform: 'uppercase',
-                        }}
-                      >
-                        {cat.title}
-                      </span>
-                    </div>
-
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-mono, monospace)',
-                          fontSize: '0.68rem',
-                          color: 'var(--text-muted)',
-                          letterSpacing: '0.12em',
-                        }}
-                      >
-                        {cat.countLabel}
-                      </span>
-                      <span
-                        style={{
-                          color: isActive ? cat.accent : 'var(--text-muted)',
-                          fontSize: '0.85rem',
-                          fontFamily: 'var(--font-mono, monospace)',
-                        }}
-                      >
-                        {isActive ? '−' : '+'}
-                      </span>
-                    </div>
-                  </button>
-
-                  {isActive && (
-                    <div
-                      style={{
-                        padding: '0 1.25rem 1.25rem 1.25rem',
-                        borderTop: '1px solid var(--border)',
-                        paddingTop: '1rem',
-                      }}
-                    >
-                      {cat.subgroups ? (
-                        cat.subgroups.map((group) => (
-                          <div key={group.name} style={{ marginBottom: '1rem' }}>
-                            <p
-                              style={{
-                                fontFamily: 'var(--font-mono, monospace)',
-                                fontSize: '0.65rem',
-                                color: 'var(--text-muted)',
-                                letterSpacing: '0.16em',
-                                textTransform: 'uppercase',
-                                marginBottom: '0.5rem',
-                              }}
-                            >
-                              {group.name}
-                            </p>
-                            <div
-                              style={{
-                                display: 'grid',
-                                gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                                gap: '0.5rem',
-                              }}
-                            >
-                              {group.skills.map((skillName) => (
-                                <SkillTypoItem key={skillName} name={skillName} />
-                              ))}
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <div
-                          style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                            gap: '0.65rem',
-                          }}
-                        >
-                          {cat.skills.map((skillName) => (
-                            <SkillTypoItem key={skillName} name={skillName} />
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
+                    <IconComponent
+                      className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7"
+                      strokeWidth={1.75}
+                      aria-hidden="true"
+                    />
+                  </motion.div>
                 </div>
-              );
-            })}
-          </div>
-        )}
+              </div>
+            );
+          })}
+        </div>
       </div>
-
-      <style>{`
-        .skills-panel:hover .panel-collapsed-title {
-          color: var(--text-primary) !important;
-        }
-        .skills-panel:focus-visible {
-          box-shadow: inset 0 0 0 1px var(--accent-sky);
-        }
-        .skill-typo-item {
-          display: flex;
-          align-items: baseline;
-          gap: 0.5rem;
-          padding: 0.25rem 0;
-          transition: color 0.15s ease, transform 0.15s ease;
-        }
-        .skill-typo-item:hover {
-          transform: translateX(2px);
-        }
-        .skill-typo-item:hover .skill-name-label {
-          color: #FFFFFF !important;
-        }
-        .skill-dash {
-          font-family: var(--font-mono, monospace);
-          font-size: 0.72rem;
-          color: var(--text-muted);
-          user-select: none;
-        }
-        .skill-name-label {
-          font-family: var(--font-body, sans-serif);
-          font-size: 0.86rem;
-          color: var(--text-secondary);
-          lineHeight: 1.35;
-          letter-spacing: 0.01em;
-          transition: color 0.15s ease;
-        }
-      `}</style>
     </section>
-  );
-}
-
-function SkillTypoItem({ name }) {
-  return (
-    <div className="skill-typo-item">
-      <span className="skill-dash" aria-hidden="true">—</span>
-      <span className="skill-name-label">{name}</span>
-    </div>
   );
 }

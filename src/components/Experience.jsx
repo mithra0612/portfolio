@@ -181,7 +181,7 @@ export default function Experience() {
             {/* Overlapping Handwritten Script "at PayPal" */}
             <motion.span
               style={{
-                fontFamily: "'Caveat', cursive",
+                fontFamily: "var(--font-caveat), 'Caveat', cursive",
                 ...(shouldReduceMotion
                   ? {}
                   : {

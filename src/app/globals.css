@@ -1,9 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=general-sans@400,500,600,700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-poppins), system-ui, -apple-system, sans-serif;
-  --font-poppins: var(--font-poppins), system-ui, -apple-system, sans-serif;
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Instrument Sans', sans-serif;
+  --font-headline: 'Satoshi', sans-serif;
+  --font-body: 'General Sans', sans-serif;
+  --font-ui: 'Geist', sans-serif;
+  --font-tech: 'Space Grotesk', monospace, sans-serif;
+  --font-instrument: 'Instrument Sans', sans-serif;
+  --font-geist: 'Geist', sans-serif;
+  --font-satoshi: 'Satoshi', sans-serif;
+  --font-general: 'General Sans', sans-serif;
+  --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+  --font-manrope: 'Manrope', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+  --font-space: 'Space Grotesk', sans-serif;
   --font-script: 'Caveat', cursive;
 }
 
@@ -38,14 +52,23 @@
   --border-subtle:  rgba(56, 189, 248, 0.12);
   --border-amber:   rgba(255, 87, 34, 0.2);
 
-  --font-display:  var(--font-poppins), system-ui, -apple-system, sans-serif;
-  --font-headline: var(--font-poppins), system-ui, -apple-system, sans-serif;
-  --font-body:     var(--font-poppins), system-ui, -apple-system, sans-serif;
-  --font-inter:    var(--font-poppins), system-ui, -apple-system, sans-serif;
-  --font-syne:     var(--font-poppins), system-ui, -apple-system, sans-serif;
-  --font-outfit:   var(--font-poppins), system-ui, -apple-system, sans-serif;
-  --font-sans:     var(--font-poppins), system-ui, -apple-system, sans-serif;
-  --font-mono:     var(--font-mono-jetbrains), 'Courier New', monospace;
+  /* Curated Font Stack */
+  --font-instrument: 'Instrument Sans', sans-serif;
+  --font-geist:      'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-satoshi:    'Satoshi', sans-serif;
+  --font-general:    'General Sans', sans-serif;
+  --font-jakarta:    'Plus Jakarta Sans', sans-serif;
+  --font-manrope:    'Manrope', sans-serif;
+  --font-inter:      'Inter', sans-serif;
+  --font-space:      'Space Grotesk', monospace, sans-serif;
+
+  /* Semantic Roles Across the Portfolio */
+  --font-display:    var(--font-instrument);
+  --font-headline:   var(--font-satoshi);
+  --font-body:       var(--font-general);
+  --font-ui:         var(--font-geist);
+  --font-tech:       var(--font-space);
+  --font-mono:       var(--font-space);
 }
 
 @layer base {
@@ -57,14 +80,14 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
-  font-family: var(--font-poppins), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-ui);
   background-color: #000000;
 }
 
 body {
   background-color: #000000;
   color: var(--text-primary);
-  font-family: var(--font-poppins), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-ui);
   font-size: 1rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -95,13 +118,21 @@ body {
 /* ============================================================
    TYPOGRAPHY UTILITIES
    ============================================================ */
-.font-display {
-  font-family: var(--font-display);
-}
+.font-display    { font-family: var(--font-display); }
+.font-headline   { font-family: var(--font-headline); }
+.font-body       { font-family: var(--font-body); }
+.font-ui         { font-family: var(--font-ui); }
+.font-tech       { font-family: var(--font-tech); }
 
-.font-mono {
-  font-family: var(--font-mono);
-}
+.font-instrument { font-family: var(--font-instrument); }
+.font-geist      { font-family: var(--font-geist); }
+.font-satoshi    { font-family: var(--font-satoshi); }
+.font-general    { font-family: var(--font-general); }
+.font-space      { font-family: var(--font-space); }
+.font-jakarta    { font-family: var(--font-jakarta); }
+.font-manrope    { font-family: var(--font-manrope); }
+.font-inter      { font-family: var(--font-inter); }
+.font-mono       { font-family: var(--font-space); }
 
 /* Section labels — small tracked uppercase mono */
 .label {

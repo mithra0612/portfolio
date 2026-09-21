@@ -1,4 +1,4 @@
-import { Poppins, JetBrains_Mono } from 'next/font/google';
+import { Poppins, JetBrains_Mono, Caveat } from 'next/font/google';
 import './globals.css';
 import Script from 'next/script';
 import SmoothScroll from '@/components/SmoothScroll';
@@ -17,6 +17,13 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
+const caveat = Caveat({
+  subsets: ['latin'],
+  weight: ['600', '700'],
+  variable: '--font-caveat',
+  display: 'swap',
+});
+
 export const metadata = {
   title: 'Madhumithra M. — Software Engineer',
   description: 'Portfolio of Madhumithra M. — Computer Science undergraduate, full-stack developer, and problem solver. View projects, experience, and contact.',
@@ -28,7 +35,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${poppins.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${poppins.variable} ${jetbrainsMono.variable} ${caveat.variable}`}>
       <head>
         <Script
           async
@@ -44,7 +51,7 @@ export default function RootLayout({ children }) {
           `}
         </Script>
       </head>
-      <body style={{ fontFamily: 'var(--font-poppins)' }}>
+      <body>
         <SmoothScroll>
           {children}
         </SmoothScroll>
