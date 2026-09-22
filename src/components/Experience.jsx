@@ -62,7 +62,7 @@ function ExperienceWorkCard({
         onMouseLeave={handleMouseLeave}
         whileHover={{ y: -7, scale: 1.008 }}
         transition={{ type: 'spring', stiffness: 380, damping: 24 }}
-        className={`relative rounded-xl bg-[#0a0f1d]/70 backdrop-blur-md p-7 sm:p-8 flex flex-col justify-between border border-white/[0.05] shadow-[0_16px_40px_-12px_rgba(0,0,0,0.95)] hover:shadow-[0_24px_50px_-12px_rgba(0,0,0,0.98),0_0_24px_-4px_rgba(${accentRgb},0.22)] transition-all duration-300 overflow-hidden h-full ${className || ''}`}
+        className={`relative rounded-xl bg-[#152033] backdrop-blur-md p-7 sm:p-8 flex flex-col justify-between border-0 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.85)] hover:shadow-[0_24px_50px_-12px_rgba(0,0,0,0.95),0_0_24px_-4px_rgba(${accentRgb},0.28)] transition-all duration-300 overflow-hidden h-full ${className || ''}`}
       >
         {/* ── CANVAS REVEAL EFFECT (ANIMATED DOT MATRIX AROUND CURSOR) ── */}
         <div
@@ -240,7 +240,7 @@ export default function Experience() {
               </div>
 
               {/* Visual Motif Box */}
-              <div className="rounded-md bg-[#0a0d14] border border-white/[0.04] p-4 sm:p-4.5 mb-5">
+              <div className="rounded-md bg-[#0b111c] border border-white/[0.08] p-4 sm:p-4.5 mb-5">
                 <div className="flex items-center justify-between font-mono text-[9.5px] tracking-[0.2em] text-neutral-400 uppercase mb-2">
                   <span>MIGRATION</span>
                   <span className="text-[#38BDF8] font-medium">NEXT.JS 15</span>
@@ -255,18 +255,13 @@ export default function Experience() {
               </div>
 
               {/* Description */}
-              <p className="text-[13.5px] sm:text-[14px] text-neutral-200 leading-[1.7] font-normal mb-3">
+              <p className="text-[13.5px] sm:text-[14px] text-neutral-200 leading-[1.7] font-normal mb-5">
                 Rebuilt a customer-facing Virtual Terminal in Next.js 15, working across routing, authentication, order-entry, and error handling.
-              </p>
-
-              {/* Supporting Line */}
-              <p className="font-mono text-[11px] text-neutral-400 tracking-wide mb-6">
-                Testing · Shadow Testing · Traffic Routing
               </p>
             </div>
 
             {/* Stack Footer with Visual Emphasis */}
-            <div className="pt-4 mt-auto border-t border-white/[0.08]">
+            <div className="mt-auto pt-2">
               <div className="flex items-center gap-2 mb-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FF5722]" aria-hidden="true" />
                 <span className="font-mono text-[9.5px] tracking-[0.22em] text-neutral-400 uppercase font-semibold">
@@ -276,7 +271,7 @@ export default function Experience() {
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px]">
                 {['Next.js 15', 'React', 'TypeScript', 'Jest', 'Cypress', 'CI/CD'].map((tech, idx, arr) => (
                   <React.Fragment key={tech}>
-                    <span className="text-[#FF5722] font-semibold tracking-tight">
+                    <span className="text-neutral-300 font-medium tracking-tight">
                       {tech}
                     </span>
                     {idx < arr.length - 1 && (
@@ -329,7 +324,7 @@ export default function Experience() {
               </div>
 
               {/* Visual Motif Box */}
-              <div className="rounded-md bg-[#0a0d14] border border-white/[0.04] p-4 sm:p-4.5 mb-5">
+              <div className="rounded-md bg-[#0b111c] border border-white/[0.08] p-4 sm:p-4.5 mb-5">
                 <div className="flex items-baseline justify-between mb-2.5">
                   <div className="flex items-baseline gap-2">
                     <span className="text-3xl sm:text-4xl font-mono font-light text-[#F59E0B] leading-none">
@@ -353,18 +348,13 @@ export default function Experience() {
               </div>
 
               {/* Description */}
-              <p className="text-[13.5px] sm:text-[14px] text-neutral-200 leading-[1.7] font-normal mb-3">
+              <p className="text-[13.5px] sm:text-[14px] text-neutral-200 leading-[1.7] font-normal mb-5">
                 Built a Datadog dashboard covering API traffic, authorization rates, and payment dimensions including card country, currency, and brand.
-              </p>
-
-              {/* Supporting Line */}
-              <p className="font-mono text-[11px] text-neutral-400 tracking-wide mb-6">
-                Threshold Alerts · Drill-down Views
               </p>
             </div>
 
             {/* Stack Footer with Visual Emphasis */}
-            <div className="pt-4 mt-auto border-t border-white/[0.08]">
+            <div className="mt-auto pt-2">
               <div className="flex items-center gap-2 mb-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" aria-hidden="true" />
                 <span className="font-mono text-[9.5px] tracking-[0.22em] text-neutral-400 uppercase font-semibold">
@@ -372,7 +362,7 @@ export default function Experience() {
                 </span>
               </div>
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px]">
-                <span className="text-[#F59E0B] font-semibold tracking-tight">
+                <span className="text-neutral-300 font-medium tracking-tight">
                   Datadog
                 </span>
               </div>
@@ -414,12 +404,12 @@ export default function Experience() {
                   03
                 </span>
                 <h3 className="text-xl sm:text-[1.35rem] font-bold text-white tracking-tight leading-snug m-0">
-                  Claude Skill for Next.js
+                  Claude Skill for Migration
                 </h3>
               </div>
 
               {/* Visual Motif Box */}
-              <div className="rounded-md bg-[#0a0d14] border border-white/[0.04] p-4 sm:p-4.5 mb-5">
+              <div className="rounded-md bg-[#0b111c] border border-white/[0.08] p-4 sm:p-4.5 mb-5">
                 <div className="flex items-center justify-between font-mono text-[9.5px] tracking-[0.2em] text-neutral-400 uppercase mb-2">
                   <span>WORKFLOW INTEGRATION</span>
                   <span className="text-[#38BDF8] font-medium">CLAUDE SKILL</span>
@@ -434,18 +424,13 @@ export default function Experience() {
               </div>
 
               {/* Description */}
-              <p className="text-[13.5px] sm:text-[14px] text-neutral-200 leading-[1.7] font-normal mb-3">
+              <p className="text-[13.5px] sm:text-[14px] text-neutral-200 leading-[1.7] font-normal mb-5">
                 Created an internal Claude skill with Confluence integration for migration reports, existing patterns, and internal documentation.
-              </p>
-
-              {/* Supporting Line */}
-              <p className="font-mono text-[11px] text-neutral-400 tracking-wide mb-6">
-                Initiative beyond assigned work · Near-production ready
               </p>
             </div>
 
             {/* Stack Footer with Visual Emphasis */}
-            <div className="pt-4 mt-auto border-t border-white/[0.08]">
+            <div className="mt-auto pt-2">
               <div className="flex items-center gap-2 mb-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" aria-hidden="true" />
                 <span className="font-mono text-[9.5px] tracking-[0.22em] text-neutral-400 uppercase font-semibold">
@@ -455,7 +440,7 @@ export default function Experience() {
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px]">
                 {['Claude', 'Confluence'].map((tech, idx, arr) => (
                   <React.Fragment key={tech}>
-                    <span className="text-[#38BDF8] font-semibold tracking-tight">
+                    <span className="text-neutral-300 font-medium tracking-tight">
                       {tech}
                     </span>
                     {idx < arr.length - 1 && (

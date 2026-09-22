@@ -25,10 +25,10 @@ const caveat = Caveat({
 });
 
 export const metadata = {
-  title: 'Madhumithra M. — Software Engineer',
+  title: 'Madhumithra | Portfolio',
   description: 'Portfolio of Madhumithra M. — Computer Science undergraduate, full-stack developer, and problem solver. View projects, experience, and contact.',
   openGraph: {
-    title: 'Madhumithra M. — Software Engineer',
+    title: 'Madhumithra | Portfolio',
     description: 'Portfolio of Madhumithra M. — Computer Science undergraduate, full-stack developer, and problem solver.',
   },
 };
