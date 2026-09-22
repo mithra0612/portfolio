@@ -6,7 +6,7 @@ import GooeyNav from './GooeyNav';
 
 
 const NAV_ITEMS = [
-  { label: 'Home', href: '#hero' },
+  { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
   { label: 'Experience', href: '#experience' },
   { label: 'Skills', href: '#skills' },
@@ -15,36 +15,57 @@ const NAV_ITEMS = [
 ];
 
 const SECTIONS = [
-  { id: 'hero', index: 0 },
-  { id: 'about', index: 1 },
-  { id: 'experience', index: 2 },
-  { id: 'skills', index: 3 },
-  { id: 'projects', index: 4 },
-  { id: 'contact', index: 5 },
+  { id: 'hero', hash: '#home', index: 0 },
+  { id: 'about', hash: '#about', index: 1 },
+  { id: 'experience', hash: '#experience', index: 2 },
+  { id: 'skills', hash: '#skills', index: 3 },
+  { id: 'projects', hash: '#projects', index: 4 },
+  { id: 'contact', hash: '#contact', index: 5 },
 ];
 
 export default function FloatingNav() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
+    // Initial sync on mount if URL already has a hash
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const hash = window.location.hash;
+      const foundIdx = SECTIONS.findIndex(
+        s => s.hash === hash || '#' + s.id === hash
+      );
+      if (foundIdx !== -1) {
+        setActiveIndex(foundIdx);
+      }
+    }
+
     const handleScroll = () => {
+      if (typeof window !== 'undefined' && window.__isNavClicking) return;
+
       const scrollY = window.scrollY;
 
-      // Scroll spy for active section highlight
-      const checkPoint = scrollY + 250;
-      for (let i = SECTIONS.length - 1; i >= 0; i--) {
+      if (scrollY < 250) {
+        setActiveIndex(0);
+        if (typeof window !== 'undefined' && window.location.hash && window.location.hash !== '#home' && window.location.hash !== '#hero') {
+          window.history.replaceState(null, '', '#home');
+        }
+        return;
+      }
+
+      // Scroll spy for active section highlight & URL bar sync
+      const checkPoint = scrollY + 300;
+      for (let i = SECTIONS.length - 1; i >= 1; i--) {
         const sectionEl = document.getElementById(SECTIONS[i].id);
         if (sectionEl) {
           const top = sectionEl.offsetTop;
           if (checkPoint >= top) {
             setActiveIndex(SECTIONS[i].index);
+            const currentHash = SECTIONS[i].hash;
+            if (typeof window !== 'undefined' && window.location.hash !== currentHash) {
+              window.history.replaceState(null, '', currentHash);
+            }
             return;
           }
         }
-      }
-
-      if (scrollY < 300) {
-        setActiveIndex(0);
       }
     };
 

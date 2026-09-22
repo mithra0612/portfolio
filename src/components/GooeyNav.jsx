@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import { useLenis } from 'lenis/react';
 import './GooeyNav.css';
 
 const GooeyNav = ({
@@ -17,6 +18,7 @@ const GooeyNav = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const lenis = useLenis();
   const containerRef = useRef(null);
   const navRef = useRef(null);
   const filterRef = useRef(null);
@@ -133,15 +135,38 @@ const GooeyNav = ({
 
     if (item && item.href) {
       if (item.href.startsWith('#')) {
+        const hash = item.href;
         if (pathname === '/') {
           e.preventDefault();
-          const targetSection = document.querySelector(item.href);
-          if (targetSection) {
-            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+          // Temporarily pause scroll spy URL update to avoid frame-by-frame jitter during smooth scroll
+          if (typeof window !== 'undefined') {
+            window.__isNavClicking = true;
+            window.history.pushState(null, '', hash);
+            setTimeout(() => {
+              window.__isNavClicking = false;
+            }, 1400);
+          }
+
+          if (hash === '#home' || hash === '#hero') {
+            if (lenis) {
+              lenis.scrollTo(0, { duration: 1.2 });
+            } else {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          } else {
+            const targetSection = document.querySelector(hash);
+            if (targetSection) {
+              if (lenis) {
+                lenis.scrollTo(targetSection, { offset: 0, duration: 1.2 });
+              } else {
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }
           }
         } else {
           e.preventDefault();
-          router.push('/' + item.href);
+          router.push('/' + hash);
         }
       } else {
         e.preventDefault();

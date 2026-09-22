@@ -6,7 +6,7 @@ import Projects from "@/components/Projects";
 import Contact from "@/components/contacts";
 import Experience from "@/components/Experience";
 import PortfolioLoader from "@/components/PortfolioLoader";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FloatingNav from "@/components/FloatingNav";
 import Footer from "@/components/Footer";
 
@@ -25,6 +25,20 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    if (!portfolioLoading && typeof window !== 'undefined' && window.location.hash) {
+      const hash = window.location.hash;
+      setTimeout(() => {
+        if (hash === '#home' || hash === '#hero') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          const el = document.querySelector(hash);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 350);
+    }
+  }, [portfolioLoading]);
+
   return (
     <div className="relative">
 
@@ -37,6 +51,7 @@ export default function Home() {
 
           {/* ── STICKY HERO LAYER ── pinned behind all content sections */}
           <section id="hero" className="sticky top-0 h-screen w-full z-0 overflow-hidden">
+            <div id="home" className="absolute top-0 left-0 w-0 h-0 pointer-events-none" aria-hidden="true" />
             <Hero />
           </section>
 

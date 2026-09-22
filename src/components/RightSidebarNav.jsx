@@ -183,7 +183,11 @@ export default function RightSidebarNav() {
     setIsOpen(false);
 
     setTimeout(() => {
-      if (href === '#' || href === '#hero') {
+      const hash = href === '#' || href === '#hero' ? '#home' : href;
+      if (typeof window !== 'undefined') {
+        window.history.pushState(null, '', hash);
+      }
+      if (href === '#' || href === '#hero' || href === '#home') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         const targetElement = document.querySelector(href);
