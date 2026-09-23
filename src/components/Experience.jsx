@@ -54,19 +54,30 @@ function ExperienceWorkCard({
   return (
     <motion.div
       style={style}
-      className="h-full"
+      className="relative h-full"
     >
       <motion.div
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        whileHover={{ y: -7, scale: 1.008 }}
-        transition={{ type: 'spring', stiffness: 380, damping: 24 }}
-        className={`relative rounded-xl bg-[#152033] backdrop-blur-md p-7 sm:p-8 flex flex-col justify-between border-0 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.85)] hover:shadow-[0_24px_50px_-12px_rgba(0,0,0,0.95),0_0_24px_-4px_rgba(${accentRgb},0.28)] transition-all duration-300 overflow-hidden h-full ${className || ''}`}
+        whileHover={{ y: -8, scale: 1.01 }}
+        transition={{ type: 'spring', stiffness: 360, damping: 22 }}
+        className={`group relative rounded-[24px] bg-[#07090e] p-7 sm:p-8 flex flex-col justify-between border border-white/[0.09] hover:border-[rgba(${accentRgb},0.4)] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.95)] hover:shadow-[0_28px_60px_-12px_rgba(0,0,0,0.98),0_0_32px_-4px_rgba(${accentRgb},0.28)] transition-all duration-400 overflow-hidden h-full ${className || ''}`}
       >
+
+        {/* ── TOP ACCENT GLOW STRIPE ── */}
+        <div
+          className="absolute top-0 left-0 right-0 h-[2px] transition-all duration-300 pointer-events-none"
+          style={{
+            background: `linear-gradient(90deg, transparent 0%, rgb(${accentRgb}) 50%, transparent 100%)`,
+            opacity: isHovering ? 1 : 0.45,
+          }}
+          aria-hidden="true"
+        />
+
         {/* ── CANVAS REVEAL EFFECT (ANIMATED DOT MATRIX AROUND CURSOR) ── */}
         <div
-          className="pointer-events-none absolute inset-0 z-0 rounded-lg overflow-hidden transition-opacity duration-300"
+          className="pointer-events-none absolute inset-0 z-0 rounded-[24px] overflow-hidden transition-opacity duration-300"
           style={{
             opacity: isHovering ? 1 : 0,
           }}
@@ -239,15 +250,15 @@ export default function Experience() {
                 </h3>
               </div>
 
-              {/* Visual Motif Box */}
-              <div className="rounded-md bg-[#0b111c] border border-white/[0.08] p-4 sm:p-4.5 mb-5">
+              {/* Visual Motif Box (Funky Micro-Interactive Pipeline) */}
+              <div className="rounded-xl bg-[#030509] border border-white/[0.08] p-4 sm:p-4.5 mb-5 group-hover:border-[#FF5722]/30 transition-colors">
                 <div className="flex items-center justify-between font-mono text-[9.5px] tracking-[0.2em] text-neutral-400 uppercase mb-2">
                   <span>MIGRATION</span>
-                  <span className="text-[#38BDF8] font-medium">NEXT.JS 15</span>
+                  <span className="text-[#38BDF8] font-semibold bg-[#38BDF8]/10 px-2 py-0.5 rounded-full">v15.0</span>
                 </div>
                 <div className="flex items-center gap-3 font-mono text-sm sm:text-base font-semibold tracking-tight">
-                  <span className="text-neutral-300">LEGACY</span>
-                  <span className="text-[#FF5722] font-bold">→</span>
+                  <span className="text-neutral-400">LEGACY</span>
+                  <span className="text-[#FF5722] font-bold tracking-tighter">──────►</span>
                   <span className="text-white border-b-2 border-[#FF5722] pb-0.5">
                     NEXT.JS 15
                   </span>
@@ -323,8 +334,8 @@ export default function Experience() {
                 </h3>
               </div>
 
-              {/* Visual Motif Box */}
-              <div className="rounded-md bg-[#0b111c] border border-white/[0.08] p-4 sm:p-4.5 mb-5">
+              {/* Visual Motif Box (Telemetry Dashboard & Equalizer) */}
+              <div className="rounded-xl bg-[#030509] border border-white/[0.08] p-4 sm:p-4.5 mb-5 group-hover:border-[#F59E0B]/30 transition-colors">
                 <div className="flex items-baseline justify-between mb-2.5">
                   <div className="flex items-baseline gap-2">
                     <span className="text-3xl sm:text-4xl font-mono font-light text-[#F59E0B] leading-none">
@@ -334,16 +345,23 @@ export default function Experience() {
                       WIDGETS
                     </span>
                   </div>
-                  <span className="font-mono text-[9.5px] text-neutral-400 uppercase tracking-wider">
-                    DATADOG
-                  </span>
+                  {/* Live Telemetry Equalizer Bars */}
+                  <div className="flex items-end gap-1 h-3.5" title="Telemetry stream">
+                    <span className="w-1 bg-[#F59E0B] rounded-full h-2 animate-pulse" />
+                    <span className="w-1 bg-[#F59E0B] rounded-full h-3.5 animate-pulse delay-75" />
+                    <span className="w-1 bg-[#F59E0B] rounded-full h-1.5 animate-pulse delay-150" />
+                    <span className="w-1 bg-[#F59E0B] rounded-full h-3 animate-pulse delay-100" />
+                  </div>
                 </div>
                 <div className="pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono text-[11px] text-neutral-300 tracking-wider">
                   <span>API</span>
                   <span className="text-[#F59E0B]">→</span>
                   <span>METRICS</span>
                   <span className="text-[#F59E0B]">→</span>
-                  <span className="text-white font-semibold">ALERTS</span>
+                  <span className="text-white font-semibold flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                    ALERTS
+                  </span>
                 </div>
               </div>
 
@@ -408,15 +426,18 @@ export default function Experience() {
                 </h3>
               </div>
 
-              {/* Visual Motif Box */}
-              <div className="rounded-md bg-[#0b111c] border border-white/[0.08] p-4 sm:p-4.5 mb-5">
+              {/* Visual Motif Box (AI Integration Flow) */}
+              <div className="rounded-xl bg-[#030509] border border-white/[0.08] p-4 sm:p-4.5 mb-5 group-hover:border-[#38BDF8]/30 transition-colors">
                 <div className="flex items-center justify-between font-mono text-[9.5px] tracking-[0.2em] text-neutral-400 uppercase mb-2">
                   <span>WORKFLOW INTEGRATION</span>
-                  <span className="text-[#38BDF8] font-medium">CLAUDE SKILL</span>
+                  <span className="text-[#38BDF8] font-semibold bg-[#38BDF8]/10 px-2 py-0.5 rounded-full flex items-center gap-1">
+                    <span className="text-[10px]">✦</span>
+                    AI AGENT
+                  </span>
                 </div>
                 <div className="flex items-center gap-3 font-mono text-sm sm:text-base font-semibold tracking-tight">
-                  <span className="text-neutral-300">CONFLUENCE</span>
-                  <span className="text-[#38BDF8] font-bold">→</span>
+                  <span className="text-neutral-400">CONFLUENCE</span>
+                  <span className="text-[#38BDF8] font-bold tracking-tighter">──────►</span>
                   <span className="text-white border-b-2 border-[#38BDF8] pb-0.5">
                     CLAUDE
                   </span>

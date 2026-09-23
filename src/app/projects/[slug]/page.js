@@ -1,25 +1,44 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useParams, notFound } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   getProjectBySlug,
   getNextProject,
   SECTION_LABELS,
   DETAIL_SECTION_ORDER,
 } from '@/lib/projectsData';
+import {
+  ExternalLink,
+  Github,
+  ArrowLeft,
+  ArrowRight,
+  Award,
+  Layers,
+  Sparkles,
+  CheckCircle2,
+  Cpu,
+  FileText,
+  Calendar,
+  Code2,
+} from 'lucide-react';
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
-};
+const TABS = [
+  { id: 'overview', label: 'Overview', icon: FileText },
+  { id: 'solution', label: 'Problem & Solution', icon: Layers },
+  { id: 'ai', label: 'AI & Architecture', icon: Sparkles },
+  { id: 'tech', label: 'Tech Stack', icon: Cpu },
+  { id: 'impact', label: 'Impact & Archive', icon: Award },
+];
 
 export default function ProjectDetailPage() {
   const params = useParams();
   const slug = params?.slug;
   const project = getProjectBySlug(slug);
+
+  const [activeTab, setActiveTab] = useState('overview');
 
   if (!project) {
     notFound();
@@ -32,7 +51,22 @@ export default function ProjectDetailPage() {
     (key) => project[key] && key !== 'overview' && key !== 'outcome'
   );
 
-  // Gallery photos (excluding primary thumbnail if duplicate)
+  // Group sections into Solution vs AI based on keys
+  const solutionSections = structuredSections.filter(
+    (key) =>
+      !key.toLowerCase().includes('ai') &&
+      !key.toLowerCase().includes('query') &&
+      !key.toLowerCase().includes('intelligence')
+  );
+
+  const aiSections = structuredSections.filter(
+    (key) =>
+      key.toLowerCase().includes('ai') ||
+      key.toLowerCase().includes('query') ||
+      key.toLowerCase().includes('intelligence')
+  );
+
+  // Gallery photos
   const additionalVisuals = (project.gallery || []).filter(
     (img) => img !== project.thumbnail
   );
@@ -61,494 +95,386 @@ export default function ProjectDetailPage() {
       />
 
       {/* Top Editorial Sticky Navigation Bar */}
-      <header
-        style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 40,
-          backgroundColor: 'rgba(0, 0, 0, 0.85)',
-          backdropFilter: 'blur(12px)',
-          borderBottom: '1px solid var(--border)',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: '1240px',
-            margin: '0 auto',
-            padding: '1.25rem 2rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '1rem',
-          }}
-        >
+      <header className="sticky top-0 z-40 bg-black/85 backdrop-blur-md border-b border-white/[0.08]">
+        <div className="max-w-[1280px] mx-auto px-6 py-4 flex items-center justify-between gap-4">
           <Link
             href="/#projects"
-            className="label"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              color: 'var(--text-secondary)',
-              transition: 'color 0.2s ease',
-              textDecoration: 'none',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}
+            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-neutral-400 hover:text-white transition-colors"
           >
-            ← ALL PROJECTS
+            <ArrowLeft size={14} /> Back to Projects
           </Link>
 
-          <span
-            className="font-mono text-xs text-[var(--text-muted)] tracking-widest uppercase select-none"
-            aria-hidden="true"
-          >
-            {project.number} / 05
-          </span>
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-xs text-[var(--accent)] tracking-widest uppercase font-semibold">
+              {project.number} / 05
+            </span>
+          </div>
         </div>
       </header>
 
       {/* Main Case Study Article */}
-      <main style={{ maxWidth: '1240px', margin: '0 auto', padding: '3.5rem 2rem 8rem' }}>
-        {/* Editorial Header Section */}
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={fadeUp}
-          style={{ marginBottom: '3.5rem' }}
-        >
-          {/* Subtle index & Event */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.75rem',
-              marginBottom: '1rem',
-            }}
-          >
-            <span
-              style={{ width: '16px', height: '1px', backgroundColor: 'var(--accent)' }}
-              aria-hidden="true"
-            />
-            <p className="label" style={{ margin: 0 }}>
-              CASE STUDY · {project.number}
-              {project.year ? ` · ${project.year}` : ''}
-            </p>
+      <main className="max-w-[1280px] mx-auto px-6 sm:px-8 py-10 sm:py-14">
+        {/* ── PROJECT HEADER ── */}
+        <div className="mb-10">
+          <div className="flex flex-wrap items-center gap-3 mb-4">
+            {project.event && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono tracking-wider uppercase font-semibold bg-[var(--accent)]/15 text-[var(--accent)] border border-[var(--accent)]/30">
+                <Award size={13} /> {project.event}
+              </span>
+            )}
+            {project.year && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono tracking-wider text-neutral-400 bg-white/[0.04] border border-white/[0.08]">
+                <Calendar size={13} /> {project.year}
+              </span>
+            )}
           </div>
 
-          {/* Project Title */}
-          <h1
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontWeight: 800,
-              fontSize: 'clamp(2.25rem, 5.5vw, 4.25rem)',
-              lineHeight: 1.08,
-              letterSpacing: '-0.025em',
-              color: 'var(--text-primary)',
-              marginBottom: '1.25rem',
-            }}
-          >
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1] mb-4">
             {project.title}
           </h1>
 
-          {/* Tagline / Subtitle */}
           {project.tagline && (
-            <p
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
-                color: 'var(--text-secondary)',
-                lineHeight: 1.6,
-                maxWidth: '850px',
-              }}
-            >
+            <p className="text-lg sm:text-xl text-neutral-300 leading-relaxed max-w-3xl font-light">
               {project.tagline}
             </p>
           )}
 
-          {/* Metadata Row: Rendered ONLY if fields exist */}
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              gap: '1.5rem 2.5rem',
-              marginTop: '2rem',
-              paddingTop: '1.5rem',
-              borderTop: '1px solid var(--border)',
-            }}
-          >
-            {project.event && (
-              <div>
-                <p className="label" style={{ margin: 0, marginBottom: '0.25rem' }}>
-                  Recognition
-                </p>
-                <p
-                  className="font-mono"
-                  style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', margin: 0 }}
-                >
-                  {project.event}
-                </p>
-              </div>
-            )}
-
-            {project.year && (
-              <div>
-                <p className="label" style={{ margin: 0, marginBottom: '0.25rem' }}>
-                  Year
-                </p>
-                <p
-                  className="font-mono"
-                  style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', margin: 0 }}
-                >
-                  {project.year}
-                </p>
-              </div>
-            )}
-
-            <div>
-              <p className="label" style={{ margin: 0, marginBottom: '0.25rem' }}>
-                Availability
-              </p>
-              <p
-                className="font-mono"
-                style={{
-                  fontSize: '0.8125rem',
-                  color: project.live ? 'var(--accent-sky)' : 'var(--accent)',
-                  margin: 0,
-                }}
+          {/* Direct Action Links Row: View Repo + Live Demo */}
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-6 pt-6 border-t border-white/[0.08]">
+            {project.live && (
+              <a
+                href={project.live}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-black font-semibold text-xs font-mono uppercase tracking-wider hover:bg-neutral-200 transition-colors shadow-lg shadow-white/10"
               >
-                {project.live ? 'Live Deployment' : 'Source Available'}
-              </p>
-            </div>
-
-            {/* Links rendered if existing */}
-            {(project.live || project.github) && (
-              <div style={{ marginLeft: 'auto', display: 'flex', gap: '1.75rem' }}>
-                {project.live && (
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="label"
-                    style={{
-                      color: 'var(--text-primary)',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.25rem',
-                      transition: 'color 0.15s ease',
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-                  >
-                    Live Demo ↗
-                  </a>
-                )}
-                {project.github && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="label"
-                    style={{
-                      color: 'var(--text-primary)',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.25rem',
-                      transition: 'color 0.15s ease',
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-                  >
-                    GitHub Source ↗
-                  </a>
-                )}
-              </div>
-            )}
-          </div>
-        </motion.div>
-
-        {/* Cinematic Large Project Hero Artwork */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            marginBottom: '4.5rem',
-            width: '100%',
-            aspectRatio: '16/9',
-            maxHeight: '560px',
-            overflow: 'hidden',
-            backgroundColor: 'var(--bg-surface)',
-          }}
-        >
-          <img
-            src={project.thumbnail}
-            alt={`${project.title} hero artwork`}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            onError={(e) => {
-              e.target.style.display = 'none';
-            }}
-          />
-        </motion.div>
-
-        {/* Editorial Case Study Content Body */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-          {/* Main Column: Overview & Specific Structured Capabilities */}
-          <div className="lg:col-span-8 flex flex-col gap-14">
-            {/* Overview */}
-            {project.overview && (
-              <section style={{ borderTop: '1px solid var(--border)', paddingTop: '2rem' }}>
-                <p className="label" style={{ marginBottom: '1.25rem' }}>
-                  OVERVIEW
-                </p>
-                <p
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '1.0625rem',
-                    lineHeight: 1.8,
-                    color: 'var(--text-secondary)',
-                  }}
-                >
-                  {project.overview}
-                </p>
-              </section>
+                <ExternalLink size={14} /> Live Demo
+              </a>
             )}
 
-            {/* Project-Specific Structured Sections (Adapts dynamically without fabrication) */}
-            {structuredSections.map((sectionKey) => {
-              const value = project[sectionKey];
-              const label = SECTION_LABELS[sectionKey] || sectionKey;
-              if (!value) return null;
-
-              return (
-                <section
-                  key={sectionKey}
-                  style={{ borderTop: '1px solid var(--border)', paddingTop: '2rem' }}
-                >
-                  <p className="label" style={{ marginBottom: '1.25rem' }}>
-                    {label.toUpperCase()}
-                  </p>
-
-                  {typeof value === 'string' ? (
-                    <p
-                      style={{
-                        fontFamily: 'var(--font-body)',
-                        fontSize: '1rem',
-                        lineHeight: 1.75,
-                        color: 'var(--text-secondary)',
-                      }}
-                    >
-                      {value}
-                    </p>
-                  ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
-                      {value.map((item, idx) => (
-                        <div
-                          key={idx}
-                          style={{
-                            paddingLeft: '1.25rem',
-                            borderLeft: '1px solid var(--border)',
-                          }}
-                        >
-                          <p
-                            style={{
-                              fontFamily: 'var(--font-body)',
-                              fontSize: '0.9375rem',
-                              lineHeight: 1.7,
-                              color: 'var(--text-secondary)',
-                              margin: 0,
-                            }}
-                          >
-                            {item}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </section>
-              );
-            })}
-
-            {/* Impact / Outcome Section */}
-            {project.outcome && (
-              <section style={{ borderTop: '1px solid var(--border)', paddingTop: '2rem' }}>
-                <p className="label" style={{ marginBottom: '1.25rem' }}>
-                  IMPACT & OUTCOME
-                </p>
-                <p
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '1rem',
-                    lineHeight: 1.75,
-                    color: 'var(--text-secondary)',
-                  }}
-                >
-                  {project.outcome}
-                </p>
-              </section>
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white border border-white/10 text-xs font-mono uppercase tracking-wider transition-colors"
+              >
+                <Github size={14} /> View Repository
+              </a>
             )}
-
-            {/* Additional Project Photos / Hackathon Evidence (only if existing) */}
-            {additionalVisuals.length > 0 && (
-              <section style={{ borderTop: '1px solid var(--border)', paddingTop: '2rem' }}>
-                <p className="label" style={{ marginBottom: '1.5rem' }}>
-                  PROJECT ARCHIVE & DOCUMENTATION
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {additionalVisuals.map((src, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        height: '200px',
-                        overflow: 'hidden',
-                        backgroundColor: 'var(--bg-surface)',
-                      }}
-                    >
-                      <img
-                        src={src}
-                        alt={`${project.shortTitle} documentation ${i + 1}`}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                          display: 'block',
-                        }}
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-          </div>
-
-          {/* Sidebar Column: Technology Stack (Editorial typography, NO pills) */}
-          <div className="lg:col-span-4">
-            <div
-              style={{
-                position: 'sticky',
-                top: '6rem',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '2.5rem',
-              }}
-            >
-              {/* Technology Stack: Clean editorial typography with · separators */}
-              {project.tech && project.tech.length > 0 && (
-                <div style={{ borderTop: '1px solid var(--border)', paddingTop: '2rem' }}>
-                  <p className="label" style={{ marginBottom: '1.25rem' }}>
-                    TECHNOLOGY STACK
-                  </p>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-sm text-neutral-200 leading-relaxed">
-                    {project.tech.map((skill, sIdx) => (
-                      <span key={skill} className="inline-flex items-center gap-3">
-                        <span className="text-neutral-200 hover:text-white transition-colors duration-150 cursor-default">
-                          {skill}
-                        </span>
-                        {sIdx < project.tech.length - 1 && (
-                          <span className="text-neutral-600 select-none" aria-hidden="true">
-                            ·
-                          </span>
-                        )}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Project Links Sidebar Section */}
-              {(project.live || project.github) && (
-                <div style={{ borderTop: '1px solid var(--border)', paddingTop: '2rem' }}>
-                  <p className="label" style={{ marginBottom: '1.25rem' }}>
-                    PROJECT LINKS
-                  </p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
-                    {project.live && (
-                      <a
-                        href={project.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-mono text-sm text-[var(--text-secondary)] hover:text-white transition-colors duration-150 inline-flex items-center gap-1.5"
-                      >
-                        Live Application ↗
-                      </a>
-                    )}
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-mono text-sm text-[var(--text-secondary)] hover:text-white transition-colors duration-150 inline-flex items-center gap-1.5"
-                      >
-                        GitHub Repository ↗
-                      </a>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
           </div>
         </div>
 
-        {/* Bottom Case Study Navigation: Next Project & Return */}
-        <section
-          style={{
-            marginTop: '8rem',
-            paddingTop: '3rem',
-            borderTop: '1px solid var(--border)',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              smDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'flex-start',
-              gap: '2.5rem',
-            }}
-          >
-            <div>
-              <p className="label" style={{ marginBottom: '0.75rem' }}>
-                CONTINUE EXPLORING
-              </p>
-              <Link
-                href={`/projects/${nextProject.slug}`}
-                className="group inline-flex flex-col"
-                style={{ textDecoration: 'none' }}
-              >
-                <span className="font-mono text-xs text-[var(--text-muted)] tracking-widest uppercase mb-1">
-                  NEXT PROJECT ({nextProject.number})
-                </span>
-                <span className="font-display font-bold text-2xl sm:text-3xl text-[var(--text-primary)] group-hover:text-white transition-colors duration-200 inline-flex items-center gap-3">
-                  {nextProject.shortTitle}
-                  <span className="text-[var(--accent)] transition-transform duration-300 group-hover:translate-x-1.5">
-                    →
-                  </span>
-                </span>
-              </Link>
-            </div>
+        {/* ── PROJECT SHOWCASE IMAGE ── */}
+        <div className="relative w-full aspect-[16/9] max-h-[580px] overflow-hidden rounded-2xl border border-white/10 bg-black/60 shadow-2xl mb-12">
+          <img
+            src={project.thumbnail}
+            alt={`${project.title} showcase artwork`}
+            className="w-full h-full object-cover"
+          />
+        </div>
 
-            <div style={{ alignSelf: 'flex-start' }}>
-              <Link
-                href="/#projects"
-                className="label inline-flex items-center gap-2"
-                style={{
-                  color: 'var(--text-muted)',
-                  transition: 'color 0.2s ease',
-                  textDecoration: 'none',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
-              >
-                ← RETURN TO ALL PROJECTS
-              </Link>
-            </div>
+        {/* ── INTERACTIVE CATEGORY TABS ── */}
+        <div className="mb-10 border-b border-white/[0.08]">
+          <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto pb-3 scrollbar-none">
+            {TABS.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`relative flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-200 flex-shrink-0 ${
+                    isActive
+                      ? 'text-white font-bold bg-white/[0.1] border border-white/20'
+                      : 'text-neutral-400 hover:text-white hover:bg-white/[0.04]'
+                  }`}
+                >
+                  <Icon size={14} className={isActive ? 'text-[var(--accent)]' : 'text-neutral-400'} />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
           </div>
-        </section>
+        </div>
+
+        {/* ── DYNAMIC TAB CONTENT CONTAINER ── */}
+        <div className="min-h-[380px]">
+          <AnimatePresence mode="wait">
+            {/* 1. OVERVIEW TAB */}
+            {activeTab === 'overview' && (
+              <motion.div
+                key="overview"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.3 }}
+                className="space-y-8"
+              >
+                <div className="bg-[#0c0f16] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="w-2 h-2 rounded-full bg-[var(--accent)]" />
+                    <p className="font-mono text-xs uppercase tracking-widest text-neutral-400">
+                      About the Project
+                    </p>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">
+                    Overview & Mission
+                  </h3>
+                  <p className="text-neutral-300 text-base sm:text-lg leading-relaxed font-light">
+                    {project.overview}
+                  </p>
+                </div>
+
+                {project.event && (
+                  <div className="bg-[#0c0f16] border border-white/[0.08] rounded-2xl p-6 sm:p-8 flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-[var(--accent)]/15 border border-[var(--accent)]/30 flex items-center justify-center text-[var(--accent)] flex-shrink-0">
+                      <Award size={20} />
+                    </div>
+                    <div>
+                      <p className="font-mono text-xs uppercase tracking-widest text-[var(--accent)] mb-1">
+                        Hackathon & Industry Recognition
+                      </p>
+                      <h4 className="text-lg font-bold text-white mb-1">{project.event}</h4>
+                      <p className="text-neutral-400 text-sm leading-relaxed">
+                        Evaluated and recognized for technical architecture, practical execution, and real-world applicability.
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            )}
+
+            {/* 2. PROBLEM & SOLUTION TAB */}
+            {activeTab === 'solution' && (
+              <motion.div
+                key="solution"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.3 }}
+                className="space-y-8"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {solutionSections.length > 0 ? (
+                    solutionSections.map((sectionKey) => {
+                      const value = project[sectionKey];
+                      const label = SECTION_LABELS[sectionKey] || sectionKey;
+                      if (!value) return null;
+
+                      return (
+                        <div
+                          key={sectionKey}
+                          className="bg-[#0c0f16] border border-white/[0.08] rounded-2xl p-6 sm:p-8 flex flex-col"
+                        >
+                          <p className="font-mono text-xs uppercase tracking-widest text-[var(--accent)] mb-2">
+                            {label}
+                          </p>
+                          <h4 className="text-lg sm:text-xl font-bold text-white mb-4">
+                            Solution Architecture
+                          </h4>
+
+                          {typeof value === 'string' ? (
+                            <p className="text-neutral-300 text-sm leading-relaxed">{value}</p>
+                          ) : (
+                            <ul className="space-y-3 text-sm text-neutral-300 flex-1">
+                              {value.map((item, idx) => (
+                                <li key={idx} className="flex items-start gap-2.5">
+                                  <CheckCircle2
+                                    size={16}
+                                    className="text-[var(--accent)] flex-shrink-0 mt-0.5"
+                                  />
+                                  <span className="leading-relaxed">{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div className="col-span-2 bg-[#0c0f16] border border-white/[0.08] rounded-2xl p-8">
+                      <p className="text-neutral-300 leading-relaxed">{project.overview}</p>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+
+            {/* 3. AI & ARCHITECTURE TAB */}
+            {activeTab === 'ai' && (
+              <motion.div
+                key="ai"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.3 }}
+                className="space-y-6"
+              >
+                <div className="bg-[#0c0f16] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Sparkles size={16} className="text-[#38BDF8]" />
+                    <p className="font-mono text-xs uppercase tracking-widest text-[#38BDF8]">
+                      AI Pipelines & Intelligent Systems
+                    </p>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-6">
+                    Intelligent Capabilities
+                  </h3>
+
+                  {aiSections.length > 0 ? (
+                    <div className="space-y-6">
+                      {aiSections.map((sectionKey) => {
+                        const value = project[sectionKey];
+                        const label = SECTION_LABELS[sectionKey] || sectionKey;
+                        if (!value) return null;
+
+                        return (
+                          <div key={sectionKey} className="border-t border-white/[0.06] pt-5 first:border-0 first:pt-0">
+                            <h4 className="text-base font-bold text-white mb-3 uppercase font-mono text-sm tracking-wider">
+                              {label}
+                            </h4>
+                            {typeof value === 'string' ? (
+                              <p className="text-neutral-300 text-sm leading-relaxed">{value}</p>
+                            ) : (
+                              <ul className="space-y-2.5 text-sm text-neutral-300">
+                                {value.map((item, idx) => (
+                                  <li key={idx} className="flex items-start gap-2.5">
+                                    <span className="text-[#38BDF8] mt-1 font-bold">›</span>
+                                    <span className="leading-relaxed">{item}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p className="text-neutral-300 leading-relaxed">
+                      AI features and automated intelligence workflows integrated across user interactions.
+                    </p>
+                  )}
+                </div>
+              </motion.div>
+            )}
+
+            {/* 4. TECH STACK TAB */}
+            {activeTab === 'tech' && (
+              <motion.div
+                key="tech"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.3 }}
+                className="space-y-6"
+              >
+                <div className="bg-[#0c0f16] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Cpu size={16} className="text-[var(--accent)]" />
+                    <p className="font-mono text-xs uppercase tracking-widest text-neutral-400">
+                      Technical Architecture
+                    </p>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-6">
+                    Technologies & Dependencies
+                  </h3>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+                    {project.tech.map((skill) => (
+                      <div
+                        key={skill}
+                        className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center gap-2.5 hover:border-white/20 transition-colors"
+                      >
+                        <Code2 size={16} className="text-[var(--accent)] flex-shrink-0" />
+                        <span className="font-mono text-xs sm:text-sm text-neutral-200 font-medium truncate">
+                          {skill}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* 5. IMPACT & ARCHIVE TAB */}
+            {activeTab === 'impact' && (
+              <motion.div
+                key="impact"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.3 }}
+                className="space-y-8"
+              >
+                {project.outcome && (
+                  <div className="bg-[#0c0f16] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
+                    <p className="font-mono text-xs uppercase tracking-widest text-[var(--accent)] mb-2">
+                      Measured Outcomes
+                    </p>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">
+                      Real-World Impact
+                    </h3>
+                    <p className="text-neutral-300 text-base sm:text-lg leading-relaxed font-light">
+                      {project.outcome}
+                    </p>
+                  </div>
+                )}
+
+                {/* Additional Gallery Photos / Hackathon Evidence */}
+                {additionalVisuals.length > 0 && (
+                  <div className="space-y-4">
+                    <p className="font-mono text-xs uppercase tracking-widest text-neutral-400">
+                      Documentation & Archive Photos
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {additionalVisuals.map((src, i) => (
+                        <div
+                          key={i}
+                          className="h-64 rounded-xl overflow-hidden border border-white/10 bg-black"
+                        >
+                          <img
+                            src={src}
+                            alt={`${project.shortTitle} documentation ${i + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* ── NEXT PROJECT FOOTER NAVIGATION ── */}
+        {nextProject && (
+          <div className="mt-20 pt-10 border-t border-white/[0.08] flex items-center justify-between">
+            <Link
+              href="/#projects"
+              className="text-xs font-mono uppercase tracking-widest text-neutral-400 hover:text-white transition-colors"
+            >
+              ← Back to All Projects
+            </Link>
+
+            <Link
+              href={`/projects/${nextProject.slug}`}
+              className="group flex items-center gap-3 text-right"
+            >
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-widest text-neutral-500">
+                  Next Project
+                </p>
+                <p className="text-base sm:text-lg font-bold text-white group-hover:text-[var(--accent)] transition-colors">
+                  {nextProject.title}
+                </p>
+              </div>
+              <ArrowRight size={18} className="text-white group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        )}
       </main>
     </div>
   );
