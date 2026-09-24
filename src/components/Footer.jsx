@@ -1,103 +1,34 @@
 'use client';
 
 import React from 'react';
+import { ArrowUp } from 'lucide-react';
 
 export default function Footer() {
-  return (
-    <footer
-      style={{
-        backgroundColor: 'var(--bg-base)',
-        borderTop: '1px solid var(--border)',
-        padding: '2.5rem 3rem',
-      }}
-    >
-      <div
-        style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '1.5rem',
-        }}
-        className="footer-inner"
-      >
-        {/* Left: identity + location */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-          <p
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontWeight: 700,
-              fontSize: '0.875rem',
-              letterSpacing: '0.04em',
-              color: 'var(--text-primary)',
-            }}
-          >
-            Madhumithra M.
-          </p>
-          <p
-            className="font-mono"
-            style={{
-              fontSize: '0.6875rem',
-              color: 'var(--text-muted)',
-              letterSpacing: '0.08em',
-            }}
-          >
-            Tamil Nadu, India · IST (UTC +5:30)
-          </p>
-        </div>
+  const scrollToTop = () => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
-        {/* Center: copyright */}
-        <p
-          className="font-mono"
-          style={{
-            fontSize: '0.6875rem',
-            color: 'var(--text-muted)',
-            letterSpacing: '0.08em',
-          }}
-        >
+  return (
+    <footer className="w-full bg-black border-t border-white/[0.06] py-5 px-6 sm:px-12 relative z-20">
+      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-neutral-500">
+        <p className="m-0">
           © {new Date().getFullYear()} Madhumithra M.
         </p>
 
-        {/* Right: links */}
-        <div style={{ display: 'flex', gap: '2rem' }}>
-          {[
-            { label: 'GitHub', href: 'https://github.com/mithra0612' },
-            { label: 'LinkedIn', href: 'https://www.linkedin.com/in/mithra0612/' },
-            { label: 'LeetCode', href: 'https://leetcode.com/u/mithra_612' },
-            { label: 'Resume', href: '/resume.pdf' },
-          ].map(({ label, href }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-mono"
-              style={{
-                fontSize: '0.6875rem',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                color: 'var(--text-muted)',
-                transition: 'color 0.15s ease',
-              }}
-              onMouseEnter={e => e.currentTarget.style.color = 'var(--text-secondary)'}
-              onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
-            >
-              {label}
-            </a>
-          ))}
-        </div>
+        <button
+          onClick={scrollToTop}
+          className="group relative inline-flex items-center gap-1.5 py-0.5 text-neutral-400 hover:text-white transition-colors cursor-pointer outline-none bg-transparent border-none p-0"
+        >
+          <span>Back to Top</span>
+          <ArrowUp
+            size={12}
+            className="text-[var(--accent)] transition-transform duration-200 group-hover:-translate-y-0.5"
+          />
+          <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[var(--accent)] transition-all duration-200 ease-out origin-left group-hover:w-full" />
+        </button>
       </div>
-
-      <style>{`
-        @media (max-width: 640px) {
-          .footer-inner {
-            flex-direction: column !important;
-            align-items: flex-start !important;
-          }
-        }
-      `}</style>
     </footer>
   );
 }

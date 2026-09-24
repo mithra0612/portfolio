@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useParams, notFound } from 'next/navigation';
+import { useParams, useRouter, notFound } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   getProjectBySlug,
@@ -13,32 +13,42 @@ import {
 import {
   ExternalLink,
   Github,
-  ArrowLeft,
-  ArrowRight,
-  Award,
+  X,
+  Lightbulb,
   Layers,
+  Award,
+  ArrowRight,
+  ArrowLeft,
+  Workflow,
   Sparkles,
-  CheckCircle2,
-  Cpu,
-  FileText,
-  Calendar,
-  Code2,
 } from 'lucide-react';
 
 const TABS = [
-  { id: 'overview', label: 'Overview', icon: FileText },
-  { id: 'solution', label: 'Problem & Solution', icon: Layers },
-  { id: 'ai', label: 'AI & Architecture', icon: Sparkles },
-  { id: 'tech', label: 'Tech Stack', icon: Cpu },
-  { id: 'impact', label: 'Impact & Archive', icon: Award },
+  { id: 'overview', label: 'Overview' },
+  { id: 'solution', label: 'Solution' },
+  { id: 'architecture', label: 'Architecture' },
+  { id: 'impact', label: 'Impact' },
 ];
 
 export default function ProjectDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const slug = params?.slug;
   const project = getProjectBySlug(slug);
 
   const [activeTab, setActiveTab] = useState('overview');
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+
+  // Keyboard shortcut: Pressing ESC returns to #projects smoothly without reload
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        router.push('/#projects');
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
 
   if (!project) {
     notFound();
@@ -46,12 +56,10 @@ export default function ProjectDetailPage() {
 
   const nextProject = getNextProject(project.slug);
 
-  // Filter structured detail sections available for this specific project
   const structuredSections = DETAIL_SECTION_ORDER.filter(
     (key) => project[key] && key !== 'overview' && key !== 'outcome'
   );
 
-  // Group sections into Solution vs AI based on keys
   const solutionSections = structuredSections.filter(
     (key) =>
       !key.toLowerCase().includes('ai') &&
@@ -59,423 +67,446 @@ export default function ProjectDetailPage() {
       !key.toLowerCase().includes('intelligence')
   );
 
-  const aiSections = structuredSections.filter(
-    (key) =>
-      key.toLowerCase().includes('ai') ||
-      key.toLowerCase().includes('query') ||
-      key.toLowerCase().includes('intelligence')
-  );
+  const galleryImages = project.gallery || [project.thumbnail];
 
-  // Gallery photos
-  const additionalVisuals = (project.gallery || []).filter(
-    (img) => img !== project.thumbnail
-  );
+  const highlights = project.pillars || [
+    {
+      label: 'AI Assistant',
+      title: 'Contextual Query Assistant',
+      description: 'Conversational agent for automated rules and scheme guidance.',
+    },
+    {
+      label: 'Recommendation Engine',
+      title: 'Targeted Intelligence',
+      description: 'Machine learning algorithms matching seasonal and demographic patterns.',
+    },
+    {
+      label: 'Automation Pipeline',
+      title: 'Operational Workflows',
+      description: 'Automated data discovery and event outreach pipelines.',
+    },
+  ];
 
   return (
-    <div
-      style={{
-        backgroundColor: 'var(--bg-base)',
-        color: 'var(--text-primary)',
-        minHeight: '100vh',
-        fontFamily: 'var(--font-body)',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Subtle ambient glow matching hero palette */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          pointerEvents: 'none',
-          background:
-            'radial-gradient(ellipse 60% 40% at 85% 15%, rgba(56, 189, 248, 0.04) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 15% 65%, rgba(255, 87, 34, 0.03) 0%, transparent 55%)',
-        }}
-        aria-hidden="true"
-      />
+    <div className="min-h-screen bg-black text-[#F8FAFC] font-sans relative selection:bg-[var(--accent)]/30 selection:text-white pb-20">
+      {/* ── EDGE-TO-EDGE FULL-BLEED IMAGE HERO (STARTS AND ENDS AT PAGE EDGES) ── */}
+      <section className="relative w-full h-[340px] sm:h-[400px] md:h-[460px] overflow-hidden bg-black">
+        {/* Full width image spanning entire browser left to right */}
+        <img
+          src={project.thumbnail}
+          alt={`${project.title} showcase`}
+          className="absolute inset-0 w-full h-full object-cover object-top opacity-95 filter contrast-[1.02] brightness-[0.92]"
+        />
 
-      {/* Top Editorial Sticky Navigation Bar */}
-      <header className="sticky top-0 z-40 bg-black/85 backdrop-blur-md border-b border-white/[0.08]">
-        <div className="max-w-[1280px] mx-auto px-6 py-4 flex items-center justify-between gap-4">
+        {/* Minimal gradient only at the bottom and left so the image remains clearly visible */}
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/25 to-transparent pointer-events-none"
+          aria-hidden="true"
+        />
+
+        {/* ── BACK TO PROJECTS BUTTON ON TOP LEFT ── */}
+        <div className="absolute top-6 left-6 sm:top-8 sm:left-8 z-30">
           <Link
             href="/#projects"
-            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-neutral-400 hover:text-white transition-colors"
+            id="back-to-projects-btn"
+            className="group relative inline-flex items-center gap-2 py-1 text-neutral-200 hover:text-white font-mono text-xs sm:text-sm uppercase tracking-wider transition-colors outline-none cursor-pointer bg-transparent border-none p-0 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]"
           >
-            <ArrowLeft size={14} /> Back to Projects
+            <ArrowLeft
+              size={15}
+              className="text-[var(--accent)] transition-transform duration-300 group-hover:-translate-x-1"
+            />
+            <span>Back to Projects</span>
+            <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[var(--accent)] transition-all duration-300 ease-out origin-left group-hover:w-full" />
           </Link>
-
-          <div className="flex items-center gap-3">
-            <span className="font-mono text-xs text-[var(--accent)] tracking-widest uppercase font-semibold">
-              {project.number} / 05
-            </span>
-          </div>
         </div>
-      </header>
 
-      {/* Main Case Study Article */}
-      <main className="max-w-[1280px] mx-auto px-6 sm:px-8 py-10 sm:py-14">
-        {/* ── PROJECT HEADER ── */}
-        <div className="mb-10">
-          <div className="flex flex-wrap items-center gap-3 mb-4">
-            {project.event && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono tracking-wider uppercase font-semibold bg-[var(--accent)]/15 text-[var(--accent)] border border-[var(--accent)]/30">
-                <Award size={13} /> {project.event}
-              </span>
-            )}
-            {project.year && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono tracking-wider text-neutral-400 bg-white/[0.04] border border-white/[0.08]">
-                <Calendar size={13} /> {project.year}
-              </span>
-            )}
-          </div>
+        {/* Overlay Project Title & Info: Constrained inside max-w-6xl */}
+        <div className="absolute inset-0 max-w-6xl mx-auto px-6 flex flex-col justify-end pb-8 pointer-events-none">
+          <div className="pointer-events-auto max-w-3xl">
+            {/* Category Tag with Accent Dot (No outline box) */}
+            <div className="inline-flex items-center gap-2 text-xs font-mono font-semibold tracking-wider uppercase text-[var(--accent)] mb-2">
+              <span className="w-2 h-2 rounded-full bg-[var(--accent)] shadow-[0_0_8px_var(--accent)]" />
+              <span>{project.categoryBadge || 'Decision Support System'}</span>
+            </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1] mb-4">
-            {project.title}
-          </h1>
+            {/* Title */}
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tight leading-none font-sans drop-shadow-md mb-2">
+              {project.shortTitle || project.title}
+            </h1>
 
-          {project.tagline && (
-            <p className="text-lg sm:text-xl text-neutral-300 leading-relaxed max-w-3xl font-light">
-              {project.tagline}
+            {/* Subtitle */}
+            <p className="text-xs sm:text-sm md:text-base text-neutral-200 font-normal leading-relaxed max-w-2xl mb-4 line-clamp-2">
+              {project.subtitle || project.tagline || project.title}
             </p>
-          )}
 
-          {/* Direct Action Links Row: View Repo + Live Demo */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-6 pt-6 border-t border-white/[0.08]">
-            {project.live && (
-              <a
-                href={project.live}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-black font-semibold text-xs font-mono uppercase tracking-wider hover:bg-neutral-200 transition-colors shadow-lg shadow-white/10"
-              >
-                <ExternalLink size={14} /> Live Demo
-              </a>
-            )}
-
-            {project.github && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white border border-white/10 text-xs font-mono uppercase tracking-wider transition-colors"
-              >
-                <Github size={14} /> View Repository
-              </a>
-            )}
-          </div>
-        </div>
-
-        {/* ── PROJECT SHOWCASE IMAGE ── */}
-        <div className="relative w-full aspect-[16/9] max-h-[580px] overflow-hidden rounded-2xl border border-white/10 bg-black/60 shadow-2xl mb-12">
-          <img
-            src={project.thumbnail}
-            alt={`${project.title} showcase artwork`}
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        {/* ── INTERACTIVE CATEGORY TABS ── */}
-        <div className="mb-10 border-b border-white/[0.08]">
-          <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto pb-3 scrollbar-none">
-            {TABS.map((tab) => {
-              const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
-
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`relative flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-200 flex-shrink-0 ${
-                    isActive
-                      ? 'text-white font-bold bg-white/[0.1] border border-white/20'
-                      : 'text-neutral-400 hover:text-white hover:bg-white/[0.04]'
-                  }`}
+            {/* Action Links: NO outlines, growing underline matching project section */}
+            <div className="flex items-center gap-6">
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group/btn relative inline-flex items-center gap-1.5 py-1 text-neutral-300 hover:text-white font-medium text-xs sm:text-sm tracking-wider uppercase transition-colors outline-none cursor-pointer bg-transparent border-none p-0"
                 >
-                  <Icon size={14} className={isActive ? 'text-[var(--accent)]' : 'text-neutral-400'} />
-                  <span>{tab.label}</span>
-                </button>
-              );
-            })}
+                  <Github size={14} className="transition-transform duration-300 group-hover/btn:scale-110" />
+                  <span>GitHub</span>
+                  <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 ease-out origin-left group-hover/btn:w-full" />
+                </a>
+              )}
+
+              {project.live && (
+                <a
+                  href={project.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group/live relative inline-flex items-center gap-1.5 py-1 text-neutral-200 hover:text-white font-medium text-xs sm:text-sm tracking-wider uppercase transition-colors outline-none cursor-pointer bg-transparent border-none p-0"
+                >
+                  <ExternalLink
+                    size={14}
+                    className="text-[var(--accent)] transition-transform duration-300 group-hover/live:translate-x-0.5 group-hover/live:-translate-y-0.5"
+                  />
+                  <span>Live Demo</span>
+                  <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[var(--accent)] transition-all duration-300 ease-out origin-left group-hover/live:w-full" />
+                </a>
+              )}
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* ── DYNAMIC TAB CONTENT CONTAINER ── */}
-        <div className="min-h-[380px]">
-          <AnimatePresence mode="wait">
-            {/* 1. OVERVIEW TAB */}
-            {activeTab === 'overview' && (
-              <motion.div
-                key="overview"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.3 }}
-                className="space-y-8"
+      {/* ── MINIMAL UNDERLINE TABS (NO BOXES, NO OUTLINES) ── */}
+      <nav className="max-w-6xl mx-auto px-6 mt-8 mb-8 border-b border-white/[0.08]">
+        <div className="flex items-center gap-8 pb-3">
+          {TABS.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`relative pb-1 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer outline-none bg-transparent border-none p-0 ${
+                  isActive
+                    ? 'text-white font-bold'
+                    : 'text-neutral-400 hover:text-neutral-200'
+                }`}
               >
-                <div className="bg-[#0c0f16] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="w-2 h-2 rounded-full bg-[var(--accent)]" />
-                    <p className="font-mono text-xs uppercase tracking-widest text-neutral-400">
-                      About the Project
-                    </p>
+                <span>{tab.label}</span>
+                {isActive && (
+                  <motion.span
+                    layoutId="activeTabIndicator"
+                    className="absolute -bottom-3 left-0 right-0 h-[2px] bg-[var(--accent)]"
+                    transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </nav>
+
+      {/* ── CLEAN OPEN EDITORIAL CONTENT: NO BOXES, NO CARD CLUTTER ── */}
+      <main className="max-w-6xl mx-auto px-6">
+        <AnimatePresence mode="wait">
+          {/* ═══════════ TAB 1: OVERVIEW (CLEAN OPEN TYPOGRAPHY, NO BOXES) ═══════════ */}
+          {activeTab === 'overview' && (
+            <motion.div
+              key="overview"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2 }}
+              className="space-y-10"
+            >
+              {/* Challenge & Tech Stack (Open 2-Column Layout, Zero Boxes) */}
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                {/* The Challenge */}
+                <div className="md:col-span-7">
+                  <div className="flex items-center gap-2 mb-2 text-[var(--accent)]">
+                    <Lightbulb size={16} />
+                    <span className="font-mono text-xs font-bold uppercase tracking-[0.2em]">
+                      The Challenge
+                    </span>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">
-                    Overview & Mission
-                  </h3>
-                  <p className="text-neutral-300 text-base sm:text-lg leading-relaxed font-light">
-                    {project.overview}
+                  <p className="text-neutral-300 text-base sm:text-lg leading-relaxed font-light mt-3">
+                    {project.challenge || project.overview}
                   </p>
                 </div>
 
-                {project.event && (
-                  <div className="bg-[#0c0f16] border border-white/[0.08] rounded-2xl p-6 sm:p-8 flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-[var(--accent)]/15 border border-[var(--accent)]/30 flex items-center justify-center text-[var(--accent)] flex-shrink-0">
-                      <Award size={20} />
+                {/* Tech Stack & Honors */}
+                <div className="md:col-span-5 md:pl-6 md:border-l md:border-white/[0.08] space-y-6">
+                  <div>
+                    <div className="flex items-center gap-2 mb-3 text-white">
+                      <Layers size={16} className="text-[var(--accent-sky)]" />
+                      <span className="font-mono text-xs font-bold uppercase tracking-[0.2em]">
+                        Tech Stack
+                      </span>
                     </div>
-                    <div>
-                      <p className="font-mono text-xs uppercase tracking-widest text-[var(--accent)] mb-1">
-                        Hackathon & Industry Recognition
+                    <div className="flex flex-wrap gap-2">
+                      {(project.techHighlight || project.tech).map((item) => (
+                        <span
+                          key={item}
+                          className="text-xs font-mono text-neutral-300 bg-white/[0.04] px-2.5 py-1 rounded"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {project.event && (
+                    <div className="pt-4 border-t border-white/[0.06] flex items-center gap-2.5 text-neutral-300">
+                      <Award size={16} className="text-[var(--accent)] shrink-0" />
+                      <span className="text-xs font-mono tracking-wide">
+                        {project.event}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Core Capabilities (Clean Minimal List, Zero Card Boxes) */}
+              <div className="pt-8 border-t border-white/[0.08]">
+                <div className="flex items-center gap-2 mb-6 text-neutral-400">
+                  <Sparkles size={16} className="text-[var(--accent)]" />
+                  <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-white">
+                    Core Architecture Highlights
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {highlights.slice(0, 3).map((item, idx) => (
+                    <div key={idx} className="space-y-1.5">
+                      <p className="font-mono text-[11px] font-bold text-[var(--accent)] uppercase tracking-wider">
+                        0{idx + 1} / {item.label}
                       </p>
-                      <h4 className="text-lg font-bold text-white mb-1">{project.event}</h4>
-                      <p className="text-neutral-400 text-sm leading-relaxed">
-                        Evaluated and recognized for technical architecture, practical execution, and real-world applicability.
+                      <h4 className="text-base font-bold text-white">
+                        {item.title}
+                      </h4>
+                      <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed font-light">
+                        {item.description}
                       </p>
                     </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* ═══════════ TAB 2: SOLUTION (CLEAN OPEN LIST, NO BOXES) ═══════════ */}
+          {activeTab === 'solution' && (
+            <motion.div
+              key="solution"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2 }}
+              className="space-y-8"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {solutionSections.length > 0 ? (
+                  solutionSections.slice(0, 2).map((sectionKey) => {
+                    const value = project[sectionKey];
+                    const label = SECTION_LABELS[sectionKey] || sectionKey;
+                    if (!value) return null;
+
+                    return (
+                      <div key={sectionKey} className="space-y-3">
+                        <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
+                          {label}
+                        </h4>
+
+                        {typeof value === 'string' ? (
+                          <p className="text-neutral-300 text-sm sm:text-base leading-relaxed font-light">
+                            {value}
+                          </p>
+                        ) : (
+                          <ul className="space-y-3 text-sm text-neutral-300 font-light">
+                            {value.slice(0, 4).map((item, idx) => (
+                              <li key={idx} className="flex items-start gap-2.5">
+                                <span className="text-[var(--accent)] font-bold mt-0.5">•</span>
+                                <span className="leading-relaxed">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div>
+                    <p className="text-neutral-300 text-base leading-relaxed font-light">
+                      {project.overview}
+                    </p>
                   </div>
                 )}
-              </motion.div>
-            )}
+              </div>
+            </motion.div>
+          )}
 
-            {/* 2. PROBLEM & SOLUTION TAB */}
-            {activeTab === 'solution' && (
-              <motion.div
-                key="solution"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.3 }}
-                className="space-y-8"
-              >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {solutionSections.length > 0 ? (
-                    solutionSections.map((sectionKey) => {
-                      const value = project[sectionKey];
-                      const label = SECTION_LABELS[sectionKey] || sectionKey;
-                      if (!value) return null;
+          {/* ═══════════ TAB 3: ARCHITECTURE (CLEAN WORKFLOW, NO BOXES) ═══════════ */}
+          {activeTab === 'architecture' && (
+            <motion.div
+              key="architecture"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2 }}
+              className="space-y-6"
+            >
+              <div className="flex items-center gap-2 mb-2 text-[var(--accent)]">
+                <Workflow size={16} />
+                <span className="font-mono text-xs font-bold uppercase tracking-wider">
+                  Technical Architecture
+                </span>
+              </div>
 
-                      return (
-                        <div
-                          key={sectionKey}
-                          className="bg-[#0c0f16] border border-white/[0.08] rounded-2xl p-6 sm:p-8 flex flex-col"
-                        >
-                          <p className="font-mono text-xs uppercase tracking-widest text-[var(--accent)] mb-2">
-                            {label}
-                          </p>
-                          <h4 className="text-lg sm:text-xl font-bold text-white mb-4">
-                            Solution Architecture
-                          </h4>
-
-                          {typeof value === 'string' ? (
-                            <p className="text-neutral-300 text-sm leading-relaxed">{value}</p>
-                          ) : (
-                            <ul className="space-y-3 text-sm text-neutral-300 flex-1">
-                              {value.map((item, idx) => (
-                                <li key={idx} className="flex items-start gap-2.5">
-                                  <CheckCircle2
-                                    size={16}
-                                    className="text-[var(--accent)] flex-shrink-0 mt-0.5"
-                                  />
-                                  <span className="leading-relaxed">{item}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <div className="col-span-2 bg-[#0c0f16] border border-white/[0.08] rounded-2xl p-8">
-                      <p className="text-neutral-300 leading-relaxed">{project.overview}</p>
-                    </div>
-                  )}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                <div className="space-y-1.5">
+                  <span className="font-mono text-[10px] text-[var(--accent)] uppercase font-semibold">
+                    01 / Ingestion
+                  </span>
+                  <h5 className="text-base font-bold text-white">Data Pipeline</h5>
+                  <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed font-light">
+                    Periodic scraping and dataset consolidation across public records, demographic data, and scheme circulars.
+                  </p>
                 </div>
-              </motion.div>
-            )}
 
-            {/* 3. AI & ARCHITECTURE TAB */}
-            {activeTab === 'ai' && (
-              <motion.div
-                key="ai"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.3 }}
-                className="space-y-6"
-              >
-                <div className="bg-[#0c0f16] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Sparkles size={16} className="text-[#38BDF8]" />
-                    <p className="font-mono text-xs uppercase tracking-widest text-[#38BDF8]">
-                      AI Pipelines & Intelligent Systems
+                <div className="space-y-1.5">
+                  <span className="font-mono text-[10px] text-[var(--accent)] uppercase font-semibold">
+                    02 / Intelligence
+                  </span>
+                  <h5 className="text-base font-bold text-white">Machine Learning Engine</h5>
+                  <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed font-light">
+                    Inference models evaluate seasonal harvest cycles and demographic indicators to rank recommendations.
+                  </p>
+                </div>
+
+                <div className="space-y-1.5">
+                  <span className="font-mono text-[10px] text-[var(--accent)] uppercase font-semibold">
+                    03 / Interface
+                  </span>
+                  <h5 className="text-base font-bold text-white">Targeted Delivery</h5>
+                  <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed font-light">
+                    Role-based portals deliver actionable demographic insights directly to field staff and administrators.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* ═══════════ TAB 4: IMPACT (RECOGNITION & OUTCOMES, NO BOXES) ═══════════ */}
+          {activeTab === 'impact' && (
+            <motion.div
+              key="impact"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2 }}
+              className="space-y-6"
+            >
+              {project.event && (
+                <div className="flex items-start gap-3">
+                  <Award size={22} className="text-[var(--accent)] shrink-0 mt-1" />
+                  <div>
+                    <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--accent)]">
+                      Recognition
+                    </span>
+                    <h4 className="text-xl font-bold text-white mt-0.5 mb-1">{project.event}</h4>
+                    <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed font-light">
+                      Evaluated for architectural feasibility, real-world utility, and domain impact.
                     </p>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-6">
-                    Intelligent Capabilities
-                  </h3>
-
-                  {aiSections.length > 0 ? (
-                    <div className="space-y-6">
-                      {aiSections.map((sectionKey) => {
-                        const value = project[sectionKey];
-                        const label = SECTION_LABELS[sectionKey] || sectionKey;
-                        if (!value) return null;
-
-                        return (
-                          <div key={sectionKey} className="border-t border-white/[0.06] pt-5 first:border-0 first:pt-0">
-                            <h4 className="text-base font-bold text-white mb-3 uppercase font-mono text-sm tracking-wider">
-                              {label}
-                            </h4>
-                            {typeof value === 'string' ? (
-                              <p className="text-neutral-300 text-sm leading-relaxed">{value}</p>
-                            ) : (
-                              <ul className="space-y-2.5 text-sm text-neutral-300">
-                                {value.map((item, idx) => (
-                                  <li key={idx} className="flex items-start gap-2.5">
-                                    <span className="text-[#38BDF8] mt-1 font-bold">›</span>
-                                    <span className="leading-relaxed">{item}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <p className="text-neutral-300 leading-relaxed">
-                      AI features and automated intelligence workflows integrated across user interactions.
-                    </p>
-                  )}
                 </div>
-              </motion.div>
-            )}
+              )}
 
-            {/* 4. TECH STACK TAB */}
-            {activeTab === 'tech' && (
-              <motion.div
-                key="tech"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.3 }}
-                className="space-y-6"
-              >
-                <div className="bg-[#0c0f16] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Cpu size={16} className="text-[var(--accent)]" />
-                    <p className="font-mono text-xs uppercase tracking-widest text-neutral-400">
-                      Technical Architecture
-                    </p>
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-6">
-                    Technologies & Dependencies
-                  </h3>
+              {project.outcome && (
+                <div className="pt-4 border-t border-white/[0.08]">
+                  <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-white mb-2">
+                    Key Outcomes
+                  </h4>
+                  <p className="text-neutral-300 text-base leading-relaxed font-light">
+                    {project.outcome}
+                  </p>
+                </div>
+              )}
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-                    {project.tech.map((skill) => (
+              {galleryImages.length > 1 && (
+                <div className="pt-4 border-t border-white/[0.08]">
+                  <span className="font-mono text-xs uppercase tracking-wider text-neutral-400 block mb-3">
+                    Gallery & Documentation
+                  </span>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {galleryImages.slice(0, 4).map((src, idx) => (
                       <div
-                        key={skill}
-                        className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center gap-2.5 hover:border-white/20 transition-colors"
+                        key={idx}
+                        onClick={() => setSelectedPhoto(src)}
+                        className="h-28 rounded-lg overflow-hidden bg-neutral-900 cursor-pointer hover:opacity-85 transition-opacity"
                       >
-                        <Code2 size={16} className="text-[var(--accent)] flex-shrink-0" />
-                        <span className="font-mono text-xs sm:text-sm text-neutral-200 font-medium truncate">
-                          {skill}
-                        </span>
+                        <img
+                          src={src}
+                          alt="Gallery item"
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                     ))}
                   </div>
                 </div>
-              </motion.div>
-            )}
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-            {/* 5. IMPACT & ARCHIVE TAB */}
-            {activeTab === 'impact' && (
-              <motion.div
-                key="impact"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.3 }}
-                className="space-y-8"
-              >
-                {project.outcome && (
-                  <div className="bg-[#0c0f16] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
-                    <p className="font-mono text-xs uppercase tracking-widest text-[var(--accent)] mb-2">
-                      Measured Outcomes
-                    </p>
-                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">
-                      Real-World Impact
-                    </h3>
-                    <p className="text-neutral-300 text-base sm:text-lg leading-relaxed font-light">
-                      {project.outcome}
-                    </p>
-                  </div>
-                )}
+        {/* ── FOOTER (NO OUTLINES, GROWING UNDERLINES) ── */}
+        <div className="mt-14 pt-6 border-t border-white/[0.08] flex items-center justify-between">
+          <Link
+            href="/#projects"
+            className="group relative inline-flex items-center gap-1.5 py-1 text-xs font-mono uppercase tracking-wider text-neutral-400 hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0"
+          >
+            <ArrowLeft size={13} className="text-[var(--accent)] transition-transform duration-300 group-hover:-translate-x-1" />
+            <span>Back to Projects</span>
+            <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[var(--accent)] transition-all duration-300 ease-out origin-left group-hover:w-full" />
+          </Link>
 
-                {/* Additional Gallery Photos / Hackathon Evidence */}
-                {additionalVisuals.length > 0 && (
-                  <div className="space-y-4">
-                    <p className="font-mono text-xs uppercase tracking-widest text-neutral-400">
-                      Documentation & Archive Photos
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {additionalVisuals.map((src, i) => (
-                        <div
-                          key={i}
-                          className="h-64 rounded-xl overflow-hidden border border-white/10 bg-black"
-                        >
-                          <img
-                            src={src}
-                            alt={`${project.shortTitle} documentation ${i + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* ── NEXT PROJECT FOOTER NAVIGATION ── */}
-        {nextProject && (
-          <div className="mt-20 pt-10 border-t border-white/[0.08] flex items-center justify-between">
-            <Link
-              href="/#projects"
-              className="text-xs font-mono uppercase tracking-widest text-neutral-400 hover:text-white transition-colors"
-            >
-              ← Back to All Projects
-            </Link>
-
+          {nextProject && (
             <Link
               href={`/projects/${nextProject.slug}`}
-              className="group flex items-center gap-3 text-right"
+              className="group relative inline-flex items-center gap-2 py-1 text-right text-xs font-mono uppercase tracking-wider text-neutral-300 hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0"
             >
-              <div>
-                <p className="font-mono text-[10px] uppercase tracking-widest text-neutral-500">
-                  Next Project
-                </p>
-                <p className="text-base sm:text-lg font-bold text-white group-hover:text-[var(--accent)] transition-colors">
-                  {nextProject.title}
-                </p>
-              </div>
-              <ArrowRight size={18} className="text-white group-hover:translate-x-1 transition-transform" />
+              <span>Next: {nextProject.shortTitle || nextProject.title}</span>
+              <ArrowRight
+                size={13}
+                className="text-[var(--accent)] transition-transform duration-300 group-hover:translate-x-1"
+              />
+              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[var(--accent)] transition-all duration-300 ease-out origin-left group-hover:w-full" />
             </Link>
-          </div>
-        )}
+          )}
+        </div>
       </main>
+
+      {/* ── LIGHTBOX MODAL ── */}
+      {selectedPhoto && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+          onClick={() => setSelectedPhoto(null)}
+        >
+          <div className="relative max-w-5xl max-h-[90vh] rounded-xl overflow-hidden border border-white/20">
+            <img
+              src={selectedPhoto}
+              alt="Expanded view"
+              className="w-full h-auto max-h-[85vh] object-contain"
+            />
+            <button
+              onClick={() => setSelectedPhoto(null)}
+              className="absolute top-4 right-4 p-2 rounded-full bg-black/80 text-white border border-white/20 hover:bg-neutral-800 transition-colors"
+            >
+              <X size={18} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

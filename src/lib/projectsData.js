@@ -7,18 +7,53 @@ export const projects = [
     slug: "finvista",
     shortTitle: "FINVISTA",
     title: "AI-Based Financial Services Platform for India Post",
+    subtitle: "AI-Assisted Decision Support System for India Post (SIH Finalist)",
+    categoryBadge: "Decision Support System",
     tagline: "India Post analytics & decision support",
+    challenge:
+      "Postal officials face severe operational challenges: promoting POSB schemes in rural areas is heavily manual and lacks demographic intelligence. Without a centralized regional demographics tool, identifying eligible beneficiaries is difficult, campaign planning is done without seasonal insights, and officials lack a quick assistant to answer scheme-related queries.",
+    techHighlight: [
+      "Next.js",
+      "Node.js",
+      "Supabase",
+      "Gemini 2.0 Flash",
+      "LightGBM",
+      "Selenium",
+    ],
+    pillars: [
+      {
+        label: "AI ASSISTANT",
+        title: "Gemini 2.0 Flash + RAG",
+        description: "Contextual query assistant providing instant guidance on POSB schemes, eligibility rules, and circular guidelines.",
+      },
+      {
+        label: "REC ENGINE",
+        title: "LightGBM categorical",
+        description: "Demographic and seasonal recommendation engine matching rural communities with financial products.",
+      },
+      {
+        label: "AUTOMATION",
+        title: "Selenium periodic",
+        description: "Automated event discovery gathering local agricultural melas and market days for targeted outreach.",
+      },
+      {
+        label: "ARCHITECTURE",
+        title: "React migrated to Next.js",
+        description: "Direct server-side optimization, secure role separation, and high-performance demographic dashboards.",
+      },
+    ],
     tech: [
-      "React.js",
-      "HTML5",
-      "CSS3",
-      "JavaScript",
+      "Next.js",
+      "Node.js",
+      "Supabase",
+      "Gemini 2.0 Flash",
+      "LightGBM",
       "Selenium WebDriver",
-      "BeautifulSoup4",
+      "React.js",
       "Python",
       "Pandas",
       "NumPy",
-      "LightGBM",
+      "BeautifulSoup4",
     ],
     live: "",
     github: "https://github.com/mithra0612/postal-service",
@@ -65,7 +100,41 @@ export const projects = [
     slug: "growthguardian",
     shortTitle: "GROWTHGUARDIAN",
     title: "Growth Guardian – AI-Driven Financial Literacy & Scam Protection Platform",
+    subtitle: "AI-Driven Financial Literacy & Scam Protection Platform (HackIt Winner)",
+    categoryBadge: "AI Financial Literacy & Safety",
     tagline: "AI-driven financial literacy & scam protection",
+    challenge:
+      "Families and young investors navigate increasingly complex financial products alongside rampant digital fraud and deceptive investment schemes. Without accessible financial education, safe virtual simulation, and real-time scam verification, individuals face severe financial loss and lack confidence in long-term wealth building.",
+    techHighlight: [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "Hugging Face",
+      "Scikit-learn",
+      "MongoDB",
+    ],
+    pillars: [
+      {
+        label: "AI SCAM DETECTOR",
+        title: "Hugging Face + NLP",
+        description: "Real-time semantic analysis to identify fraudulent investment offers and deceptive communications.",
+      },
+      {
+        label: "FORECASTING ENGINE",
+        title: "ML Asset Return Projection",
+        description: "Simulates inflation-adjusted purchasing power and multi-asset compounding trajectories.",
+      },
+      {
+        label: "SIMULATION LAB",
+        title: "Risk-Free Virtual Trading",
+        description: "Interactive sandboxes for budgeting, debt vs. invest decisions, and family finance management.",
+      },
+      {
+        label: "EDUCATION SYSTEM",
+        title: "Family Learning Modules",
+        description: "Tailored curriculums for adults and children with interactive checkpoint assessments.",
+      },
+    ],
     tech: [
       "React.js",
       "Node.js",
@@ -132,7 +201,41 @@ export const projects = [
     slug: "wellcare",
     shortTitle: "WELLCARE",
     title: "Wellcare – AI-Based Women's Health & Wellness Platform",
+    subtitle: "AI-Based Women's Health & Wellness Platform (TNWISE Finalist)",
+    categoryBadge: "Women's Health & Wellness",
     tagline: "AI-based women's health & wellness platform",
+    challenge:
+      "Women across semi-urban and rural areas encounter persistent barriers to stigma-free reproductive health guidance, early PCOS/hormonal symptom detection, and reliable nutritional advice. Without accessible AI-driven personalization and confidential community support, critical preventive care remains largely out of reach.",
+    techHighlight: [
+      "React.js",
+      "Node.js",
+      "Firestore",
+      "GCP",
+      "Transformers",
+      "Redux",
+    ],
+    pillars: [
+      {
+        label: "CYCLE INTELLIGENCE",
+        title: "Predictive Health Models",
+        description: "Ovulation, cycle forecasting, and recurring symptom anomaly tracking algorithms.",
+      },
+      {
+        label: "WELLNESS ENGINE",
+        title: "AI Diet & Home Remedies",
+        description: "Tailored nutritional advice and natural remedies curated based on hormonal phases.",
+      },
+      {
+        label: "INTERACTIVE EDU",
+        title: "Gamified Myth Busting",
+        description: "Engaging spin-wheels and interactive cards breaking cultural health misconceptions.",
+      },
+      {
+        label: "SUPPORT HUB",
+        title: "AI Health Chatbot & Community",
+        description: "Confidential guidance backed by medical articles, verified schemes, and emergency helplines.",
+      },
+    ],
     tech: [
       "React.js",
       "Node.js",
@@ -195,7 +298,41 @@ export const projects = [
     slug: "vanadhikar",
     shortTitle: "VANADHIKAR",
     title: "VanAdhikar – AI-Powered WebGIS & Decision Support System",
+    subtitle: "AI-Powered WebGIS & Decision Support System for Forest Rights (SIH 2025)",
+    categoryBadge: "WebGIS & Decision Support",
     tagline: "AI-powered WebGIS & decision support system",
+    challenge:
+      "Implementing the Forest Rights Act has long been hindered by fragmented paper records, contested land boundaries, and lack of geospatial integration. Tribal communities encounter long delays in title recognition, asset discovery, and direct access to rightful government welfare programs.",
+    techHighlight: [
+      "React.js",
+      "PostgreSQL + PostGIS",
+      "QGIS",
+      "Google Earth Engine",
+      "PyTorch",
+      "spaCy NER",
+    ],
+    pillars: [
+      {
+        label: "GEOSPATIAL ENGINE",
+        title: "PostGIS + WebGIS Atlas",
+        description: "Geofenced forest boundaries, satellite layers, and parcel tracking down to village and individual levels.",
+      },
+      {
+        label: "OCR & NER PIPELINE",
+        title: "Tesseract + spaCy",
+        description: "Extracts structured claim data from legacy handwritten pattas, title deeds, and verification records.",
+      },
+      {
+        label: "DECISION SUPPORT",
+        title: "Multi-Scheme Mapper",
+        description: "AI scoring connects tribal households to PM-KISAN, PMAY, and seasonal agricultural welfare schemes.",
+      },
+      {
+        label: "MULTILINGUAL IVR",
+        title: "Automated Voice Feedback",
+        description: "Enables tribal communities to share feedback and check claim status in regional vernacular languages.",
+      },
+    ],
     tech: [
       "React.js",
       "Node.js",
@@ -278,7 +415,41 @@ export const projects = [
     slug: "civiclens",
     shortTitle: "CIVIC LENS",
     title: "Civic Lens – Transparent Governance Through Data",
+    subtitle: "Transparent Governance Through Public Data & AI (Hack'25 Finalist)",
+    categoryBadge: "Transparent Governance & Data",
     tagline: "Transparent governance through public data & AI",
+    challenge:
+      "Public datasets regarding municipal budgets, infrastructure spending, and development milestones are fragmented across disparate government portals. Filing Right to Information (RTI) queries is tedious and slow, while ordinary citizens lack intuitive tools to monitor local civic projects.",
+    techHighlight: [
+      "React.js",
+      "Node.js",
+      "MongoDB",
+      "Open Data APIs",
+      "LangChain",
+      "RAG Pipeline",
+    ],
+    pillars: [
+      {
+        label: "OPEN DATA PIPELINE",
+        title: "1200+ Datasets Unified",
+        description: "Ward-level dashboards aggregating budgets, projects, and developmental milestones into clear metrics.",
+      },
+      {
+        label: "AI RTI ASSISTANT",
+        title: "Automated RAG System",
+        description: "Accelerates Right to Information queries and draft generation from weeks down to minutes.",
+      },
+      {
+        label: "CIVIC PARTICIPATION",
+        title: "Geo-Tagged Grievances",
+        description: "Allows citizens to pinpoint infrastructure and public service issues for rapid municipal tracking.",
+      },
+      {
+        label: "BILINGUAL ACCESS",
+        title: "Malayalam & English",
+        description: "Ensures grassroots democratic access across linguistic demographics throughout Kerala.",
+      },
+    ],
     tech: [
       "React.js",
       "Node.js",

@@ -210,3 +210,18 @@ a {
   background: var(--accent);
   color: var(--bg-base);
 }
+
+/* Hide Next.js dev indicator */
+[data-nextjs-dev-tools-button],
+nextjs-portal,
+#__next-build-watcher {
+  display: none !important;
+}
+
+/* Seamless Cal.com embed styles */
+.cal-inline-container,
+.cal-inline-container iframe,
+iframe[src*="cal.com"] {
+  background-color: transparent !important;
+  color-scheme: dark !important;
+}
