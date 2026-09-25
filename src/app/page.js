@@ -10,41 +10,33 @@ import { useState, useEffect } from "react";
 import FloatingNav from "@/components/FloatingNav";
 import Footer from "@/components/Footer";
 
+// Module-level in-memory flag: persists during client-side SPA navigation, resets on browser refresh
+let hasMountedOnce = false;
+
 export default function Home() {
   const [portfolioLoading, setPortfolioLoading] = useState(() => {
     if (typeof window !== 'undefined') {
-      // 1. If this is a normal page reload (F5 / Refresh button), ALWAYS show the loader
-      const navEntry = window.performance?.getEntriesByType?.('navigation')?.[0];
-      const isReload = navEntry?.type === 'reload' || window.performance?.navigation?.type === 1;
-
-      if (isReload) {
-        try {
-          sessionStorage.removeItem('from_subpage');
-        } catch (e) {}
-        return true;
-      }
-
-      // 2. If returning from another page via 'Back' button, router history, or section anchor (#projects, #about)
       try {
-        const fromSubpage = sessionStorage.getItem('from_subpage') === 'true';
-        sessionStorage.removeItem('from_subpage');
-        const hasSectionHash = window.location.hash && !['#', '#hero', '#home'].includes(window.location.hash);
-        const hasSubpageReferrer = typeof document !== 'undefined' && document.referrer && (
-          document.referrer.includes('/projects') ||
-          document.referrer.includes('/achievements') ||
-          document.referrer.includes('/resume')
-        );
+        // 1. One-time skip token set when user clicked a 'Back to ...' button or visited a subpage
+        const shouldSkip = sessionStorage.getItem('skip_loader') === 'true';
+        if (shouldSkip) {
+          sessionStorage.removeItem('skip_loader');
+          hasMountedOnce = true;
+          return false;
+        }
 
-        if (fromSubpage || hasSectionHash || hasSubpageReferrer) {
-          return false; // Never show loader when returning back from other pages
+        // 2. If Home was already mounted in this client SPA session, skip loader
+        if (hasMountedOnce) {
+          return false;
         }
       } catch (e) {}
     }
-    // Normal first visit -> show loader
+    // Normal page refresh (F5 / reload) or initial visit -> ALWAYS show loader
     return true;
   });
 
   const handleLoaderComplete = () => {
+    hasMountedOnce = true;
     setPortfolioLoading(false);
   };
 

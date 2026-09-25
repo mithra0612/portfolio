@@ -85,7 +85,7 @@ export default function AchievementsPage() {
   // Track subpage visit so returning to home skips the intro loader
   useEffect(() => {
     try {
-      sessionStorage.setItem('from_subpage', 'true');
+      sessionStorage.setItem('skip_loader', 'true');
     } catch (e) {}
   }, []);
 
@@ -130,6 +130,11 @@ export default function AchievementsPage() {
         <div className="mb-12 sm:mb-16">
           <Link
             href="/#about"
+            onClick={() => {
+              try {
+                sessionStorage.setItem('skip_loader', 'true');
+              } catch (e) {}
+            }}
             className="group relative inline-flex items-center gap-2 py-1 text-xs sm:text-sm font-mono uppercase tracking-wider text-neutral-400 hover:text-white transition-colors cursor-pointer outline-none bg-transparent border-none p-0"
           >
             <ArrowLeft
