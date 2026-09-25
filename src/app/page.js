@@ -11,18 +11,10 @@ import FloatingNav from "@/components/FloatingNav";
 import Footer from "@/components/Footer";
 
 export default function Home() {
-  const [portfolioLoading, setPortfolioLoading] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return !sessionStorage.getItem('loaderShown');
-    }
-    return true;
-  });
+  const [portfolioLoading, setPortfolioLoading] = useState(true);
 
   const handleLoaderComplete = () => {
     setPortfolioLoading(false);
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem('loaderShown', 'true');
-    }
   };
 
   useEffect(() => {
@@ -41,24 +33,23 @@ export default function Home() {
 
   return (
     <div className="relative">
-
-      {portfolioLoading ? (
+      {portfolioLoading && (
         <PortfolioLoader onComplete={handleLoaderComplete} />
-      ) : (
-        <>
-          {/* ── FLOATING NAVIGATION ── */}
-          <FloatingNav />
+      )}
 
-          {/* ── STICKY HERO LAYER ── pinned behind all content sections */}
-          <section id="hero" className="sticky top-0 h-screen w-full z-0 overflow-hidden">
-            <div id="home" className="absolute top-0 left-0 w-0 h-0 pointer-events-none" aria-hidden="true" />
-            <Hero />
-          </section>
+      {/* ── FLOATING NAVIGATION ── */}
+      <FloatingNav />
 
-          {/* ── CURTAIN STACK ── each section slides up and covers the hero ── */}
+      {/* ── STICKY HERO LAYER ── pinned behind all content sections */}
+      <section id="hero" className="sticky top-0 h-screen w-full z-0 overflow-hidden">
+        <div id="home" className="absolute top-0 left-0 w-0 h-0 pointer-events-none" aria-hidden="true" />
+        <Hero />
+      </section>
 
-          {/* ── ABOUT ME ── */}
-          <About />
+      {/* ── CURTAIN STACK ── each section slides up and covers the hero ── */}
+
+      {/* ── ABOUT ME ── */}
+      <About />
 
           {/* Experience */}
           <section
@@ -92,8 +83,6 @@ export default function Home() {
             <Contact />
             <Footer />
           </section>
-        </>
-      )}
     </div>
   );
 }
