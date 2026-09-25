@@ -64,7 +64,7 @@ export default function About() {
           <div className="flex flex-col items-start w-full">
             <div className="w-full max-w-[340px] sm:max-w-[360px] lg:max-w-full">
               {/* Portrait Frame */}
-              <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#0a0a0c] border border-white/[0.1]">
+              <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#0a0a0c]">
                 <Image
                   src="/placeholder-portrait.jpg"
                   alt="Portrait of Madhumithra M."

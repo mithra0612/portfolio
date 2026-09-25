@@ -262,10 +262,10 @@ export default function Experience() {
               </div>
 
               {/* Visual Motif Box (Interactive Migration Pipeline & Parity Metrics) */}
-              <div className="rounded-xl bg-[#030509] border border-white/[0.08] p-4 sm:p-4.5 mb-5 group-hover:border-[#FF5722]/30 transition-colors">
-                <div className="flex items-center justify-between font-mono text-[9.5px] tracking-[0.2em] text-neutral-400 uppercase mb-2">
+              <div className="rounded-xl bg-[#030509] border border-white/[0.08] p-4 sm:p-4.5 mb-5 group-hover:border-[#FF5722]/30 transition-colors h-[82px] flex flex-col justify-between">
+                <div className="flex items-center justify-between font-mono text-[9.5px] tracking-[0.2em] text-neutral-400 uppercase">
                   <span>126 COMMITS · 3,891 FILES</span>
-                  <span className="text-[#38BDF8] font-semibold bg-[#38BDF8]/10 px-2 py-0.5 rounded-full">112/112 TESTS PASS</span>
+                  <span className="text-[#38BDF8] font-semibold bg-[#38BDF8]/10 px-2 py-0.5 rounded-full">112/112 PASS</span>
                 </div>
                 <div className="flex items-center gap-2.5 font-mono text-xs sm:text-sm font-semibold tracking-tight">
                   <span className="text-neutral-400">EXPRESS + REACT</span>
@@ -277,8 +277,8 @@ export default function Experience() {
               </div>
 
               {/* Description */}
-              <p className="text-[13px] sm:text-[13.5px] text-neutral-200 leading-[1.7] font-normal mb-5">
-                Migrated Virtual Terminal, a merchant-facing payment application, from Express + React to Next.js App Router across a 126-commit, 3,891-file migration. Restructured routing, middleware, API routes, state management, and core payment workflows while preserving legacy behavior. Diagnosed and fixed migration issues across payment validation, authentication, pricing, currency conversion, and error handling—validating functional parity through 112/112 passing unit tests and 70+ integration tests using Jest and Cypress against QA services and CI environments.
+              <p className="text-[13.5px] text-neutral-300 leading-[1.65] font-normal mb-5 min-h-[72px]">
+                Migrated merchant-facing Virtual Terminal from Express + React to Next.js App Router across 3,891 files. Restructured routing, middleware, and state management, validating full parity with 112/112 unit tests and 70+ integration tests.
               </p>
             </div>
 
@@ -290,8 +290,8 @@ export default function Experience() {
                   STACK
                 </span>
               </div>
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px]">
-                {['Next.js 15', 'React', 'TypeScript', 'Jest', 'Cypress', 'Git', 'CI/CD'].map((tech, idx, arr) => (
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px] min-h-[40px]">
+                {['Next.js 15', 'TypeScript', 'Jest', 'Cypress', 'Git'].map((tech, idx, arr) => (
                   <React.Fragment key={tech}>
                     <span className="text-neutral-300 font-medium tracking-tight">
                       {tech}
@@ -346,13 +346,13 @@ export default function Experience() {
               </div>
 
               {/* Visual Motif Box (Telemetry Dashboard & Equalizer) */}
-              <div className="rounded-xl bg-[#030509] border border-white/[0.08] p-4 sm:p-4.5 mb-5 group-hover:border-[#F59E0B]/30 transition-colors">
-                <div className="flex items-baseline justify-between mb-2.5">
+              <div className="rounded-xl bg-[#030509] border border-white/[0.08] p-4 sm:p-4.5 mb-5 group-hover:border-[#F59E0B]/30 transition-colors h-[82px] flex flex-col justify-between">
+                <div className="flex items-baseline justify-between mb-1">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-3xl sm:text-4xl font-mono font-light text-[#F59E0B] leading-none">
+                    <span className="text-2xl sm:text-3xl font-mono font-light text-[#F59E0B] leading-none">
                       43
                     </span>
-                    <span className="font-mono text-xs uppercase tracking-[0.2em] text-white font-semibold">
+                    <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-white font-semibold">
                       WIDGETS
                     </span>
                   </div>
@@ -364,7 +364,7 @@ export default function Experience() {
                     <span className="w-1 bg-[#F59E0B] rounded-full h-3 animate-pulse delay-100" />
                   </div>
                 </div>
-                <div className="pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono text-[11px] text-neutral-300 tracking-wider">
+                <div className="pt-1.5 border-t border-white/[0.06] flex items-center justify-between font-mono text-[10.5px] text-neutral-300 tracking-wider">
                   <span>API METRICS</span>
                   <span className="text-[#F59E0B]">→</span>
                   <span>ANOMALY DETECT</span>
@@ -377,8 +377,8 @@ export default function Experience() {
               </div>
 
               {/* Description */}
-              <p className="text-[13px] sm:text-[13.5px] text-neutral-200 leading-[1.7] font-normal mb-5">
-                Built a 43-widget Datadog observability dashboard equipped with real-time anomaly monitors and automated Slack alerts. Tracked critical payment dimensions—including authorization rates, API traffic volume, latency, card country, currency, and brand—to proactively catch regressions, verify production reliability, and maintain high payment service availability.
+              <p className="text-[13.5px] text-neutral-300 leading-[1.65] font-normal mb-5 min-h-[72px]">
+                Built a 43-widget Datadog observability dashboard with automated Slack alerts and anomaly monitors. Tracked API traffic, payment authorization rates, latency, and dimensional metrics to ensure production reliability.
               </p>
             </div>
 
@@ -390,8 +390,8 @@ export default function Experience() {
                   STACK
                 </span>
               </div>
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px]">
-                {['Datadog', 'Slack Alerts', 'Anomaly Monitors', 'APM', 'Metrics'].map((tech, idx, arr) => (
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px] min-h-[40px]">
+                {['Datadog', 'Slack Alerts', 'Anomaly Monitors', 'APM'].map((tech, idx, arr) => (
                   <React.Fragment key={tech}>
                     <span className="text-neutral-300 font-medium tracking-tight">
                       {tech}
@@ -447,15 +447,15 @@ export default function Experience() {
               </div>
 
               {/* Visual Motif Box (AI Integration Flow) */}
-              <div className="rounded-xl bg-[#030509] border border-white/[0.08] p-4 sm:p-4.5 mb-5 group-hover:border-[#38BDF8]/30 transition-colors">
-                <div className="flex items-center justify-between font-mono text-[9.5px] tracking-[0.2em] text-neutral-400 uppercase mb-2">
+              <div className="rounded-xl bg-[#030509] border border-white/[0.08] p-4 sm:p-4.5 mb-5 group-hover:border-[#38BDF8]/30 transition-colors h-[82px] flex flex-col justify-between">
+                <div className="flex items-center justify-between font-mono text-[9.5px] tracking-[0.2em] text-neutral-400 uppercase">
                   <span>WORKFLOW INTEGRATION</span>
                   <span className="text-[#38BDF8] font-semibold bg-[#38BDF8]/10 px-2 py-0.5 rounded-full flex items-center gap-1">
                     <span className="text-[10px]">✦</span>
                     AI AGENT
                   </span>
                 </div>
-                <div className="flex items-center gap-3 font-mono text-sm sm:text-base font-semibold tracking-tight">
+                <div className="flex items-center gap-3 font-mono text-xs sm:text-sm font-semibold tracking-tight">
                   <span className="text-neutral-400">CONFLUENCE</span>
                   <span className="text-[#38BDF8] font-bold tracking-tighter">──────►</span>
                   <span className="text-white border-b-2 border-[#38BDF8] pb-0.5">
@@ -465,8 +465,8 @@ export default function Experience() {
               </div>
 
               {/* Description */}
-              <p className="text-[13px] sm:text-[13.5px] text-neutral-200 leading-[1.7] font-normal mb-5">
-                Independently developed an internal Claude Skill integrated with Confluence to phase migrations, persist migration state, and reuse migration knowledge across sessions. Connected codebase intelligence with architectural documentation, enabling automated pattern lookup, migration reports, and cross-session knowledge continuity across the engineering team.
+              <p className="text-[13.5px] text-neutral-300 leading-[1.65] font-normal mb-5 min-h-[72px]">
+                Engineered an internal Claude Skill integrated with Confluence to phase migrations, persist migration state, and reuse codebase knowledge across sessions—accelerating pattern discovery and engineering documentation.
               </p>
             </div>
 
@@ -478,8 +478,8 @@ export default function Experience() {
                   STACK
                 </span>
               </div>
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px]">
-                {['Claude Skills', 'Confluence API', 'LLM Integration', 'Prompt Engineering'].map((tech, idx, arr) => (
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px] min-h-[40px]">
+                {['Claude Skills', 'Confluence API', 'Prompt Engineering'].map((tech, idx, arr) => (
                   <React.Fragment key={tech}>
                     <span className="text-neutral-300 font-medium tracking-tight">
                       {tech}

@@ -1,113 +1,23 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import dynamic from 'next/dynamic';
-import {
-  Mail,
-  Copy,
-  Check,
-  Calendar,
-  Clock,
-  MapPin,
-  ArrowUpRight,
-  Github,
-  Linkedin,
-  Code2,
-  FileText,
-} from 'lucide-react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
-
-// Dynamically import Cal component with SSR disabled for clean client rendering
-const Cal = dynamic(() => import('@calcom/embed-react'), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-[470px] flex items-center justify-center text-xs font-mono text-neutral-500 bg-transparent">
-      <div className="flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse" />
-        <span>Loading calendar...</span>
-      </div>
-    </div>
-  ),
-});
-
-// Reusable directional stretch wrapper hook
-function useDirectionalStretch(strength = 1) {
-  const ref = useRef(null);
-
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const scaleX = useMotionValue(1);
-  const scaleY = useMotionValue(1);
-  const skewX = useMotionValue(0);
-
-  const springConfig = { damping: 28, stiffness: 110, mass: 1.0 };
-  const smoothX = useSpring(x, springConfig);
-  const smoothY = useSpring(y, springConfig);
-  const smoothScaleX = useSpring(scaleX, springConfig);
-  const smoothScaleY = useSpring(scaleY, springConfig);
-  const smoothSkewX = useSpring(skewX, springConfig);
-
-  const handleMouseMove = (e) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const normX = Math.max(-1, Math.min(1, ((e.clientX - rect.left) / rect.width - 0.5) * 2));
-    const normY = Math.max(-1, Math.min(1, ((e.clientY - rect.top) / rect.height - 0.5) * 2));
-
-    x.set(normX * 14 * strength);
-    y.set(normY * 8 * strength);
-    scaleX.set(1 + Math.abs(normX) * 0.035 * strength);
-    scaleY.set(1 + Math.abs(normY) * 0.02 * strength);
-    skewX.set(-normX * 1.5 * strength);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-    scaleX.set(1);
-    scaleY.set(1);
-    skewX.set(0);
-  };
-
-  return {
-    ref,
-    handleMouseMove,
-    handleMouseLeave,
-    style: {
-      x: smoothX,
-      y: smoothY,
-      scaleX: smoothScaleX,
-      scaleY: smoothScaleY,
-      skewX: smoothSkewX,
-      transformOrigin: 'center center',
-    },
-  };
-}
+import React, { useState, useEffect } from 'react';
+import { Copy, Check, ArrowUpRight } from 'lucide-react';
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
-  const [currentTime, setCurrentTime] = useState('');
-  const canvasRef = useRef(null);
 
-  // Directional stretch for Left Content Block
-  const leftStretch = useDirectionalStretch(1.1);
-
-  // Directional stretch for Right Schedule Card (subtle to ensure calendar click precision)
-  const rightStretch = useDirectionalStretch(0.4);
-
-  // Initialize Cal.com UI theme, brand color & transparent background
+  // Initialize Cal.com modal popup with dark editorial styling
   useEffect(() => {
     (async function () {
       try {
         const { getCalApi } = await import('@calcom/embed-react');
-        const cal = await getCalApi();
+        const cal = await getCalApi({ namespace: '30min' });
         cal('ui', {
           theme: 'dark',
           styles: {
             branding: { brandColor: '#FF5722' },
-            body: { background: 'transparent' },
-            eventTypeListItem: { background: 'transparent' },
           },
-          hideEventTypeDetails: true,
+          hideEventTypeDetails: false,
           layout: 'month_view',
         });
       } catch (err) {
@@ -116,293 +26,174 @@ export default function Contact() {
     })();
   }, []);
 
-  // Live IST Clock
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const options = {
-        timeZone: 'Asia/Kolkata',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: true,
-      };
-      setCurrentTime(new Intl.DateTimeFormat('en-US', options).format(now));
-    };
-
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Floating Ember Particles Canvas (Atmospheric, NO gradients)
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-    let width = (canvas.width = canvas.parentElement.offsetWidth);
-    let height = (canvas.height = canvas.parentElement.offsetHeight);
-
-    const handleResize = () => {
-      if (!canvas || !canvas.parentElement) return;
-      width = canvas.width = canvas.parentElement.offsetWidth;
-      height = canvas.height = canvas.parentElement.offsetHeight;
-    };
-    window.addEventListener('resize', handleResize);
-
-    // 32 delicate ember particles
-    const particleCount = 32;
-    const particles = Array.from({ length: particleCount }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      size: Math.random() * 2 + 0.8,
-      speedY: Math.random() * 0.4 + 0.15,
-      speedX: (Math.random() - 0.5) * 0.25,
-      opacity: Math.random() * 0.55 + 0.15,
-      fadeSpeed: Math.random() * 0.006 + 0.002,
-      rising: true,
-    }));
-
-    const render = () => {
-      ctx.clearRect(0, 0, width, height);
-
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-
-        p.y -= p.speedY;
-        p.x += p.speedX;
-
-        if (p.rising) {
-          p.opacity += p.fadeSpeed;
-          if (p.opacity >= 0.75) p.rising = false;
-        } else {
-          p.opacity -= p.fadeSpeed;
-          if (p.opacity <= 0.1) p.rising = true;
-        }
-
-        if (p.y < 0) {
-          p.y = height + 10;
-          p.x = Math.random() * width;
-        }
-        if (p.x < 0) p.x = width;
-        if (p.x > width) p.x = 0;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 87, 34, ${p.opacity})`;
-        ctx.fill();
-      }
-
-      animationFrameId = requestAnimationFrame(render);
-    };
-
-    render();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
   const copyEmail = () => {
     navigator.clipboard.writeText('mithramadhu005@gmail.com');
     setCopied(true);
-    setTimeout(() => setCopied(false), 2200);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <section
       id="contact"
-      className="relative bg-black text-[#F8FAFC] py-24 sm:py-32 px-6 sm:px-12 border-t border-white/[0.08] overflow-hidden select-none"
+      className="relative w-full bg-black text-[#F8FAFC] py-24 sm:py-32 lg:py-36 border-t border-b border-white/[0.08] select-none"
     >
-      {/* ── FLOATING EMBER CANVAS (NO GRADIENTS) ── */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 pointer-events-none z-0"
-        aria-hidden="true"
-      />
+      <div className="max-w-[1360px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 xl:gap-16 items-start">
 
-      <div className="relative z-10 max-w-6xl mx-auto">
-        {/* Section Label */}
-        <div className="flex items-center gap-3 mb-10">
-          <span className="w-5 h-px bg-[var(--accent)]" aria-hidden="true" />
-          <p className="font-mono text-[11px] tracking-[0.26em] text-[var(--accent)] uppercase font-semibold m-0">
-            CONTACT & COLLABORATION
-          </p>
-        </div>
+          {/* ═══════════════ LEFT COLUMN: EDITORIAL STATEMENT ═══════════════ */}
+          <div className="lg:col-span-6 xl:col-span-7 flex flex-col justify-start">
+            {/* Eyebrow */}
+            <div className="flex items-center gap-2.5 mb-6 sm:mb-8">
+              <span className="w-5 h-px bg-[var(--accent)]" aria-hidden="true" />
+              <p className="font-mono text-xs sm:text-[13px] tracking-[0.24em] text-[var(--accent)] uppercase font-semibold m-0">
+                CONTACT & COLLABORATION
+              </p>
+            </div>
 
-        {/* ── KINETIC SPLIT GRID WITH STRETCH EFFECTS ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* ═══════════ LEFT COLUMN: STATEMENT WITH DIRECTIONAL STRETCH ═══════════ */}
-          <div className="lg:col-span-7">
-            <motion.div
-              ref={leftStretch.ref}
-              onMouseMove={leftStretch.handleMouseMove}
-              onMouseLeave={leftStretch.handleMouseLeave}
-              style={leftStretch.style}
-              className="flex flex-col justify-start will-change-transform"
-            >
-              {/* Live Availability Status */}
-              <div className="inline-flex items-center gap-2 mb-4 text-xs font-mono text-neutral-300">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
-                <span>Available for full-time roles & internships</span>
-              </div>
+            {/* Availability Badge */}
+            <div className="inline-flex items-center gap-2.5 mb-8 sm:mb-10 text-xs font-mono">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+              </span>
+              <span className="uppercase tracking-[0.18em] text-[11px] text-neutral-300 font-medium">
+                OPEN TO FULL-TIME ROLES & INTERNSHIPS
+              </span>
+            </div>
 
-              {/* High-Impact Headline */}
-              <h2 className="text-4xl sm:text-6xl md:text-7xl font-black text-white uppercase tracking-tight leading-none mb-6 font-sans">
-                LET'S BUILD SOMETHING EXTRAORDINARY.
-              </h2>
+            {/* Headline */}
+            <h2 className="text-5xl sm:text-6xl md:text-7xl xl:text-[4.75rem] font-black text-white uppercase tracking-tight leading-[0.98] mb-8 font-sans">
+              LET'S BUILD<br />
+              SOMETHING<br />
+              EXTRAORDINARY.
+            </h2>
 
-              {/* Direct Email Action Trigger */}
-              <div className="mt-2 mb-8">
-                <p className="font-mono text-xs uppercase tracking-wider text-neutral-500 mb-2">
-                  Direct Email
-                </p>
-                <div className="flex flex-wrap items-center gap-4">
-                  <a
-                    href="mailto:mithramadhu005@gmail.com"
-                    className="text-xl sm:text-2xl md:text-3xl font-bold text-white hover:text-[var(--accent)] transition-colors tracking-tight font-sans"
-                  >
-                    mithramadhu005@gmail.com
-                  </a>
+            {/* Supporting Copy */}
+            <p className="text-base sm:text-lg md:text-xl text-neutral-400 font-light leading-relaxed max-w-lg mb-8">
+              Have a project, engineering opportunity, or idea worth discussing?
+            </p>
 
-                  <button
-                    onClick={copyEmail}
-                    className="group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/[0.05] hover:bg-white/[0.1] text-xs font-mono text-neutral-300 hover:text-white transition-colors cursor-pointer border-none"
-                    aria-label="Copy email address"
-                  >
-                    {copied ? (
-                      <>
-                        <Check size={13} className="text-emerald-400" />
-                        <span className="text-emerald-400 font-semibold">Copied!</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy size={13} className="text-neutral-400 group-hover:text-white" />
-                        <span>Copy</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              {/* Borderless Social Links with Growing Underline */}
-              <div>
-                <p className="font-mono text-xs uppercase tracking-wider text-neutral-500 mb-3">
-                  Connect & Profiles
-                </p>
-                <div className="flex flex-wrap items-center gap-6 sm:gap-8">
-                  {[
-                    {
-                      label: 'GitHub',
-                      href: 'https://github.com/mithra0612',
-                      icon: <Github size={14} />,
-                    },
-                    {
-                      label: 'LinkedIn',
-                      href: 'https://www.linkedin.com/in/mithra0612/',
-                      icon: <Linkedin size={14} />,
-                    },
-                    {
-                      label: 'LeetCode',
-                      href: 'https://leetcode.com/u/mithra_612',
-                      icon: <Code2 size={14} />,
-                    },
-                    {
-                      label: 'Resume',
-                      href: '/resume.pdf',
-                      icon: <FileText size={14} />,
-                    },
-                  ].map(({ label, href, icon }) => (
-                    <a
-                      key={label}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group relative inline-flex items-center gap-1.5 py-1 text-neutral-300 hover:text-white text-xs sm:text-sm font-mono uppercase tracking-wider transition-colors outline-none cursor-pointer bg-transparent border-none p-0"
-                    >
-                      <span>{label}</span>
-                      <ArrowUpRight
-                        size={13}
-                        className="text-neutral-400 group-hover:text-[var(--accent)] transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                      />
-                      <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[var(--accent)] transition-all duration-300 ease-out origin-left group-hover:w-full" />
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
+            {/* Status footnote */}
+            <div className="hidden lg:flex items-center gap-3 pt-6 text-xs font-mono text-neutral-500">
+              <span>Based in Tamil Nadu, India</span>
+              <span className="text-neutral-700">/</span>
+              <span>Available for Remote & Relocation</span>
+            </div>
           </div>
 
-          {/* ═══════════ RIGHT COLUMN: ARCHITECTURAL CALENDAR (SEAMLESS EDITORIAL INTEGRATION) ═══════════ */}
-          <div className="lg:col-span-5 flex flex-col pt-8 lg:pt-0 lg:border-l border-white/[0.08] lg:pl-10 xl:pl-14">
-            <motion.div
-              ref={rightStretch.ref}
-              onMouseMove={rightStretch.handleMouseMove}
-              onMouseLeave={rightStretch.handleMouseLeave}
-              style={rightStretch.style}
-              className="flex flex-col justify-start will-change-transform"
-            >
-              {/* Eyebrow */}
-              <div className="flex items-center gap-3 mb-6">
-                <span className="w-5 h-px bg-[var(--accent)]" aria-hidden="true" />
-                <p className="font-mono text-[11px] tracking-[0.26em] text-[var(--accent)] uppercase m-0 font-medium">
+          {/* ═══════════════ RIGHT COLUMN: ACTION & CONTACT CHANNELS ═══════════════ */}
+          <div className="lg:col-span-6 xl:col-span-5 flex flex-col justify-between space-y-10 lg:pl-10 xl:pl-14 lg:border-l border-white/[0.08]">
+
+            {/* Block 1: Schedule A Call */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2.5">
+                <span className="w-4 h-px bg-[var(--accent)]" aria-hidden="true" />
+                <p className="font-mono text-xs tracking-[0.22em] text-[var(--accent)] uppercase font-semibold m-0">
                   SCHEDULE A CONVERSATION
                 </p>
               </div>
 
-              {/* Title & Subtitle */}
-              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2 font-sans tracking-tight">
-                Book a 30-Min Intro Call
-              </h3>
+              <div className="flex items-center gap-2 text-xs font-mono">
+                <span className="text-[var(--accent)] font-medium">30 min</span>
+                <span className="text-white/20">·</span>
+                <span className="text-neutral-300">Google Meet</span>
+              </div>
 
-              <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed mb-6 font-light">
-                Direct discussion regarding engineering roles, AI systems architecture, or full-stack project collaborations.
+              <p className="text-sm text-neutral-400 font-light leading-relaxed max-w-md">
+                Direct discussion regarding engineering roles, AI systems, or full-stack collaborations.
               </p>
 
-              {/* Embedded Cal.com interactive calendar — borderless, transparent, seamless */}
-              <div className="w-full h-[480px] sm:h-[510px] bg-transparent overflow-hidden">
-                <Cal
-                  calLink="madhumithra-m/30min"
-                  style={{ width: '100%', height: '100%', overflow: 'auto', background: 'transparent' }}
-                  config={{
-                    layout: 'month_view',
-                    theme: 'dark',
-                    hideEventTypeDetails: true,
+              <div className="pt-2">
+                <button
+                  data-cal-namespace="30min"
+                  data-cal-link="madhumithra-m/30min"
+                  data-cal-config='{"layout":"month_view","theme":"dark"}'
+                  onClick={() => {
+                    if (typeof window !== 'undefined' && !window.Cal) {
+                      window.open('https://cal.com/madhumithra-m/30min', '_blank');
+                    }
                   }}
-                />
+                  className="inline-flex items-center gap-3 px-6 sm:px-7 py-3.5 bg-transparent hover:bg-white/[0.04] text-white hover:text-[var(--accent)] border border-white/[0.18] hover:border-[var(--accent)] font-mono text-xs sm:text-[13px] tracking-[0.18em] uppercase font-semibold transition-all duration-300 group cursor-pointer"
+                >
+                  <span>SCHEDULE A CALL</span>
+                  <ArrowUpRight
+                    size={14}
+                    className="text-neutral-400 group-hover:text-[var(--accent)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
+                </button>
+              </div>
+            </div>
+
+            {/* Block 2: Direct Email */}
+            <div className="pt-8 border-t border-white/[0.08] space-y-3">
+              <p className="font-mono text-xs tracking-[0.22em] text-neutral-500 uppercase font-semibold m-0">
+                DIRECT EMAIL
+              </p>
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <a
+                  href="mailto:mithramadhu005@gmail.com"
+                  className="text-lg sm:text-xl md:text-2xl font-mono text-white hover:text-[var(--accent)] transition-colors tracking-tight font-medium"
+                >
+                  mithramadhu005@gmail.com
+                </a>
+                <button
+                  onClick={copyEmail}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-mono text-neutral-400 hover:text-white transition-colors cursor-pointer bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.1] hover:border-white/[0.2]"
+                  aria-label="Copy email address"
+                >
+                  {copied ? (
+                    <>
+                      <Check size={12} className="text-emerald-400" />
+                      <span className="text-emerald-400 font-medium text-[11px]">Copied</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy size={12} className="text-neutral-400" />
+                      <span className="text-[11px]">Copy</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Block 3: Elsewhere Links & Footnote */}
+            <div className="pt-8 border-t border-white/[0.08] space-y-4">
+              <p className="font-mono text-xs tracking-[0.22em] text-neutral-500 uppercase font-semibold m-0">
+                ELSEWHERE
+              </p>
+              <div className="flex flex-wrap items-center gap-x-7 gap-y-3">
+                {[
+                  { label: 'GITHUB', href: 'https://github.com/mithra0612' },
+                  { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/mithra0612/' },
+                  { label: 'LEETCODE', href: 'https://leetcode.com/u/mithra_612' },
+                  // { label: 'RESUME', href: '/resume.pdf' },
+                ].map(({ label, href }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-1 text-xs sm:text-sm font-mono tracking-[0.16em] uppercase text-neutral-300 hover:text-white transition-colors py-0.5"
+                  >
+                    <span>{label}</span>
+                    <ArrowUpRight
+                      size={13}
+                      className="text-neutral-500 group-hover:text-[var(--accent)] transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    />
+                  </a>
+                ))}
               </div>
 
-              {/* Status details footer */}
-              <div className="pt-4 mt-2 border-t border-white/[0.08] flex items-center justify-between text-xs font-mono text-neutral-400">
-                <span className="flex items-center gap-2">
-                  <Clock size={13} className="text-[var(--accent)]" />
-                  <span className="text-neutral-300 font-semibold">{currentTime || 'IST'}</span>
-                </span>
-                <span className="flex items-center gap-2">
-                  <MapPin size={13} className="text-neutral-500" />
-                  <span>Tamil Nadu, India</span>
-                </span>
-                <a
-                  href="https://cal.com/madhumithra-m/30min"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-1 text-[var(--accent)] hover:text-white uppercase tracking-wider text-[11px] transition-colors"
-                >
-                  <span>Full View</span>
-                  <ArrowUpRight
-                    size={12}
-                    className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  />
-                </a>
+              {/* Location Footnote */}
+              <div className="pt-2 flex items-center gap-2 text-xs font-mono text-neutral-500">
+                <span>Tamil Nadu, India</span>
+                <span className="text-neutral-700">·</span>
+                <span>IST (UTC+5:30)</span>
               </div>
-            </motion.div>
+            </div>
+
           </div>
+
         </div>
       </div>
     </section>

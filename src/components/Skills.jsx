@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Layers, Database, BrainCircuit, CheckCircle2, Wrench } from 'lucide-react';
+import { Terminal, Layers, Database, BrainCircuit, Wrench } from 'lucide-react';
 
 const SKILL_CATEGORIES = [
   {
@@ -62,20 +62,12 @@ const SKILL_CATEGORIES = [
   },
   {
     id: '05',
-    title: 'TESTING',
+    title: 'TESTING & TOOLS',
     accent: '#F59E0B',
-    icon: CheckCircle2,
+    icon: Wrench,
     skills: [
       'Jest',
       'Cypress',
-    ],
-  },
-  {
-    id: '06',
-    title: 'TOOLS',
-    accent: '#60A5FA',
-    icon: Wrench,
-    skills: [
       'Git',
       'GitHub',
       'Datadog',
