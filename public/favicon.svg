@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E121A"/>
+      <stop offset="100%" stop-color="#030407"/>
+    </linearGradient>
+    <linearGradient id="orangeGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF7043"/>
+      <stop offset="100%" stop-color="#FF5722"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <!-- Dark modern tile with subtle ember border -->
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="url(#bg)" stroke="#FF5722" stroke-width="2" stroke-opacity="0.55"/>
+  <!-- Crisp architectural M monogram -->
+  <path d="M17 44V20L32 35L47 20V44" fill="none" stroke="#FFFFFF" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Glowing ember orange core beacon -->
+  <circle cx="32" cy="18" r="3.5" fill="url(#orangeGlow)" filter="url(#glow)"/>
+  <circle cx="32" cy="18" r="2" fill="#FFFFFF"/>
+</svg>

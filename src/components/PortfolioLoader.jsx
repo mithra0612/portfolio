@@ -63,6 +63,9 @@ export default function PortfolioLoader({ onComplete }) {
   const finish = () => {
     if (hasFinishedRef.current) return;
     hasFinishedRef.current = true;
+    try {
+      sessionStorage.setItem('portfolio_loader_played', 'true');
+    } catch (e) {}
     setIsFadingOut(true);
     setTimeout(() => {
       onComplete?.();
@@ -71,6 +74,13 @@ export default function PortfolioLoader({ onComplete }) {
 
   // Step-by-step compiler log progression ensuring every single step is fully visible
   useEffect(() => {
+    try {
+      if (sessionStorage.getItem('portfolio_loader_played') === 'true') {
+        onComplete?.();
+        return;
+      }
+    } catch (e) {}
+
     const timers = [];
 
     COMPILE_STEPS.forEach((step, idx) => {

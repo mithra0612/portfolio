@@ -10,24 +10,47 @@ import { useState, useEffect } from "react";
 import FloatingNav from "@/components/FloatingNav";
 import Footer from "@/components/Footer";
 
+// Module-level flag persists during client-side SPA navigation between routes
+let hasSeenLoader = false;
+
 export default function Home() {
-  const [portfolioLoading, setPortfolioLoading] = useState(true);
+  const [portfolioLoading, setPortfolioLoading] = useState(() => {
+    if (typeof window !== 'undefined') {
+      if (hasSeenLoader) return false;
+      try {
+        if (sessionStorage.getItem('portfolio_loader_played') === 'true') {
+          hasSeenLoader = true;
+          return false;
+        }
+        if (window.location.hash && !['#', '#hero', '#home'].includes(window.location.hash)) {
+          hasSeenLoader = true;
+          return false;
+        }
+      } catch (e) {}
+    }
+    return !hasSeenLoader;
+  });
 
   const handleLoaderComplete = () => {
+    hasSeenLoader = true;
+    try {
+      sessionStorage.setItem('portfolio_loader_played', 'true');
+    } catch (e) {}
     setPortfolioLoading(false);
   };
 
   useEffect(() => {
     if (!portfolioLoading && typeof window !== 'undefined' && window.location.hash) {
       const hash = window.location.hash;
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         if (hash === '#home' || hash === '#hero') {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
           const el = document.querySelector(hash);
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 350);
+      }, 120);
+      return () => clearTimeout(timer);
     }
   }, [portfolioLoading]);
 

@@ -27,6 +27,15 @@ const caveat = Caveat({
 export const metadata = {
   title: 'Madhumithra | Portfolio',
   description: 'Portfolio of Madhumithra M. — Computer Science undergraduate, full-stack developer, and problem solver. View projects, experience, and contact.',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+  },
   openGraph: {
     title: 'Madhumithra | Portfolio',
     description: 'Portfolio of Madhumithra M. — Computer Science undergraduate, full-stack developer, and problem solver.',
