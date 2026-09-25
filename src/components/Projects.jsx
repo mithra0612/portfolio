@@ -76,12 +76,7 @@ export default function Projects() {
       />
 
       <div
-        style={{
-          maxWidth: '1380px',
-          margin: '0 auto',
-          padding: '6rem 1.5rem 8rem',
-          position: 'relative',
-        }}
+        className="relative max-w-[1380px] mx-auto px-4 sm:px-6 py-16 sm:py-24 md:py-32"
       >
         {/* ── SECTION HEADER ── */}
         <div className="mb-12 sm:mb-16">
@@ -91,7 +86,7 @@ export default function Projects() {
               FEATURED WORK
             </p>
           </div>
-          <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase text-white tracking-tight leading-none m-0 font-sans select-none">
+          <h2 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase text-white tracking-tight leading-none m-0 font-sans select-none">
             PROJECTS
           </h2>
         </div>

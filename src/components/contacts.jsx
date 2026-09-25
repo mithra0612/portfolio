@@ -35,10 +35,10 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative w-full bg-black text-[#F8FAFC] py-24 sm:py-32 lg:py-36 border-t border-b border-white/[0.08] select-none"
+      className="relative w-full bg-black text-[#F8FAFC] py-20 sm:py-32 lg:py-36 border-t border-b border-white/[0.08] select-none"
     >
-      <div className="max-w-[1360px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 xl:gap-16 items-start">
+      <div className="max-w-[1360px] mx-auto px-5 sm:px-10 md:px-14 lg:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-16 lg:gap-12 xl:gap-16 items-start">
 
           {/* ═══════════════ LEFT COLUMN: EDITORIAL STATEMENT ═══════════════ */}
           <div className="lg:col-span-6 xl:col-span-7 flex flex-col justify-start">
@@ -62,7 +62,7 @@ export default function Contact() {
             </div>
 
             {/* Headline */}
-            <h2 className="text-5xl sm:text-6xl md:text-7xl xl:text-[4.75rem] font-black text-white uppercase tracking-tight leading-[0.98] mb-8 font-sans">
+            <h2 className="text-[2.2rem] xs:text-[2.75rem] sm:text-6xl md:text-7xl xl:text-[4.75rem] font-black text-white uppercase tracking-tight leading-[0.98] mb-8 font-sans">
               LET'S BUILD<br />
               SOMETHING<br />
               EXTRAORDINARY.
@@ -82,7 +82,7 @@ export default function Contact() {
           </div>
 
           {/* ═══════════════ RIGHT COLUMN: ACTION & CONTACT CHANNELS ═══════════════ */}
-          <div className="lg:col-span-6 xl:col-span-5 flex flex-col justify-between space-y-10 lg:pl-10 xl:pl-14 lg:border-l border-white/[0.08]">
+          <div className="lg:col-span-6 xl:col-span-5 flex flex-col justify-between space-y-10 pt-10 border-t border-white/[0.08] lg:border-t-0 lg:pt-0 lg:pl-10 xl:pl-14 lg:border-l">
 
             {/* Block 1: Schedule A Call */}
             <div className="space-y-4">
@@ -132,7 +132,7 @@ export default function Contact() {
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <a
                   href="mailto:mithramadhu005@gmail.com"
-                  className="text-lg sm:text-xl md:text-2xl font-mono text-white hover:text-[var(--accent)] transition-colors tracking-tight font-medium"
+                  className="text-base xs:text-lg sm:text-xl md:text-2xl font-mono text-white hover:text-[var(--accent)] transition-colors tracking-tight font-medium break-all sm:break-normal"
                 >
                   mithramadhu005@gmail.com
                 </a>

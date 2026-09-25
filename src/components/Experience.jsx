@@ -62,7 +62,7 @@ function ExperienceWorkCard({
         onMouseLeave={handleMouseLeave}
         whileHover={{ y: -8, scale: 1.01 }}
         transition={{ type: 'spring', stiffness: 360, damping: 22 }}
-        className={`group relative rounded-[24px] bg-[#07090e] p-7 sm:p-8 flex flex-col justify-between border border-white/[0.09] hover:border-[rgba(${accentRgb},0.4)] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.95)] hover:shadow-[0_28px_60px_-12px_rgba(0,0,0,0.98),0_0_32px_-4px_rgba(${accentRgb},0.28)] transition-all duration-400 overflow-hidden h-full ${className || ''}`}
+        className={`group relative rounded-[24px] bg-[#07090e] p-5 xs:p-6 sm:p-8 flex flex-col justify-between border border-white/[0.09] hover:border-[rgba(${accentRgb},0.4)] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.95)] hover:shadow-[0_28px_60px_-12px_rgba(0,0,0,0.98),0_0_32px_-4px_rgba(${accentRgb},0.28)] transition-all duration-400 overflow-hidden h-full ${className || ''}`}
       >
 
         {/* ── TOP ACCENT GLOW STRIPE ── */}
@@ -184,7 +184,7 @@ export default function Experience() {
                     opacity: headingOpacity,
                   }
               }
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase text-white tracking-tight leading-none m-0 font-sans select-none"
+              className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase text-white tracking-tight leading-none m-0 font-sans select-none"
             >
               EXPERIENCE
             </motion.h2>
@@ -202,7 +202,7 @@ export default function Experience() {
                     opacity: scriptOpacity,
                   }),
               }}
-              className="absolute -bottom-3 sm:-bottom-4 md:-bottom-5 right-0 sm:right-2 md:right-4 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[var(--accent)] tracking-normal normal-case pointer-events-none drop-shadow-[0_4px_16px_rgba(255,87,34,0.35)] select-none whitespace-nowrap z-20"
+              className="absolute -bottom-3 sm:-bottom-4 md:-bottom-5 right-0 sm:right-2 md:right-4 text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[var(--accent)] tracking-normal normal-case pointer-events-none drop-shadow-[0_4px_16px_rgba(255,87,34,0.35)] select-none whitespace-nowrap z-20"
             >
               at PayPal
             </motion.span>
@@ -267,9 +267,10 @@ export default function Experience() {
                   <span>126 COMMITS · 3,891 FILES</span>
                   <span className="text-[#38BDF8] font-semibold bg-[#38BDF8]/10 px-2 py-0.5 rounded-full">112/112 PASS</span>
                 </div>
-                <div className="flex items-center gap-2.5 font-mono text-xs sm:text-sm font-semibold tracking-tight">
+                <div className="flex items-center gap-1.5 xs:gap-2.5 font-mono text-[10.5px] xs:text-xs sm:text-sm font-semibold tracking-tight">
                   <span className="text-neutral-400">EXPRESS + REACT</span>
-                  <span className="text-[#FF5722] font-bold tracking-tighter">──────►</span>
+                  <span className="text-[#FF5722] font-bold tracking-tighter hidden xs:inline">──────►</span>
+                  <span className="text-[#FF5722] font-bold tracking-tighter xs:hidden">──►</span>
                   <span className="text-white border-b-2 border-[#FF5722] pb-0.5">
                     NEXT.JS 15
                   </span>
@@ -364,7 +365,7 @@ export default function Experience() {
                     <span className="w-1 bg-[#F59E0B] rounded-full h-3 animate-pulse delay-100" />
                   </div>
                 </div>
-                <div className="pt-1.5 border-t border-white/[0.06] flex items-center justify-between font-mono text-[10.5px] text-neutral-300 tracking-wider">
+                <div className="pt-1.5 border-t border-white/[0.06] flex items-center justify-between font-mono text-[9px] xs:text-[10.5px] text-neutral-300 tracking-wider">
                   <span>API METRICS</span>
                   <span className="text-[#F59E0B]">→</span>
                   <span>ANOMALY DETECT</span>

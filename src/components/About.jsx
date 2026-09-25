@@ -55,14 +55,14 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative w-full bg-black text-[#F8FAFC] pt-28 sm:pt-36 lg:pt-40 pb-24 sm:pb-32 border-t border-white/[0.08] z-10 selection:bg-[var(--accent)] selection:text-black overflow-hidden"
+      className="relative w-full bg-black text-[#F8FAFC] pt-24 sm:pt-36 lg:pt-40 pb-20 sm:pb-32 border-t border-white/[0.08] z-10 selection:bg-[var(--accent)] selection:text-black overflow-hidden"
     >
-      <div className="relative max-w-[1440px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16">
+      <div className="relative max-w-[1440px] mx-auto px-5 sm:px-10 md:px-14 lg:px-16">
         {/* Balanced 3-Column Composition: ~31% Portrait, ~46% About, ~23% Milestones */}
         <div className="grid grid-cols-1 lg:grid-cols-[31fr_46fr_23fr] gap-10 lg:gap-10 xl:gap-14 items-stretch">
           {/* ── COLUMN 1: Portrait (~31%) ── */}
           <div className="flex flex-col items-start w-full">
-            <div className="w-full max-w-[340px] sm:max-w-[360px] lg:max-w-full">
+            <div className="w-full max-w-[300px] xs:max-w-[340px] sm:max-w-[360px] lg:max-w-full mx-auto lg:mx-0">
               {/* Portrait Frame */}
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#0a0a0c]">
                 <Image
@@ -95,12 +95,12 @@ export default function About() {
               </div>
 
               {/* Intro Headline: elegant, ~26–30px, comfortable presence */}
-              <p className="text-[24px] sm:text-[26px] lg:text-[28px] font-semibold tracking-tight text-white leading-[1.3] mb-6 font-[var(--font-headline)]">
+              <p className="text-[21px] xs:text-[23px] sm:text-[26px] lg:text-[28px] font-semibold tracking-tight text-white leading-[1.3] mb-6 font-[var(--font-headline)]">
                 Curiosity first — figuring out the rest by building it.
               </p>
 
               {/* Substantial Body Text: ~17–19px with line-height ~1.75 */}
-              <div className="space-y-5 text-[17px] sm:text-[18px] leading-[1.75] font-[var(--font-body)] text-neutral-200">
+              <div className="space-y-4 sm:space-y-5 text-[15.5px] sm:text-[18px] leading-[1.7] sm:leading-[1.75] font-[var(--font-body)] text-neutral-200">
                 <p className="font-normal text-neutral-200">
                   I’m a software developer passionate about building practical, end-to-end products across full-stack and AI applications. I enjoy turning ideas into reality — designing systems, crafting clean interfaces, and applying AI where it creates real value.
                 </p>

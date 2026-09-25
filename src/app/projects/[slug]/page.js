@@ -134,7 +134,7 @@ export default function ProjectDetailPage() {
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tight leading-none font-sans drop-shadow-md mb-2">
+            <h1 className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tight leading-none font-sans drop-shadow-md mb-2">
               {project.shortTitle || project.title}
             </h1>
 
@@ -180,7 +180,7 @@ export default function ProjectDetailPage() {
 
       {/* ── MINIMAL UNDERLINE TABS (NO BOXES, NO OUTLINES) ── */}
       <nav className="max-w-6xl mx-auto px-6 mt-8 mb-8 border-b border-white/[0.08]">
-        <div className="flex items-center gap-8 pb-3">
+        <div className="flex items-center gap-5 sm:gap-8 pb-3 overflow-x-auto no-scrollbar">
           {TABS.map((tab) => {
             const isActive = activeTab === tab.id;
             return (

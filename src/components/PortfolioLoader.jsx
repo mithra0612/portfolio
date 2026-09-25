@@ -119,7 +119,7 @@ export default function PortfolioLoader({ onComplete }) {
       />
 
       {/* ── COMPILER TERMINAL WINDOW ── */}
-      <div className="relative w-full max-w-[620px] px-6 sm:px-8">
+      <div className="relative w-full max-w-[620px] px-4 sm:px-8">
         <div className="rounded-xl bg-[#050608] border border-white/[0.1] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] overflow-hidden">
           {/* Terminal Window Header Bar */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.08] bg-[#030406]">
@@ -140,7 +140,7 @@ export default function PortfolioLoader({ onComplete }) {
           </div>
 
           {/* Terminal Logs Body */}
-          <div className="p-5 sm:p-6 font-mono text-[12.5px] sm:text-[13px] leading-[1.8] min-h-[260px] flex flex-col justify-start">
+          <div className="p-4 sm:p-6 font-mono text-[11px] xs:text-[12px] sm:text-[13px] leading-[1.7] sm:leading-[1.8] min-h-[240px] sm:min-h-[260px] flex flex-col justify-start">
             {COMPILE_STEPS.slice(0, currentStepIndex).map((step, idx) => {
               if (step.type === 'info') {
                 return (

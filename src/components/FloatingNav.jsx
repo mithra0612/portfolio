@@ -75,8 +75,8 @@ export default function FloatingNav() {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-transparent border-none shadow-none py-5 sm:py-7 pointer-events-none">
-      <div className="max-w-[1720px] mx-auto px-6 sm:px-12 md:px-16 lg:px-24 flex items-center justify-between pointer-events-auto">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-transparent border-none shadow-none py-3.5 sm:py-7 pointer-events-none">
+      <div className="max-w-[1720px] mx-auto px-2 xs:px-4 sm:px-12 md:px-16 lg:px-24 flex items-center justify-center sm:justify-between pointer-events-auto">
         <Link
           href="/"
           className="text-white text-[17px] sm:text-[19px] font-normal tracking-[-0.01em] transition-opacity hover:opacity-85 flex-shrink-0"

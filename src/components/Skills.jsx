@@ -313,6 +313,7 @@ export default function Skills() {
                 role="listitem"
                 tabIndex={0}
                 aria-label={`${cat.id} ${cat.title}`}
+                onClick={() => setHoveredIndex((prev) => (prev === i ? null : i))}
                 onMouseEnter={() => setHoveredIndex(i)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 onFocus={() => setHoveredIndex(i)}
@@ -320,10 +321,10 @@ export default function Skills() {
                 style={{
                   backgroundColor: isActive ? 'rgba(255, 255, 255, 0.018)' : 'transparent',
                 }}
-                className="group relative w-full py-8 sm:py-9 md:py-10 flex items-start justify-between gap-4 sm:gap-8 md:gap-12 outline-none transition-colors duration-300 select-none cursor-default focus-visible:bg-white/[0.02]"
+                className="group relative w-full py-6 sm:py-9 md:py-10 flex items-start justify-between gap-3 sm:gap-8 md:gap-12 outline-none transition-colors duration-300 select-none cursor-pointer sm:cursor-default focus-visible:bg-white/[0.02]"
               >
                 {/* ── LEFT ANCHOR: LARGE EDITORIAL NUMBER ── */}
-                <div className="w-16 sm:w-20 md:w-28 flex-shrink-0 flex items-baseline pt-0.5">
+                <div className="w-12 xs:w-16 sm:w-20 md:w-28 flex-shrink-0 flex items-baseline pt-0.5">
                   <motion.span
                     animate={{
                       color: isActive ? cat.accent : 'rgba(255, 255, 255, 0.22)',
@@ -331,7 +332,7 @@ export default function Skills() {
                       scale: isActive ? 1.02 : 1,
                     }}
                     transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                    className="font-mono text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-none block select-none origin-left"
+                    className="font-mono text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-none block select-none origin-left"
                   >
                     {cat.id}
                   </motion.span>
@@ -340,7 +341,7 @@ export default function Skills() {
                 {/* ── MIDDLE TRANSFORM AREA: CONFIDENT HEADING + TECHNICAL FIELD ── */}
                 <div className="flex-1 min-w-0 flex flex-col justify-start pt-1 sm:pt-1.5 pr-2 sm:pr-6 md:pr-10">
                   {/* Category Title — Remains Large & Bold in Both States */}
-                  <div className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight tracking-tight">
+                  <div className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-bold leading-tight tracking-tight">
                     <TypewriterHeading
                       title={cat.title}
                       active={isActive}
@@ -366,7 +367,7 @@ export default function Skills() {
                           initial="hidden"
                           animate="visible"
                           exit="exit"
-                          className="flex flex-wrap items-center gap-x-3 gap-y-1.5 font-mono text-sm sm:text-base text-neutral-200 leading-relaxed max-w-full"
+                          className="flex flex-wrap items-center gap-x-2.5 xs:gap-x-3 gap-y-1.5 font-mono text-[13px] xs:text-sm sm:text-base text-neutral-200 leading-relaxed max-w-full"
                         >
                           {cat.skills.map((skill, sIdx) => (
                             <motion.span

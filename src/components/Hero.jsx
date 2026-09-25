@@ -73,14 +73,14 @@ export default function Hero() {
       </div>
 
       {/* ── FOREGROUND CONTENT WRAPPER ── */}
-      <div className="relative z-20 w-full h-full flex flex-col justify-between px-6 sm:px-12 md:px-16 lg:px-24 py-6 sm:py-8 max-w-[1720px] mx-auto">
+      <div className="relative z-20 w-full h-full flex flex-col justify-between px-5 sm:px-12 md:px-16 lg:px-24 py-6 sm:py-8 max-w-[1720px] mx-auto">
         {/* Top spacer to balance vertical layout with floating nav */}
         <div className="w-full h-12 sm:h-14 pointer-events-none" aria-hidden="true" />
 
         {/* ── MAIN HERO BODY (Left typography & actions, Right subject space) ── */}
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
           {/* ── LEFT COLUMN ── */}
-          <div className="lg:col-span-7 xl:col-span-6 flex flex-col items-start max-w-2xl pt-10">
+          <div className="lg:col-span-7 xl:col-span-6 flex flex-col items-start max-w-2xl pt-4 sm:pt-10">
             {/* Unified Directional Stretch Hero Unit (Text, CTAs & Socials) */}
             <motion.div
               ref={heroContentRef}
@@ -102,13 +102,13 @@ export default function Hero() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF5722] opacity-70" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF5722] shadow-[0_0_8px_rgba(255,87,34,0.95),0_0_12px_rgba(255,87,34,0.8)]" />
                 </span>
-                <span className="text-white/80 text-[11px] sm:text-[11.5px] font-medium tracking-[0.16em] uppercase font-mono">
+                <span className="text-white/80 text-[10.5px] xs:text-[11px] sm:text-[11.5px] font-medium tracking-[0.16em] uppercase font-mono">
                   BACKEND & DISTRIBUTED SYSTEMS · AI
                 </span>
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-[2.75rem] sm:text-[3.5rem] md:text-[4rem] lg:text-[4.5rem] font-semibold leading-[1.08] tracking-[-0.03em] m-0 mb-5 sm:mb-6">
+              <h1 className="text-[2.25rem] xs:text-[2.65rem] sm:text-[3.5rem] md:text-[4rem] lg:text-[4.5rem] font-semibold leading-[1.12] sm:leading-[1.08] tracking-[-0.03em] m-0 mb-5 sm:mb-6">
                 <ShinyText
                   text="Hi, I'm Madhumithra"
                   speed={2.8}
@@ -119,17 +119,17 @@ export default function Hero() {
               </h1>
 
               {/* Supporting Text */}
-              <p className="text-white/85 text-[15px] sm:text-[16px] md:text-[16.5px] font-normal leading-[1.7] max-w-[500px] m-0 mb-8 sm:mb-9">
+              <p className="text-white/85 text-[14.5px] sm:text-[16px] md:text-[16.5px] font-normal leading-[1.7] max-w-[500px] m-0 mb-7 sm:mb-9">
                 I like building things, figuring things out, and trying things I haven't done before.
               </p>
 
               {/* Dual CTAs: Primary "View My Work" pill + Secondary "Let's Connect →" */}
-              <div className="flex flex-wrap items-center gap-5 sm:gap-6 mb-7 sm:mb-8">
+              <div className="flex flex-wrap items-center gap-4 sm:gap-6 mb-7 sm:mb-8">
                 {/* Primary CTA */}
                 <a
                   href="#projects"
                   style={{ color: '#000000' }}
-                  className="inline-flex items-center justify-center text-[15px] sm:text-[14px] font-semibold px-7 py-3.5 rounded-full bg-white transition-all duration-200 hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98] shadow-md shadow-black/25 tracking-tight"
+                  className="inline-flex items-center justify-center text-[14px] sm:text-[14px] font-semibold px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-white transition-all duration-200 hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98] shadow-md shadow-black/25 tracking-tight"
                 >
                   View My Work
                 </a>
@@ -137,7 +137,7 @@ export default function Hero() {
                 {/* Secondary CTA */}
                 <a
                   href="#contact"
-                  className="group inline-flex items-center text-[14px] sm:text-[15px] font-medium text-white/90 transition-colors duration-200 hover:text-white"
+                  className="group inline-flex items-center text-[13.5px] sm:text-[15px] font-medium text-white/90 transition-colors duration-200 hover:text-white"
                 >
                   <span>Let&apos;s Connect</span>
                   <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1 font-light">
