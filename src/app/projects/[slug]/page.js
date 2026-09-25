@@ -39,6 +39,13 @@ export default function ProjectDetailPage() {
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
+  // Track subpage visit so returning to home skips the intro loader
+  useEffect(() => {
+    try {
+      sessionStorage.setItem('from_subpage', 'true');
+    } catch (e) {}
+  }, []);
+
   // Keyboard shortcut: Pressing ESC returns to #projects smoothly without reload
   useEffect(() => {
     const handleKeyDown = (e) => {

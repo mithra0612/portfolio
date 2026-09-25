@@ -82,6 +82,13 @@ export default function AchievementsPage() {
   const containerRef = useRef(null);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
+  // Track subpage visit so returning to home skips the intro loader
+  useEffect(() => {
+    try {
+      sessionStorage.setItem('from_subpage', 'true');
+    } catch (e) {}
+  }, []);
+
   // Keyboard shortcut to close lightbox
   useEffect(() => {
     const handleKeyDown = (e) => {

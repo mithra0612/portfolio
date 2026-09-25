@@ -10,32 +10,41 @@ import { useState, useEffect } from "react";
 import FloatingNav from "@/components/FloatingNav";
 import Footer from "@/components/Footer";
 
-// Module-level flag persists during client-side SPA navigation between routes
-let hasSeenLoader = false;
-
 export default function Home() {
   const [portfolioLoading, setPortfolioLoading] = useState(() => {
     if (typeof window !== 'undefined') {
-      if (hasSeenLoader) return false;
+      // 1. If this is a normal page reload (F5 / Refresh button), ALWAYS show the loader
+      const navEntry = window.performance?.getEntriesByType?.('navigation')?.[0];
+      const isReload = navEntry?.type === 'reload' || window.performance?.navigation?.type === 1;
+
+      if (isReload) {
+        try {
+          sessionStorage.removeItem('from_subpage');
+        } catch (e) {}
+        return true;
+      }
+
+      // 2. If returning from another page via 'Back' button, router history, or section anchor (#projects, #about)
       try {
-        if (sessionStorage.getItem('portfolio_loader_played') === 'true') {
-          hasSeenLoader = true;
-          return false;
-        }
-        if (window.location.hash && !['#', '#hero', '#home'].includes(window.location.hash)) {
-          hasSeenLoader = true;
-          return false;
+        const fromSubpage = sessionStorage.getItem('from_subpage') === 'true';
+        sessionStorage.removeItem('from_subpage');
+        const hasSectionHash = window.location.hash && !['#', '#hero', '#home'].includes(window.location.hash);
+        const hasSubpageReferrer = typeof document !== 'undefined' && document.referrer && (
+          document.referrer.includes('/projects') ||
+          document.referrer.includes('/achievements') ||
+          document.referrer.includes('/resume')
+        );
+
+        if (fromSubpage || hasSectionHash || hasSubpageReferrer) {
+          return false; // Never show loader when returning back from other pages
         }
       } catch (e) {}
     }
-    return !hasSeenLoader;
+    // Normal first visit -> show loader
+    return true;
   });
 
   const handleLoaderComplete = () => {
-    hasSeenLoader = true;
-    try {
-      sessionStorage.setItem('portfolio_loader_played', 'true');
-    } catch (e) {}
     setPortfolioLoading(false);
   };
 
