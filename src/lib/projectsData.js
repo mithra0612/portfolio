@@ -97,205 +97,8 @@ export const projects = [
 
   {
     number: "02",
-    slug: "growthguardian",
-    shortTitle: "GROWTHGUARDIAN",
-    title: "Growth Guardian – AI-Driven Financial Literacy & Scam Protection Platform",
-    subtitle: "AI-Driven Financial Literacy & Scam Protection Platform (HackIt Winner)",
-    categoryBadge: "AI Financial Literacy & Safety",
-    tagline: "AI-driven financial literacy & scam protection",
-    challenge:
-      "Families and young investors navigate increasingly complex financial products alongside rampant digital fraud and deceptive investment schemes. Without accessible financial education, safe virtual simulation, and real-time scam verification, individuals face severe financial loss and lack confidence in long-term wealth building.",
-    techHighlight: [
-      "React.js",
-      "Node.js",
-      "Express.js",
-      "Hugging Face",
-      "Scikit-learn",
-      "MongoDB",
-    ],
-    pillars: [
-      {
-        label: "AI SCAM DETECTOR",
-        title: "Hugging Face + NLP",
-        description: "Real-time semantic analysis to identify fraudulent investment offers and deceptive communications.",
-      },
-      {
-        label: "FORECASTING ENGINE",
-        title: "ML Asset Return Projection",
-        description: "Simulates inflation-adjusted purchasing power and multi-asset compounding trajectories.",
-      },
-      {
-        label: "SIMULATION LAB",
-        title: "Risk-Free Virtual Trading",
-        description: "Interactive sandboxes for budgeting, debt vs. invest decisions, and family finance management.",
-      },
-      {
-        label: "EDUCATION SYSTEM",
-        title: "Family Learning Modules",
-        description: "Tailored curriculums for adults and children with interactive checkpoint assessments.",
-      },
-    ],
-    tech: [
-      "React.js",
-      "Node.js",
-      "Express.js",
-      "Hugging Face Model",
-      "Scikit-learn",
-      "JavaScript",
-      "HTML5",
-      "CSS3",
-      "MongoDB",
-      "LangChain",
-    ],
-    live: "https://growth-guardian.vercel.app/",
-    github: "https://github.com/mithra0612/growth-guardian",
-    thumbnail: "/growth-guardian.png",
-    gallery: [
-      "/growth-guardian.png",
-      "/hackit1.jpg",
-      "/hackit2.jpg",
-    ],
-    year: "2025",
-    event: "HackIt Winner",
-    overview:
-      "Growth Guardian is an AI-powered financial literacy and safety platform designed to help individuals and families make smarter financial decisions while protecting themselves from scams. The platform combines interactive education, financial planning tools, investment simulations, and AI-driven forecasting to guide users toward long-term financial stability.",
-
-    financialEducation: [
-      "Family-centric financial literacy modules designed separately for adults and children",
-      "Structured lessons covering saving, investing, budgeting, and scam awareness",
-      "Interactive quizzes after each topic and final assessments for every module to reinforce learning and track progress",
-    ],
-
-    financialPlanning: [
-      "Investment simulator that allows users to practice investment strategies in a risk-free virtual environment",
-      "Budget planner for setting monthly or yearly budgets and tracking expenses",
-      "Savings goal management enabling families to collaboratively plan and monitor financial objectives",
-      "Retirement planning tool that estimates long-term savings requirements and simulates different strategies",
-      "Invest vs Debt decision tool helping users determine whether to prioritize debt repayment or investment",
-    ],
-
-    aiFinancialIntelligence: [
-      "Machine learning–based asset return forecasting system that predicts potential returns for assets such as stocks, bonds, and real estate",
-      "Forecast models account for inflation, interest rates, and investment duration to generate realistic financial projections",
-      "Projection outputs include both nominal returns and inflation-adjusted purchasing power insights",
-    ],
-
-    scamProtection: [
-      "AI-powered chatbot that analyzes suspicious financial messages and identifies potential scam patterns",
-      "Real-time guidance helping users verify investment offers or suspicious communications",
-      "Educational scam awareness resources based on research from trusted organizations such as AARP",
-    ],
-
-    familyFinanceManagement: [
-      "Unified family dashboard providing an overview of budgeting, expenses, financial goals, and learning progress",
-      "Collaborative financial management system allowing families to plan and track finances together",
-      "Centralized interface that integrates financial tools, education modules, and investment simulations",
-    ],
-
-    outcome:
-      "Growth Guardian demonstrates how AI-driven forecasting, financial education, and scam detection can empower families to make safer financial decisions and build long-term financial resilience.",
-  },
-
-  {
-    number: "03",
-    slug: "wellcare",
-    shortTitle: "WELLCARE",
-    title: "Wellcare – AI-Based Women's Health & Wellness Platform",
-    subtitle: "AI-Based Women's Health & Wellness Platform (TNWISE Finalist)",
-    categoryBadge: "Women's Health & Wellness",
-    tagline: "AI-based women's health & wellness platform",
-    challenge:
-      "Women across semi-urban and rural areas encounter persistent barriers to stigma-free reproductive health guidance, early PCOS/hormonal symptom detection, and reliable nutritional advice. Without accessible AI-driven personalization and confidential community support, critical preventive care remains largely out of reach.",
-    techHighlight: [
-      "React.js",
-      "Node.js",
-      "Firestore",
-      "GCP",
-      "Transformers",
-      "Redux",
-    ],
-    pillars: [
-      {
-        label: "CYCLE INTELLIGENCE",
-        title: "Predictive Health Models",
-        description: "Ovulation, cycle forecasting, and recurring symptom anomaly tracking algorithms.",
-      },
-      {
-        label: "WELLNESS ENGINE",
-        title: "AI Diet & Home Remedies",
-        description: "Tailored nutritional advice and natural remedies curated based on hormonal phases.",
-      },
-      {
-        label: "INTERACTIVE EDU",
-        title: "Gamified Myth Busting",
-        description: "Engaging spin-wheels and interactive cards breaking cultural health misconceptions.",
-      },
-      {
-        label: "SUPPORT HUB",
-        title: "AI Health Chatbot & Community",
-        description: "Confidential guidance backed by medical articles, verified schemes, and emergency helplines.",
-      },
-    ],
-    tech: [
-      "React.js",
-      "Node.js",
-      "Express.js",
-      "Firestore",
-      "Google Cloud Platform",
-      "Hugging Face Transformers",
-      "JavaScript",
-      "HTML5",
-      "CSS3",
-      "Redux",
-    ],
-    live: "https://women-app.vercel.app/",
-    github: "https://github.com/mithra0612/women-app",
-    thumbnail: "/wellcare.png",
-    gallery: [
-      "/wellcare.png",
-      "/tnwise1.jpg",
-      "/tnwise2.jpg",
-    ],
-    year: "2025",
-    event: "TNWISE Hackathon 2025, Finalist",
-    overview:
-      "Wellcare is a digital platform designed to improve access to women’s health education and personalized wellness support. The system combines health tracking tools, AI-powered recommendations, educational content, and community engagement features to help women better understand and manage their health.",
-
-    healthTracking: [
-      "Menstrual cycle tracking with ovulation prediction and personalized cycle insights",
-      "Symptoms tracker allowing users to log and monitor recurring health patterns",
-      "Visual health analytics dashboards helping users understand trends in their cycle and symptoms",
-    ],
-
-    personalizedWellness: [
-      "AI-powered diet recommendation engine that generates personalized meal plans based on health history and dietary preferences",
-      "Natural home remedies library covering common women’s health concerns such as menstrual cramps, PCOS symptoms, hormonal imbalance, and pregnancy nausea",
-      "Sanitary product guidance including safe usage and eco-friendly disposal practices",
-    ],
-
-    interactiveLearning: [
-      "Gamified myth-busting activities including spin wheels, scratch cards, and fact cards that educate users about women’s health topics",
-      "Reward-based engagement system encouraging users to learn health facts and dispel common misconceptions",
-    ],
-
-    supportAndCommunity: [
-      "AI-powered health chatbot that answers women’s health queries and provides quick guidance",
-      "Discord-based community forum where users can share experiences and discuss health concerns in a supportive environment",
-    ],
-
-    healthResources: [
-      "Library of video articles and blogs covering topics such as reproductive health, maternal health, hormonal disorders, mental health, and cancer awareness",
-      "Directory of government schemes supporting women’s welfare, financial assistance, and skill development",
-      "Access to helplines and nearby hospitals for medical and mental health support",
-    ],
-
-    outcome:
-      "The platform demonstrates how AI-driven personalization, accessible health education, and community support can empower women to make informed decisions about their health and wellness.",
-  },
-
-  {
-    number: "04",
     slug: "vanadhikar",
+    aliases: ["vanadhikara", "van-adhikara", "fra"],
     shortTitle: "VANADHIKAR",
     title: "VanAdhikar – AI-Powered WebGIS & Decision Support System",
     subtitle: "AI-Powered WebGIS & Decision Support System for Forest Rights (SIH 2025)",
@@ -411,8 +214,304 @@ export const projects = [
   },
 
   {
+    number: "03",
+    slug: "veyntra",
+    aliases: ["promptforge", "prompt-forge", "veyntra-ai"],
+    shortTitle: "VEYNTRA",
+    title: "Veyntra – AI-Powered Prompt Architecture Platform",
+    subtitle: "Compiling Developer Intent into Structured, Framework-Aligned Engineering Specifications",
+    categoryBadge: "AI Prompt Architecture",
+    tagline: "Compiling developer intent into structured engineering specifications",
+    challenge:
+      "Developers using modern AI coding assistants (Cursor, Lovable, v0, Bolt) battle constant layout drift, unpredictable state boundaries, and styling divergence. Vague conversational prompts cause LLMs to invent arbitrary styles, skip accessibility landmarks (WCAG AA), and fail to integrate with existing design tokens.",
+    techHighlight: [
+      "Next.js 16 (App Router)",
+      "Express.js",
+      "Supabase + pgvector",
+      "Gemini 2.0 Flash",
+      "LangChain Core",
+      "Tailwind CSS v4",
+    ],
+    pillars: [
+      {
+        label: "COMPILER CORE",
+        title: "Classical Compiler Pipeline",
+        description: "Parses developer intent into scopes (app, page, component), retrieving visual tokens and compiling schema-validated markdown blueprints.",
+      },
+      {
+        label: "MULTI-AGENT CRITIQUE",
+        title: "Agentic Validation Gates",
+        description: "Autonomous evaluation loops scan generated specs for syntax issues, layout gaps, placeholder leakage, and technical leaks before code compilation.",
+      },
+      {
+        label: "ACCESSIBILITY GROUNDING",
+        title: "Programmatic WCAG AA",
+        description: "Auto-injects skip-link targets, focus loops, and ARIA landmarks directly into specifications so assistants produce accessible software out-of-the-box.",
+      },
+      {
+        label: "RESILIENT INFERENCE",
+        title: "Multi-Model Failover Routing",
+        description: "Monitors AI provider health and transparently shifts requests to backup models (Groq) with semantic caching to cut latency and cost.",
+      },
+    ],
+    tech: [
+      "Next.js 16 (App Router)",
+      "React 19",
+      "Node.js",
+      "Express.js",
+      "Supabase",
+      "PostgreSQL",
+      "pgvector",
+      "LangChain Core",
+      "Google Gemini API",
+      "Groq API",
+      "Tailwind CSS v4",
+      "Framer Motion",
+      "GSAP",
+      "WebSockets",
+      "TF-IDF Fallback",
+    ],
+    live: "",
+    github: "https://github.com/mithra0612/Veyntra",
+    thumbnail: "/veyntra.png",
+    gallery: [
+      "/veyntra.png",
+    ],
+    year: "2025",
+    event: "AI Developer Tooling & Infrastructure",
+    overview:
+      "Veyntra is an AI-powered prompt architecture platform that translates natural language product ideas into structured, framework-aligned engineering specifications. By applying classical compiler principles—parsing, token retrieval, semantic validation, and optimization—Veyntra eliminates layout drift and unpredictability when building software with modern AI coding assistants.",
+
+    coreCapabilities: [
+      "Translates unstructured natural language developer descriptions into precise, framework-aligned engineering specifications",
+      "Grounds prompt generation against pre-configured design tokens, HSL palettes, and spring motion parameters",
+      "Programmatically enforces WCAG AA accessibility directives including keyboard focus traps and semantic landmarks",
+      "Dual-layer retrieval engine querying PostgreSQL vector indexes with offline TF-IDF keyword fallbacks",
+      "Semantic cache using Jaccard keyword similarity to bypass redundant LLM calls and deliver instant zero-cost specs",
+      "Multi-agent critique loop auditing generated blueprints for placeholders, architectural gaps, and schema integrity",
+    ],
+
+    operationalIntelligence: [
+      "Decoupled architecture: Next.js App Router workspace frontend paired with an Express API and WebSocket real-time telemetry",
+      "Multi-scale compilation modes supporting full applications, individual page flows, or discrete interactive components",
+      "Workspace enhancement mode that decomposes existing prompt instructions and dynamically injects missing layout targets",
+      "Component Forge providing pre-engineered blueprints for SaaS landing layouts, authentication flows, and data dashboards",
+      "Health-based AI model failover routing with automatic cooldowns when rate limits or API latency spikes occur",
+    ],
+
+    aiCapabilities: [
+      "Multi-provider orchestration utilizing Google Gemini 2.0 Flash as primary inference and Groq as low-latency failover",
+      "RAG-driven design vocabulary injection grounding prompts in exact Tailwind and CSS property maps",
+      "Flat vector indexing strategy for high-dimensional layout embeddings with keyword-cosine overlap local fallbacks",
+      "Fast Mode deterministic rule templates bypassing LLM costs alongside Professional Mode multi-agent critique workflows",
+    ],
+
+    outcome:
+      "Veyntra demonstrates how applying compiler theory to prompt engineering bridges the gap between vague developer descriptions and reliable AI code generation, slashing prompt iteration cycles and ensuring design system fidelity across modern AI software generation.",
+  },
+
+  {
+    number: "04",
+    slug: "growthguardian",
+    shortTitle: "GROWTHGUARDIAN",
+    title: "Growth Guardian – AI-Driven Financial Literacy & Scam Protection Platform",
+    subtitle: "AI-Driven Financial Literacy & Scam Protection Platform (HackIt Winner)",
+    categoryBadge: "AI Financial Literacy & Safety",
+    tagline: "AI-driven financial literacy & scam protection",
+    challenge:
+      "Families and young investors navigate increasingly complex financial products alongside rampant digital fraud and deceptive investment schemes. Without accessible financial education, safe virtual simulation, and real-time scam verification, individuals face severe financial loss and lack confidence in long-term wealth building.",
+    techHighlight: [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "Hugging Face",
+      "Scikit-learn",
+      "MongoDB",
+    ],
+    pillars: [
+      {
+        label: "AI SCAM DETECTOR",
+        title: "Hugging Face + NLP",
+        description: "Real-time semantic analysis to identify fraudulent investment offers and deceptive communications.",
+      },
+      {
+        label: "FORECASTING ENGINE",
+        title: "ML Asset Return Projection",
+        description: "Simulates inflation-adjusted purchasing power and multi-asset compounding trajectories.",
+      },
+      {
+        label: "SIMULATION LAB",
+        title: "Risk-Free Virtual Trading",
+        description: "Interactive sandboxes for budgeting, debt vs. invest decisions, and family finance management.",
+      },
+      {
+        label: "EDUCATION SYSTEM",
+        title: "Family Learning Modules",
+        description: "Tailored curriculums for adults and children with interactive checkpoint assessments.",
+      },
+    ],
+    tech: [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "Hugging Face Model",
+      "Scikit-learn",
+      "JavaScript",
+      "HTML5",
+      "CSS3",
+      "MongoDB",
+      "LangChain",
+    ],
+    live: "https://growth-guardian.vercel.app/",
+    github: "https://github.com/mithra0612/growth-guardian",
+    thumbnail: "/growth-guardian.png",
+    gallery: [
+      "/growth-guardian.png",
+      "/hackit1.jpg",
+      "/hackit2.jpg",
+    ],
+    year: "2025",
+    event: "HackIt Winner",
+    overview:
+      "Growth Guardian is an AI-powered financial literacy and safety platform designed to help individuals and families make smarter financial decisions while protecting themselves from scams. The platform combines interactive education, financial planning tools, investment simulations, and AI-driven forecasting to guide users toward long-term financial stability.",
+
+    financialEducation: [
+      "Family-centric financial literacy modules designed separately for adults and children",
+      "Structured lessons covering saving, investing, budgeting, and scam awareness",
+      "Interactive quizzes after each topic and final assessments for every module to reinforce learning and track progress",
+    ],
+
+    financialPlanning: [
+      "Investment simulator that allows users to practice investment strategies in a risk-free virtual environment",
+      "Budget planner for setting monthly or yearly budgets and tracking expenses",
+      "Savings goal management enabling families to collaboratively plan and monitor financial objectives",
+      "Retirement planning tool that estimates long-term savings requirements and simulates different strategies",
+      "Invest vs Debt decision tool helping users determine whether to prioritize debt repayment or investment",
+    ],
+
+    aiFinancialIntelligence: [
+      "Machine learning–based asset return forecasting system that predicts potential returns for assets such as stocks, bonds, and real estate",
+      "Forecast models account for inflation, interest rates, and investment duration to generate realistic financial projections",
+      "Projection outputs include both nominal returns and inflation-adjusted purchasing power insights",
+    ],
+
+    scamProtection: [
+      "AI-powered chatbot that analyzes suspicious financial messages and identifies potential scam patterns",
+      "Real-time guidance helping users verify investment offers or suspicious communications",
+      "Educational scam awareness resources based on research from trusted organizations such as AARP",
+    ],
+
+    familyFinanceManagement: [
+      "Unified family dashboard providing an overview of budgeting, expenses, financial goals, and learning progress",
+      "Collaborative financial management system allowing families to plan and track finances together",
+      "Centralized interface that integrates financial tools, education modules, and investment simulations",
+    ],
+
+    outcome:
+      "Growth Guardian demonstrates how AI-driven forecasting, financial education, and scam detection can empower families to make safer financial decisions and build long-term financial resilience.",
+  },
+
+  {
     number: "05",
+    slug: "wellcare",
+    shortTitle: "WELLCARE",
+    title: "Wellcare – AI-Based Women's Health & Wellness Platform",
+    subtitle: "AI-Based Women's Health & Wellness Platform (TNWISE Finalist)",
+    categoryBadge: "Women's Health & Wellness",
+    tagline: "AI-based women's health & wellness platform",
+    challenge:
+      "Women across semi-urban and rural areas encounter persistent barriers to stigma-free reproductive health guidance, early PCOS/hormonal symptom detection, and reliable nutritional advice. Without accessible AI-driven personalization and confidential community support, critical preventive care remains largely out of reach.",
+    techHighlight: [
+      "React.js",
+      "Node.js",
+      "Firestore",
+      "GCP",
+      "Transformers",
+      "Redux",
+    ],
+    pillars: [
+      {
+        label: "CYCLE INTELLIGENCE",
+        title: "Predictive Health Models",
+        description: "Ovulation, cycle forecasting, and recurring symptom anomaly tracking algorithms.",
+      },
+      {
+        label: "WELLNESS ENGINE",
+        title: "AI Diet & Home Remedies",
+        description: "Tailored nutritional advice and natural remedies curated based on hormonal phases.",
+      },
+      {
+        label: "INTERACTIVE EDU",
+        title: "Gamified Myth Busting",
+        description: "Engaging spin-wheels and interactive cards breaking cultural health misconceptions.",
+      },
+      {
+        label: "SUPPORT HUB",
+        title: "AI Health Chatbot & Community",
+        description: "Confidential guidance backed by medical articles, verified schemes, and emergency helplines.",
+      },
+    ],
+    tech: [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "Firestore",
+      "Google Cloud Platform",
+      "Hugging Face Transformers",
+      "JavaScript",
+      "HTML5",
+      "CSS3",
+      "Redux",
+    ],
+    live: "https://women-app.vercel.app/",
+    github: "https://github.com/mithra0612/women-app",
+    thumbnail: "/wellcare.png",
+    gallery: [
+      "/wellcare.png",
+      "/tnwise1.jpg",
+      "/tnwise2.jpg",
+    ],
+    year: "2025",
+    event: "TNWISE Hackathon 2025, Finalist",
+    overview:
+      "Wellcare is a digital platform designed to improve access to women’s health education and personalized wellness support. The system combines health tracking tools, AI-powered recommendations, educational content, and community engagement features to help women better understand and manage their health.",
+
+    healthTracking: [
+      "Menstrual cycle tracking with ovulation prediction and personalized cycle insights",
+      "Symptoms tracker allowing users to log and monitor recurring health patterns",
+      "Visual health analytics dashboards helping users understand trends in their cycle and symptoms",
+    ],
+
+    personalizedWellness: [
+      "AI-powered diet recommendation engine that generates personalized meal plans based on health history and dietary preferences",
+      "Natural home remedies library covering common women’s health concerns such as menstrual cramps, PCOS symptoms, hormonal imbalance, and pregnancy nausea",
+      "Sanitary product guidance including safe usage and eco-friendly disposal practices",
+    ],
+
+    interactiveLearning: [
+      "Gamified myth-busting activities including spin wheels, scratch cards, and fact cards that educate users about women’s health topics",
+      "Reward-based engagement system encouraging users to learn health facts and dispel common misconceptions",
+    ],
+
+    supportAndCommunity: [
+      "AI-powered health chatbot that answers women’s health queries and provides quick guidance",
+      "Discord-based community forum where users can share experiences and discuss health concerns in a supportive environment",
+    ],
+
+    healthResources: [
+      "Library of video articles and blogs covering topics such as reproductive health, maternal health, hormonal disorders, mental health, and cancer awareness",
+      "Directory of government schemes supporting women’s welfare, financial assistance, and skill development",
+      "Access to helplines and nearby hospitals for medical and mental health support",
+    ],
+
+    outcome:
+      "The platform demonstrates how AI-driven personalization, accessible health education, and community support can empower women to make informed decisions about their health and wellness.",
+  },
+
+  {
+    number: "06",
     slug: "civiclens",
+    aliases: ["civic-lens"],
     shortTitle: "CIVIC LENS",
     title: "Civic Lens – Transparent Governance Through Data",
     subtitle: "Transparent Governance Through Public Data & AI (Hack'25 Finalist)",
@@ -567,7 +666,11 @@ export function getProjectBySlug(slug) {
   const normalized = slug.toLowerCase().replace(/-/g, "");
   return (
     projects.find(
-      (p) => p.slug === slug || p.slug.toLowerCase().replace(/-/g, "") === normalized
+      (p) =>
+        p.slug === slug ||
+        p.slug.toLowerCase().replace(/-/g, "") === normalized ||
+        (p.aliases &&
+          p.aliases.some((a) => a.toLowerCase().replace(/-/g, "") === normalized))
     ) || null
   );
 }
@@ -578,7 +681,13 @@ export function getNextProject(currentSlug) {
     (p) =>
       p.slug === currentSlug ||
       p.slug.toLowerCase().replace(/-/g, "") ===
-        (currentSlug || "").toLowerCase().replace(/-/g, "")
+        (currentSlug || "").toLowerCase().replace(/-/g, "") ||
+      (p.aliases &&
+        p.aliases.some(
+          (a) =>
+            a.toLowerCase().replace(/-/g, "") ===
+            (currentSlug || "").toLowerCase().replace(/-/g, "")
+        ))
   );
   if (currentIndex === -1) return projects[0];
   const nextIndex = (currentIndex + 1) % projects.length;

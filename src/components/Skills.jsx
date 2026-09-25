@@ -2,23 +2,30 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Code2, Database, BrainCircuit, Wrench, Layers3 } from 'lucide-react';
+import { Terminal, Layers, Database, BrainCircuit, CheckCircle2, Wrench } from 'lucide-react';
 
 const SKILL_CATEGORIES = [
   {
     id: '01',
-    title: 'DEVELOPMENT',
+    title: 'LANGUAGES',
     accent: '#FF5722',
-    icon: Code2,
+    icon: Terminal,
     skills: [
       'JavaScript',
       'TypeScript',
       'Java',
       'Python',
-      'HTML',
-      'CSS',
-      'React',
+      'SQL',
+    ],
+  },
+  {
+    id: '02',
+    title: 'FRAMEWORKS',
+    accent: '#F97316',
+    icon: Layers,
+    skills: [
       'Next.js',
+      'React.js',
       'Node.js',
       'Express.js',
       'Tailwind CSS',
@@ -26,32 +33,56 @@ const SKILL_CATEGORIES = [
     ],
   },
   {
-    id: '02',
-    title: 'DATA & BACKEND',
-    accent: '#F59E0B',
-    icon: Database,
-    skills: ['MongoDB', 'PostgreSQL', 'Supabase', 'Firebase', 'REST APIs', 'JWT'],
-  },
-  {
     id: '03',
-    title: 'AI',
-    accent: '#38BDF8',
-    icon: BrainCircuit,
-    skills: ['LLM Integration', 'RAG', 'Prompt Engineering', 'Hugging Face', 'Ollama'],
+    title: 'BACKEND & DATABASES',
+    accent: '#EAB308',
+    icon: Database,
+    skills: [
+      'REST APIs',
+      'PostgreSQL',
+      'MongoDB',
+      'Supabase',
+      'Firebase',
+      'JWT Authentication',
+    ],
   },
   {
     id: '04',
-    title: 'TOOLS',
-    accent: '#FF5722',
-    icon: Wrench,
-    skills: ['Git', 'GitHub', 'Jest', 'Cypress', 'Figma', 'VS Code', 'Datadog', 'Vercel'],
+    title: 'AI & DATA',
+    accent: '#38BDF8',
+    icon: BrainCircuit,
+    skills: [
+      'RAG Pipelines',
+      'LLM Integration',
+      'Prompt Engineering',
+      'Claude Skills',
+      'Hugging Face',
+      'Ollama',
+    ],
   },
   {
     id: '05',
-    title: 'FOUNDATIONS',
-    accent: '#94A3B8',
-    icon: Layers3,
-    skills: ['DSA', 'OOP', 'DBMS', 'Operating Systems', 'Computer Networks'],
+    title: 'TESTING',
+    accent: '#F59E0B',
+    icon: CheckCircle2,
+    skills: [
+      'Jest',
+      'Cypress',
+    ],
+  },
+  {
+    id: '06',
+    title: 'TOOLS',
+    accent: '#60A5FA',
+    icon: Wrench,
+    skills: [
+      'Git',
+      'GitHub',
+      'Datadog',
+      'Confluence',
+      'Vercel',
+      'Figma',
+    ],
   },
 ];
 

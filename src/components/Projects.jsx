@@ -15,12 +15,25 @@ import {
   Compass,
   Eye,
   Code2,
+  Terminal,
 } from 'lucide-react';
 
 const PROJECT_METAS = {
   finvista: {
     displayName: 'FinVista',
     Icon: TrendingUp,
+  },
+  vanadhikar: {
+    displayName: 'VanAdhikar',
+    Icon: Compass,
+  },
+  veyntra: {
+    displayName: 'Veyntra',
+    Icon: Terminal,
+  },
+  promptforge: {
+    displayName: 'Veyntra',
+    Icon: Terminal,
   },
   growthguardian: {
     displayName: 'Growth Guardian',
@@ -29,10 +42,6 @@ const PROJECT_METAS = {
   wellcare: {
     displayName: 'Wellcare',
     Icon: HeartPulse,
-  },
-  vanadhikar: {
-    displayName: 'VanAdhikar',
-    Icon: Compass,
   },
   civiclens: {
     displayName: 'Civic Lens',

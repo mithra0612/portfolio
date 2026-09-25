@@ -45,8 +45,8 @@ function CountUpNumber({ target, suffix = '', duration = 1.8 }) {
 }
 
 const STATS = [
-  { value: '15+', target: 15, suffix: '+', duration: 1.4, label: 'Hackathons' },
-  { value: '700+', target: 700, suffix: '+', duration: 1.8, label: 'Problems Solved' },
+  { value: '10+', target: 10, suffix: '+', duration: 1.4, label: 'Hackathons' },
+  { value: '500+', target: 500, suffix: '+', duration: 1.8, label: 'Problems Solved' },
   { value: "SIH '24", label: 'National Finalist' },
   { value: '3', target: 3, suffix: '', duration: 1.2, label: 'Published Poems' },
 ];
@@ -58,11 +58,11 @@ export default function About() {
       className="relative w-full bg-black text-[#F8FAFC] pt-28 sm:pt-36 lg:pt-40 pb-24 sm:pb-32 border-t border-white/[0.08] z-10 selection:bg-[var(--accent)] selection:text-black overflow-hidden"
     >
       <div className="relative max-w-[1440px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16">
-        {/* Asymmetrical 3-Column Editorial Composition with Clean Top Alignment */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-10 xl:gap-14 items-start">
-          {/* ── COLUMN 1: Portrait (Slightly larger, dominant, editorial frame) ── */}
-          <div className="lg:col-span-4 xl:col-span-4 flex flex-col items-start">
-            <div className="w-full max-w-[320px] sm:max-w-[360px] lg:max-w-[360px] xl:max-w-[380px]">
+        {/* Balanced 3-Column Composition: ~31% Portrait, ~46% About, ~23% Milestones */}
+        <div className="grid grid-cols-1 lg:grid-cols-[31fr_46fr_23fr] gap-10 lg:gap-10 xl:gap-14 items-stretch">
+          {/* ── COLUMN 1: Portrait (~31%) ── */}
+          <div className="flex flex-col items-start w-full">
+            <div className="w-full max-w-[340px] sm:max-w-[360px] lg:max-w-full">
               {/* Portrait Frame */}
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#0a0a0c] border border-white/[0.1]">
                 <Image
@@ -76,73 +76,71 @@ export default function About() {
                 />
               </div>
 
-              {/* Understated Editorial Caption */}
-              <div className="pt-3 flex items-center justify-between border-t border-white/[0.08] mt-2.5 text-[11px] font-mono text-neutral-400 tracking-[0.2em] uppercase">
+              {/* Subtle Editorial Caption */}
+              <div className="pt-2.5 flex items-center justify-between text-[11px] font-mono text-neutral-400 tracking-[0.2em] uppercase">
                 <span>Madhumithra M</span>
               </div>
             </div>
           </div>
 
-          {/* ── COLUMN 2: About Narrative & Headline (Strong, confident scale) ── */}
-          <div className="lg:col-span-5 xl:col-span-5 flex flex-col">
-            {/* Eyebrow with orange line */}
-            <div className="flex items-center gap-3 mb-6 sm:mb-8">
-              <span className="w-5 h-px bg-[var(--accent)]" aria-hidden="true" />
-              <p className="font-mono text-[11px] tracking-[0.26em] text-[var(--text-secondary)] uppercase m-0 font-medium">
-                ABOUT ME
+          {/* ── COLUMN 2: About Narrative & Headline (Primary Focus, ~46%) ── */}
+          <div className="flex flex-col justify-between h-full">
+            <div>
+              {/* ABOUT ME Section Heading - restrained editorial with orange line */}
+              <div className="flex items-center gap-3 mb-4 sm:mb-5">
+                <span className="w-6 h-[2px] bg-[var(--accent)]" aria-hidden="true" />
+                <h2 className="text-base sm:text-lg lg:text-xl font-bold uppercase tracking-[0.18em] text-white font-sans m-0">
+                  ABOUT ME
+                </h2>
+              </div>
+
+              {/* Intro Headline: elegant, ~26–30px, comfortable presence */}
+              <p className="text-[24px] sm:text-[26px] lg:text-[28px] font-semibold tracking-tight text-white leading-[1.3] mb-6 font-[var(--font-headline)]">
+                Curiosity first — figuring out the rest by building it.
               </p>
+
+              {/* Substantial Body Text: ~17–19px with line-height ~1.75 */}
+              <div className="space-y-5 text-[17px] sm:text-[18px] leading-[1.75] font-[var(--font-body)] text-neutral-200">
+                <p className="font-normal text-neutral-200">
+                  I’m a software developer passionate about building practical, end-to-end products across full-stack and AI applications. I enjoy turning ideas into reality — designing systems, crafting clean interfaces, and applying AI where it creates real value.
+                </p>
+
+                <p className="font-light text-neutral-300">
+                  Beyond writing code, I enjoy mentoring, sharing knowledge, playing the keyboard, and writing poetry — with three poems published across two anthologies.
+                </p>
+              </div>
             </div>
 
-            {/* Confident Typographic Main Statement with Tight Editorial Line-Height */}
-            <h2 className="text-3xl sm:text-4xl lg:text-[2.65rem] xl:text-[2.9rem] font-extrabold tracking-tight text-white leading-[1.14] mb-7 font-[var(--font-headline)]">
-              Curiosity first — figuring out the rest by building it.
-            </h2>
-
-            {/* Substantial, Readable Narrative constrained to optimal measure */}
-            <div className="space-y-5 text-[0.98rem] sm:text-[1.02rem] leading-[1.8] font-[var(--font-body)] max-w-[540px]">
-              <p className="text-neutral-100 font-normal">
-                I’m a software developer interested in building practical products across frontend, backend, and AI-integrated applications. I enjoy working from an idea to a working product — figuring out the architecture, building the interface, connecting the systems, and exploring where AI can actually add value.
-              </p>
-
-              <p className="text-neutral-300 font-light">
-                I like taking initiative, learning by building, and working across different parts of a product rather than staying limited to one layer. I’m also comfortable speaking, sharing ideas, and mentoring others — things that have become just as much a part of how I work as writing code.
-              </p>
-
-              <p className="text-neutral-300 font-light">
-                Outside of software, I’m usually listening to music, playing the keyboard, or writing poetry. I’ve had three poems published across two anthologies.
-              </p>
-
-              {/* Deliberate Editorial CTA (Border-free with orange arrow) */}
-              <div className="pt-3">
-                <Link
-                  href="/achievements"
-                  className="group relative inline-flex items-center gap-2 py-1 text-xs sm:text-sm font-mono uppercase tracking-wider text-neutral-200 hover:text-white transition-colors outline-none cursor-pointer bg-transparent border-none p-0"
-                >
-                  <span>VIEW ALL ACHIEVEMENTS</span>
-                  <span className="text-[var(--accent)] transition-transform duration-300 group-hover:translate-x-1.5 font-bold">
-                    →
-                  </span>
-                  <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[var(--accent)] transition-all duration-300 ease-out origin-left group-hover:w-full" />
-                </Link>
-              </div>
+            {/* VIEW ALL ACHIEVEMENTS CTA positioned toward lower portion */}
+            <div className="pt-8 sm:pt-10">
+              <Link
+                href="/achievements"
+                className="group relative inline-flex items-center gap-2 py-1 text-xs sm:text-sm font-mono uppercase tracking-wider text-neutral-200 hover:text-white transition-colors outline-none cursor-pointer bg-transparent border-none p-0"
+              >
+                <span>VIEW ALL ACHIEVEMENTS</span>
+                <span className="text-[var(--accent)] transition-transform duration-300 group-hover:translate-x-1.5 font-bold">
+                  →
+                </span>
+                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[var(--accent)] transition-all duration-300 ease-out origin-left group-hover:w-full" />
+              </Link>
             </div>
           </div>
 
-          {/* ── COLUMN 3: Milestones (Visible Evidence of Achievement) ── */}
-          <div className="lg:col-span-3 xl:col-span-3 flex flex-col pt-8 lg:pt-0 lg:border-l border-white/[0.1] lg:pl-10 xl:pl-12">
-            {/* Matching Eyebrow */}
-            <div className="flex items-center gap-3 mb-6 sm:mb-8">
-              <span className="w-5 h-px bg-[var(--accent)]" aria-hidden="true" />
-              <p className="font-mono text-[11px] tracking-[0.26em] text-[var(--text-secondary)] uppercase m-0 font-medium">
+          {/* ── COLUMN 3: Milestones (Supporting, quiet editorial rows, ~23%) ── */}
+          <div className="flex flex-col pt-8 lg:pt-0 lg:border-l border-white/[0.08] lg:pl-8 xl:pl-10">
+            {/* Editorial section label: ~12–14px, uppercase */}
+            <div className="flex items-center gap-2.5 mb-6 sm:mb-7">
+              <span className="w-4 h-px bg-[var(--accent)]" aria-hidden="true" />
+              <p className="font-mono text-xs sm:text-[13px] tracking-[0.24em] text-neutral-400 uppercase font-medium m-0">
                 MILESTONES
               </p>
             </div>
 
-            {/* Vertical Stack: Large Bold Numbers with Quiet Labels */}
-            <div className="flex flex-col space-y-8 sm:space-y-9">
+            {/* Clean vertical editorial rows with thin horizontal separators */}
+            <div className="flex flex-col divide-y divide-white/[0.08] border-b border-white/[0.08]">
               {STATS.map(({ value, label, target, suffix, duration }) => (
-                <div key={label} className="group flex flex-col items-start">
-                  <span className="text-4xl sm:text-[2.5rem] lg:text-[2.75rem] font-bold font-mono text-white tracking-tight leading-none">
+                <div key={label} className="py-4 first:pt-0 flex flex-col items-start">
+                  <span className="text-[32px] sm:text-[35px] font-bold font-mono text-white tracking-tight leading-none">
                     {target !== undefined ? (
                       <CountUpNumber
                         target={target}
@@ -153,7 +151,7 @@ export default function About() {
                       value
                     )}
                   </span>
-                  <span className="font-mono text-xs text-neutral-400 uppercase tracking-wider mt-2.5 font-medium leading-snug">
+                  <span className="font-mono text-[11px] sm:text-[12px] text-neutral-400 uppercase tracking-[0.16em] mt-1.5 font-normal leading-snug">
                     {label}
                   </span>
                 </div>

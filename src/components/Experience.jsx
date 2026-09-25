@@ -207,6 +207,17 @@ export default function Experience() {
               at PayPal
             </motion.span>
           </div>
+
+          {/* Subtitle / Timeline badge from resume */}
+          <div className="mt-3.5 flex items-center gap-2.5">
+            <span className="font-mono text-xs sm:text-sm tracking-[0.2em] text-[var(--accent)] uppercase font-semibold">
+              Software Engineer Intern
+            </span>
+            <span className="text-white/20">•</span>
+            <span className="font-mono text-xs sm:text-sm tracking-wider text-neutral-400">
+              Jun 2026 – Aug 2026
+            </span>
+          </div>
         </div>
 
         {/* ── 3-COLUMN WORK CARDS GRID ── */}
@@ -250,14 +261,14 @@ export default function Experience() {
                 </h3>
               </div>
 
-              {/* Visual Motif Box (Funky Micro-Interactive Pipeline) */}
+              {/* Visual Motif Box (Interactive Migration Pipeline & Parity Metrics) */}
               <div className="rounded-xl bg-[#030509] border border-white/[0.08] p-4 sm:p-4.5 mb-5 group-hover:border-[#FF5722]/30 transition-colors">
                 <div className="flex items-center justify-between font-mono text-[9.5px] tracking-[0.2em] text-neutral-400 uppercase mb-2">
-                  <span>MIGRATION</span>
-                  <span className="text-[#38BDF8] font-semibold bg-[#38BDF8]/10 px-2 py-0.5 rounded-full">v15.0</span>
+                  <span>126 COMMITS · 3,891 FILES</span>
+                  <span className="text-[#38BDF8] font-semibold bg-[#38BDF8]/10 px-2 py-0.5 rounded-full">112/112 TESTS PASS</span>
                 </div>
-                <div className="flex items-center gap-3 font-mono text-sm sm:text-base font-semibold tracking-tight">
-                  <span className="text-neutral-400">LEGACY</span>
+                <div className="flex items-center gap-2.5 font-mono text-xs sm:text-sm font-semibold tracking-tight">
+                  <span className="text-neutral-400">EXPRESS + REACT</span>
                   <span className="text-[#FF5722] font-bold tracking-tighter">──────►</span>
                   <span className="text-white border-b-2 border-[#FF5722] pb-0.5">
                     NEXT.JS 15
@@ -266,8 +277,8 @@ export default function Experience() {
               </div>
 
               {/* Description */}
-              <p className="text-[13.5px] sm:text-[14px] text-neutral-200 leading-[1.7] font-normal mb-5">
-                Rebuilt a customer-facing Virtual Terminal in Next.js 15, working across routing, authentication, order-entry, and error handling.
+              <p className="text-[13px] sm:text-[13.5px] text-neutral-200 leading-[1.7] font-normal mb-5">
+                Migrated Virtual Terminal, a merchant-facing payment application, from Express + React to Next.js App Router across a 126-commit, 3,891-file migration. Restructured routing, middleware, API routes, state management, and core payment workflows while preserving legacy behavior. Diagnosed and fixed migration issues across payment validation, authentication, pricing, currency conversion, and error handling—validating functional parity through 112/112 passing unit tests and 70+ integration tests using Jest and Cypress against QA services and CI environments.
               </p>
             </div>
 
@@ -280,7 +291,7 @@ export default function Experience() {
                 </span>
               </div>
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px]">
-                {['Next.js 15', 'React', 'TypeScript', 'Jest', 'Cypress', 'CI/CD'].map((tech, idx, arr) => (
+                {['Next.js 15', 'React', 'TypeScript', 'Jest', 'Cypress', 'Git', 'CI/CD'].map((tech, idx, arr) => (
                   <React.Fragment key={tech}>
                     <span className="text-neutral-300 font-medium tracking-tight">
                       {tech}
@@ -354,20 +365,20 @@ export default function Experience() {
                   </div>
                 </div>
                 <div className="pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono text-[11px] text-neutral-300 tracking-wider">
-                  <span>API</span>
+                  <span>API METRICS</span>
                   <span className="text-[#F59E0B]">→</span>
-                  <span>METRICS</span>
+                  <span>ANOMALY DETECT</span>
                   <span className="text-[#F59E0B]">→</span>
                   <span className="text-white font-semibold flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                    ALERTS
+                    SLACK ALERTS
                   </span>
                 </div>
               </div>
 
               {/* Description */}
-              <p className="text-[13.5px] sm:text-[14px] text-neutral-200 leading-[1.7] font-normal mb-5">
-                Built a Datadog dashboard covering API traffic, authorization rates, and payment dimensions including card country, currency, and brand.
+              <p className="text-[13px] sm:text-[13.5px] text-neutral-200 leading-[1.7] font-normal mb-5">
+                Built a 43-widget Datadog observability dashboard equipped with real-time anomaly monitors and automated Slack alerts. Tracked critical payment dimensions—including authorization rates, API traffic volume, latency, card country, currency, and brand—to proactively catch regressions, verify production reliability, and maintain high payment service availability.
               </p>
             </div>
 
@@ -380,9 +391,18 @@ export default function Experience() {
                 </span>
               </div>
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px]">
-                <span className="text-neutral-300 font-medium tracking-tight">
-                  Datadog
-                </span>
+                {['Datadog', 'Slack Alerts', 'Anomaly Monitors', 'APM', 'Metrics'].map((tech, idx, arr) => (
+                  <React.Fragment key={tech}>
+                    <span className="text-neutral-300 font-medium tracking-tight">
+                      {tech}
+                    </span>
+                    {idx < arr.length - 1 && (
+                      <span className="text-neutral-600 select-none">
+                        ·
+                      </span>
+                    )}
+                  </React.Fragment>
+                ))}
               </div>
             </div>
           </ExperienceWorkCard>
@@ -445,8 +465,8 @@ export default function Experience() {
               </div>
 
               {/* Description */}
-              <p className="text-[13.5px] sm:text-[14px] text-neutral-200 leading-[1.7] font-normal mb-5">
-                Created an internal Claude skill with Confluence integration for migration reports, existing patterns, and internal documentation.
+              <p className="text-[13px] sm:text-[13.5px] text-neutral-200 leading-[1.7] font-normal mb-5">
+                Independently developed an internal Claude Skill integrated with Confluence to phase migrations, persist migration state, and reuse migration knowledge across sessions. Connected codebase intelligence with architectural documentation, enabling automated pattern lookup, migration reports, and cross-session knowledge continuity across the engineering team.
               </p>
             </div>
 
@@ -459,7 +479,7 @@ export default function Experience() {
                 </span>
               </div>
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px]">
-                {['Claude', 'Confluence'].map((tech, idx, arr) => (
+                {['Claude Skills', 'Confluence API', 'LLM Integration', 'Prompt Engineering'].map((tech, idx, arr) => (
                   <React.Fragment key={tech}>
                     <span className="text-neutral-300 font-medium tracking-tight">
                       {tech}
