@@ -130,9 +130,11 @@ export default function AchievementsPage() {
         <div className="mb-12 sm:mb-16">
           <Link
             href="/#about"
+            scroll={false}
             onClick={() => {
               try {
                 sessionStorage.setItem('skip_loader', 'true');
+                sessionStorage.setItem('target_section', '#about');
               } catch (e) {}
             }}
             className="group relative inline-flex items-center gap-2 py-1 text-xs sm:text-sm font-mono uppercase tracking-wider text-neutral-400 hover:text-white transition-colors cursor-pointer outline-none bg-transparent border-none p-0"
@@ -265,6 +267,28 @@ export default function AchievementsPage() {
                 </div>
               </motion.div>
             ))}
+          </div>
+
+          {/* ── FOOTER: BACK TO ABOUT ── */}
+          <div className="mt-16 pt-8 pb-16 border-t border-white/[0.08] flex items-center justify-between">
+            <Link
+              href="/#about"
+              scroll={false}
+              onClick={() => {
+                try {
+                  sessionStorage.setItem('skip_loader', 'true');
+                  sessionStorage.setItem('target_section', '#about');
+                } catch (e) {}
+              }}
+              className="group relative inline-flex items-center gap-2 py-1 text-xs sm:text-sm font-mono uppercase tracking-wider text-neutral-400 hover:text-white transition-colors cursor-pointer outline-none bg-transparent border-none p-0"
+            >
+              <ArrowLeft
+                size={15}
+                className="text-[var(--accent)] transition-transform duration-300 group-hover:-translate-x-1"
+              />
+              <span>Back to About</span>
+              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[var(--accent)] transition-all duration-300 ease-out origin-left group-hover:w-full" />
+            </Link>
           </div>
         </div>
       </div>

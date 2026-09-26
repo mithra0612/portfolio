@@ -33,16 +33,13 @@ export default function Contact() {
   };
 
   return (
-    <section
-      id="contact"
+    <div
       className="relative w-full bg-black text-[#F8FAFC] py-20 sm:py-32 lg:py-36 border-t border-b border-white/[0.08] select-none"
     >
       <div className="max-w-[1360px] mx-auto px-5 sm:px-10 md:px-14 lg:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-16 lg:gap-12 xl:gap-16 items-start">
 
-          {/* ═══════════════ LEFT COLUMN: EDITORIAL STATEMENT ═══════════════ */}
           <div className="lg:col-span-6 xl:col-span-7 flex flex-col justify-start">
-            {/* Eyebrow */}
             <div className="flex items-center gap-2.5 mb-6 sm:mb-8">
               <span className="w-5 h-px bg-[var(--accent)]" aria-hidden="true" />
               <p className="font-mono text-xs sm:text-[13px] tracking-[0.24em] text-[var(--accent)] uppercase font-semibold m-0">
@@ -74,7 +71,7 @@ export default function Contact() {
             </p>
 
             {/* Status footnote */}
-            <div className="hidden lg:flex items-center gap-3 pt-6 text-xs font-mono text-neutral-500">
+            <div className="flex items-center gap-3 pt-6 text-xs font-mono text-neutral-500">
               <span>Based in Tamil Nadu, India</span>
               <span className="text-neutral-700">/</span>
               <span>Available for Remote & Relocation</span>
@@ -124,10 +121,10 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Block 2: Direct Email */}
+            {/* Block 2: Email */}
             <div className="pt-8 border-t border-white/[0.08] space-y-3">
               <p className="font-mono text-xs tracking-[0.22em] text-neutral-500 uppercase font-semibold m-0">
-                DIRECT EMAIL
+                EMAIL
               </p>
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <a
@@ -156,10 +153,10 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Block 3: Elsewhere Links & Footnote */}
+            {/* Block 3: Profiles Links & Timezone */}
             <div className="pt-8 border-t border-white/[0.08] space-y-4">
               <p className="font-mono text-xs tracking-[0.22em] text-neutral-500 uppercase font-semibold m-0">
-                ELSEWHERE
+                PROFILES
               </p>
               <div className="flex flex-wrap items-center gap-x-7 gap-y-3">
                 {[
@@ -184,11 +181,12 @@ export default function Contact() {
                 ))}
               </div>
 
-              {/* Location Footnote */}
+              {/* Timezone Footnote (location already stated in left column) */}
               <div className="pt-2 flex items-center gap-2 text-xs font-mono text-neutral-500">
-                <span>Tamil Nadu, India</span>
-                <span className="text-neutral-700">·</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                 <span>IST (UTC+5:30)</span>
+                <span className="text-neutral-700">·</span>
+                <span>Active Working Hours</span>
               </div>
             </div>
 
@@ -196,6 +194,6 @@ export default function Contact() {
 
         </div>
       </div>
-    </section>
+    </div>
   );
 }

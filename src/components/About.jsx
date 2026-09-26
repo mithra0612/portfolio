@@ -96,17 +96,17 @@ export default function About() {
 
               {/* Intro Headline: elegant, ~26–30px, comfortable presence */}
               <p className="text-[21px] xs:text-[23px] sm:text-[26px] lg:text-[28px] font-semibold tracking-tight text-white leading-[1.3] mb-6 font-[var(--font-headline)]">
-                Curiosity first — figuring out the rest by building it.
+                Curiosity first - figuring out the rest by building it.
               </p>
 
               {/* Substantial Body Text: ~17–19px with line-height ~1.75 */}
               <div className="space-y-4 sm:space-y-5 text-[15.5px] sm:text-[18px] leading-[1.7] sm:leading-[1.75] font-[var(--font-body)] text-neutral-200">
                 <p className="font-normal text-neutral-200">
-                  I’m a software developer passionate about building practical, end-to-end products across full-stack and AI applications. I enjoy turning ideas into reality — designing systems, crafting clean interfaces, and applying AI where it creates real value.
+                  I am a fourth-year Computer Science and Engineering student at Bannari Amman Institute of Technology and an incoming Software Engineer Intern at PayPal. I am passionate about building robust, end-to-end full-stack architectures and applying real-world AI systems that solve meaningful problems. From competing as a national finalist in the Smart India Hackathon to designing production-ready web platforms, I love translating complex challenges into intuitive, high-impact digital experiences.
                 </p>
 
-                <p className="font-light text-neutral-300">
-                  Beyond writing code, I enjoy mentoring, sharing knowledge, playing the keyboard, and writing poetry — with three poems published across two anthologies.
+                <p className="font-light text-neutral-300 text-justify">
+                  Beyond writing code, I enjoy mentoring, sharing knowledge, playing the keyboard, and writing poetry - with three poems published across two anthologies.
                 </p>
               </div>
             </div>

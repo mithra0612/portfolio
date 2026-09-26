@@ -54,7 +54,6 @@ export default function Projects() {
 
   return (
     <div
-      id="projects"
       style={{
         position: 'relative',
         backgroundColor: 'var(--bg-base)',

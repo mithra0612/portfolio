@@ -7,6 +7,7 @@ import Contact from "@/components/contacts";
 import Experience from "@/components/Experience";
 import PortfolioLoader from "@/components/PortfolioLoader";
 import { useState, useEffect } from "react";
+import { useLenis } from "lenis/react";
 import FloatingNav from "@/components/FloatingNav";
 import Footer from "@/components/Footer";
 
@@ -14,6 +15,7 @@ import Footer from "@/components/Footer";
 let hasMountedOnce = false;
 
 export default function Home() {
+  const lenis = useLenis();
   const [portfolioLoading, setPortfolioLoading] = useState(() => {
     if (typeof window !== 'undefined') {
       try {
@@ -41,19 +43,80 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (!portfolioLoading && typeof window !== 'undefined' && window.location.hash) {
-      const hash = window.location.hash;
-      const timer = setTimeout(() => {
-        if (hash === '#home' || hash === '#hero') {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (portfolioLoading || typeof window === 'undefined') return;
+
+    const target = (() => {
+      try {
+        const stored = sessionStorage.getItem('target_section');
+        if (stored) return stored;
+      } catch (e) {}
+      if (window.location.hash && window.location.hash !== '#home' && window.location.hash !== '#hero') {
+        return window.location.hash;
+      }
+      return null;
+    })();
+
+    if (!target) return;
+
+    window.__isNavClicking = true;
+
+    const scrollToTarget = () => {
+      if (target === '#home' || target === '#hero') {
+        if (lenis) {
+          lenis.scrollTo(0, { immediate: false, duration: 0.8 });
         } else {
-          const el = document.querySelector(hash);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-      }, 120);
-      return () => clearTimeout(timer);
-    }
-  }, [portfolioLoading]);
+        return true;
+      }
+
+      const el = document.querySelector(target);
+      if (el) {
+        if (lenis) {
+          lenis.scrollTo(el, { offset: 0, duration: 1.0 });
+        } else {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        return true;
+      }
+      return false;
+    };
+
+    // Staggered attempts to guarantee smooth scroll after route switch & DOM settling
+    scrollToTarget();
+    const t1 = setTimeout(scrollToTarget, 60);
+    const t2 = setTimeout(scrollToTarget, 200);
+    const t3 = setTimeout(scrollToTarget, 500);
+    const t4 = setTimeout(scrollToTarget, 900);
+    const t5 = setTimeout(() => {
+      scrollToTarget();
+      try {
+        sessionStorage.removeItem('target_section');
+      } catch (e) {}
+      window.__isNavClicking = false;
+    }, 1400);
+
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const el = document.querySelector(hash);
+        if (el) {
+          if (lenis) lenis.scrollTo(el, { offset: 0, duration: 1.0 });
+          else el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      clearTimeout(t4);
+      clearTimeout(t5);
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, [portfolioLoading, lenis]);
 
   return (
     <div className="relative">

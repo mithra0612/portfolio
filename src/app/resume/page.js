@@ -1,9 +1,6 @@
-import Link from 'next/link';
+'use client';
 
-export const metadata = {
-  title: 'Resume | Madhumithra M.',
-  description: 'Resume of Madhumithra M. – Software Engineer & Full-stack Developer.',
-};
+import Link from 'next/link';
 
 export default function ResumePage() {
   return (
@@ -12,6 +9,11 @@ export default function ResumePage() {
       <header className="flex items-center justify-between px-6 py-3.5 bg-[#0f172a]/90 border-b border-white/10 backdrop-blur-md z-10 flex-shrink-0">
         <Link
           href="/"
+          onClick={() => {
+            try {
+              sessionStorage.setItem('skip_loader', 'true');
+            } catch (e) {}
+          }}
           className="text-sm font-medium text-white/80 hover:text-white transition-colors flex items-center gap-2"
         >
           <span>&larr;</span> Back to Portfolio

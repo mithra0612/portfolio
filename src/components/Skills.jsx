@@ -203,7 +203,7 @@ export default function Skills() {
   const [sectionHeaderHovered, setSectionHeaderHovered] = useState(false);
   const rowRefs = useRef([]);
 
-  // Detect touch devices and establish scroll-based activation for touch
+  // Detect touch devices and establish scroll-based activation for touch (desktop fallback)
   useEffect(() => {
     const checkTouch = () => {
       const hasTouch =
@@ -216,9 +216,8 @@ export default function Skills() {
     checkTouch();
     window.addEventListener('resize', checkTouch);
 
-    // Scroll calculation for touch devices (targeting ~40%-60% central viewport area)
     const handleScroll = () => {
-      if (!isTouchDevice) return;
+      if (!isTouchDevice || window.innerWidth < 768) return;
       const viewportCenter = window.innerHeight * 0.5;
       let closestIdx = null;
       let minDistance = Infinity;
@@ -229,7 +228,6 @@ export default function Skills() {
         const rowCenter = rect.top + rect.height / 2;
         const distance = Math.abs(rowCenter - viewportCenter);
 
-        // Check if row is within the central 40%-60% interaction zone
         if (rect.bottom >= window.innerHeight * 0.35 && rect.top <= window.innerHeight * 0.65) {
           if (distance < minDistance) {
             minDistance = distance;
@@ -254,10 +252,9 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="w-full relative overflow-hidden"
+      className="w-full relative overflow-hidden py-20 sm:py-24 md:py-28"
       style={{
         backgroundColor: 'var(--bg-base)',
-        padding: '7rem 0',
       }}
     >
       {/* Subtle background ambient glow */}
@@ -275,7 +272,7 @@ export default function Skills() {
       <div className="w-full px-4 sm:px-8 md:px-12 lg:px-16 relative">
         {/* Section label with hover typewriter effect */}
         <div
-          className="flex items-center gap-3 mb-10 md:mb-14 cursor-default w-fit group"
+          className="flex items-center gap-3 mb-8 md:mb-14 cursor-default w-fit group"
           onMouseEnter={() => setSectionHeaderHovered(true)}
           onMouseLeave={() => setSectionHeaderHovered(false)}
         >
@@ -295,11 +292,72 @@ export default function Skills() {
           </p>
         </div>
 
-        {/* ── FULL-WIDTH EDITORIAL TECHNICAL INDEX ── */}
+        {/* ── MOBILE VIEW: PRACTICAL, INTUITIVE CATEGORY CARDS (block md:hidden) ── */}
+        <div className="block md:hidden space-y-4">
+          {SKILL_CATEGORIES.map((cat) => {
+              const IconComponent = cat.icon;
+              return (
+                <div
+                  key={cat.id}
+                  className="relative rounded-2xl bg-[#090b10] border border-white/[0.08] p-5 overflow-hidden shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)]"
+                >
+                  {/* Subtle top accent gradient stripe */}
+                  <div
+                    className="absolute top-0 left-0 right-0 h-[2px] opacity-75"
+                    style={{
+                      background: `linear-gradient(90deg, ${cat.accent} 0%, transparent 80%)`,
+                    }}
+                    aria-hidden="true"
+                  />
+
+                  {/* Category Header */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2.5">
+                      <span
+                        className="font-mono text-sm font-bold tracking-tight"
+                        style={{ color: cat.accent }}
+                      >
+                        {cat.id}
+                      </span>
+                      <span className="text-white/20">/</span>
+                      <h3 className="font-sans text-[15px] font-bold uppercase tracking-tight text-white m-0">
+                        {cat.title}
+                      </h3>
+                    </div>
+
+                    <div
+                      className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/[0.03] border border-white/[0.08]"
+                      style={{ color: cat.accent }}
+                    >
+                      <IconComponent className="w-4 h-4" strokeWidth={1.8} />
+                    </div>
+                  </div>
+
+                  {/* Direct, tactile skill chips */}
+                  <div className="flex flex-wrap gap-2">
+                    {cat.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.07] font-mono text-xs text-neutral-200 tracking-wide"
+                      >
+                        <span
+                          className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: cat.accent }}
+                        />
+                        <span>{skill}</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+
+        {/* ── FULL-WIDTH EDITORIAL TECHNICAL INDEX (DESKTOP: hidden md:block) ── */}
         <div
           role="list"
           aria-label="Technical skills index"
-          className="w-full border-t border-b border-white/[0.08] divide-y divide-white/[0.08]"
+          className="hidden md:block w-full border-t border-b border-white/[0.08] divide-y divide-white/[0.08]"
         >
           {SKILL_CATEGORIES.map((cat, i) => {
             const isActive = i === activeIndex;

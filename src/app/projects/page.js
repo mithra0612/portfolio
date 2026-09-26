@@ -11,10 +11,17 @@ export default function ProjectsPage() {
       <CustomCursor />
       <div className="max-w-[1240px] mx-auto pt-8 px-8">
         <Link
-          href="/"
+          href="/#projects"
+          scroll={false}
+          onClick={() => {
+            try {
+              sessionStorage.setItem('skip_loader', 'true');
+              sessionStorage.setItem('target_section', '#projects');
+            } catch (e) {}
+          }}
           className="label inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
         >
-          ← Back to Home
+          ← Back to Projects
         </Link>
       </div>
       <div id="projects">

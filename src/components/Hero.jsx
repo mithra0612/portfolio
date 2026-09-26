@@ -51,23 +51,45 @@ export default function Hero() {
     <div className="relative w-full h-screen min-h-[600px] overflow-hidden select-none bg-[var(--bg-base)] font-sans">
       {/* ── BACKGROUND PHOTOGRAPH LAYER ── */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        {/* Desktop Image */}
         <Image
           src="/heroImg_wide.jpg?v=2"
           alt="Madhumithra M."
           fill
           priority
           unoptimized
-          sizes="100vw"
-          className="object-cover select-none"
+          sizes="(min-width: 768px) 100vw, 1px"
+          className="hidden md:block object-cover select-none"
           style={{ objectPosition: '85% 88%' }}
         />
 
-        {/* Soft contrast scrim on left side to guarantee flawless text legibility */}
+        {/* Mobile Image (9:16 Portrait) */}
+        <Image
+          src="/heroImg_mobile.jpg"
+          alt="Madhumithra M."
+          fill
+          priority
+          unoptimized
+          sizes="(max-width: 767px) 100vw, 1px"
+          className="block md:hidden object-cover select-none"
+          style={{ objectPosition: 'center bottom' }}
+        />
+
+        {/* Soft contrast scrim on left side for desktop */}
         <div
-          className="absolute inset-y-0 left-0 w-full sm:w-[60%] lg:w-[48%] pointer-events-none"
+          className="hidden md:block absolute inset-y-0 left-0 w-full sm:w-[60%] lg:w-[48%] pointer-events-none"
           style={{
             background:
               'linear-gradient(to right, rgba(5, 14, 22, 0.6) 0%, rgba(5, 14, 22, 0.3) 45%, transparent 100%)',
+          }}
+        />
+
+        {/* Mobile contrast scrim: dark at top for text legibility, clear over subject, dark at bottom for curtain scroll transition */}
+        <div
+          className="block md:hidden absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(to bottom, rgba(5, 14, 22, 0.82) 0%, rgba(5, 14, 22, 0.52) 36%, rgba(5, 14, 22, 0.15) 58%, rgba(5, 14, 22, 0.88) 100%)',
           }}
         />
       </div>

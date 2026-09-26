@@ -123,9 +123,11 @@ export default function ProjectDetailPage() {
           <Link
             href="/#projects"
             id="back-to-projects-btn"
+            scroll={false}
             onClick={() => {
               try {
                 sessionStorage.setItem('skip_loader', 'true');
+                sessionStorage.setItem('target_section', '#projects');
               } catch (e) {}
             }}
             className="group relative inline-flex items-center gap-2 py-1 text-neutral-200 hover:text-white font-mono text-xs sm:text-sm uppercase tracking-wider transition-colors outline-none cursor-pointer bg-transparent border-none p-0 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]"
@@ -478,6 +480,13 @@ export default function ProjectDetailPage() {
         <div className="mt-14 pt-6 border-t border-white/[0.08] flex items-center justify-between">
           <Link
             href="/#projects"
+            scroll={false}
+            onClick={() => {
+              try {
+                sessionStorage.setItem('skip_loader', 'true');
+                sessionStorage.setItem('target_section', '#projects');
+              } catch (e) {}
+            }}
             className="group relative inline-flex items-center gap-1.5 py-1 text-xs font-mono uppercase tracking-wider text-neutral-400 hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0"
           >
             <ArrowLeft size={13} className="text-[var(--accent)] transition-transform duration-300 group-hover:-translate-x-1" />
