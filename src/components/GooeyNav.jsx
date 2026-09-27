@@ -149,10 +149,16 @@ const GooeyNav = ({
           }
 
           if (hash === '#home' || hash === '#hero') {
+            document.documentElement.classList.add('scrolling-to-top');
+            const restorePointer = () => {
+              document.documentElement.classList.remove('scrolling-to-top');
+            };
             if (lenis) {
-              lenis.scrollTo(0, { duration: 1.2 });
+              lenis.scrollTo(0, { duration: 1.2, onComplete: restorePointer });
+              setTimeout(restorePointer, 1400);
             } else {
               window.scrollTo({ top: 0, behavior: 'smooth' });
+              setTimeout(restorePointer, 1400);
             }
           } else {
             const targetSection = document.querySelector(hash);

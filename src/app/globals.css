@@ -87,6 +87,23 @@ html {
   background-color: #000000;
 }
 
+/* Ensure native scroll interpolation does not fight with Lenis virtual scroll loop */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+html.lenis {
+  scroll-behavior: auto !important;
+}
+
+/* Temporarily disable pointer events during scroll-to-top so hover states 
+   (like the Skills section) cannot trigger mid-scroll layout shifts and freeze scrolling */
+html.scrolling-to-top,
+html.scrolling-to-top * {
+  pointer-events: none !important;
+}
+
 body {
   background-color: #000000;
   color: var(--text-primary);

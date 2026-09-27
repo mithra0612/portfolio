@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLenis } from 'lenis/react';
 
 const NAV_LINKS = [
   { title: 'Home', href: '#' },
@@ -100,6 +101,7 @@ export default function RightSidebarNav() {
   const [activeSection, setActiveSection] = useState('Home');
   const [hoveredItem, setHoveredItem] = useState(null);
   const [showTrigger, setShowTrigger] = useState(false);
+  const lenis = useLenis();
 
   // Close on Escape key
   const handleKeyDown = useCallback(
@@ -188,11 +190,25 @@ export default function RightSidebarNav() {
         window.history.pushState(null, '', hash);
       }
       if (href === '#' || href === '#hero' || href === '#home') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.documentElement.classList.add('scrolling-to-top');
+        const restorePointer = () => {
+          document.documentElement.classList.remove('scrolling-to-top');
+        };
+        if (lenis) {
+          lenis.scrollTo(0, { duration: 1.2, onComplete: restorePointer });
+          setTimeout(restorePointer, 1400);
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setTimeout(restorePointer, 1400);
+        }
       } else {
         const targetElement = document.querySelector(href);
         if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth' });
+          if (lenis) {
+            lenis.scrollTo(targetElement, { offset: 0, duration: 1.2 });
+          } else {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
         }
       }
     }, 450);

@@ -2,11 +2,59 @@
 
 import React from 'react';
 import { ArrowUp } from 'lucide-react';
+import { useLenis } from 'lenis/react';
 
 export default function Footer() {
+  const lenis = useLenis();
+
   const scrollToTop = () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window === 'undefined') return;
+
+    // Unfocus button so focus style does not linger
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
+    // Temporarily disable pointer events across the document during scroll-up.
+    // This prevents desktop hover events (like skill cards expanding and causing layout shifts)
+    // from interrupting or stalling the smooth scroll animation.
+    document.documentElement.classList.add('scrolling-to-top');
+
+    let cleanedUp = false;
+    const restorePointerEvents = () => {
+      if (cleanedUp) return;
+      cleanedUp = true;
+      document.documentElement.classList.remove('scrolling-to-top');
+      window.removeEventListener('wheel', handleUserInterrupt);
+      window.removeEventListener('touchstart', handleUserInterrupt);
+    };
+
+    const handleUserInterrupt = () => {
+      restorePointerEvents();
+    };
+
+    window.addEventListener('wheel', handleUserInterrupt, { passive: true, once: true });
+    window.addEventListener('touchstart', handleUserInterrupt, { passive: true, once: true });
+
+    if (lenis) {
+      lenis.scrollTo(0, {
+        duration: 1.2,
+        onComplete: restorePointerEvents,
+      });
+      // Safety timeout in case onComplete is delayed or skipped
+      setTimeout(restorePointerEvents, 1400);
+    } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      const checkScrollTop = () => {
+        if (window.scrollY <= 2) {
+          restorePointerEvents();
+        } else if (!cleanedUp) {
+          requestAnimationFrame(checkScrollTop);
+        }
+      };
+      requestAnimationFrame(checkScrollTop);
+      setTimeout(restorePointerEvents, 1400);
     }
   };
 
