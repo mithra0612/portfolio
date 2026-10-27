@@ -55,7 +55,7 @@ export const projects = [
       "NumPy",
       "BeautifulSoup4",
     ],
-    live: "",
+    live: "https://fin-vista-1.vercel.app/",
     github: "https://github.com/mithra0612/postal-service",
     thumbnail: "/financial-services.png",
     gallery: [
